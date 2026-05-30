@@ -10,11 +10,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-primary: oklch(52% 0.2 275);
-  --color-accent: oklch(55% 0.22 310);
-  --color-upvote: oklch(63% 0.22 32);
-  --color-hero-start: oklch(70% 0.18 278 / 16%);
-  --color-hero-end: oklch(72% 0.2 32 / 10%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,8 +38,6 @@ body {
   height: 0.65rem;
   border-top: 2px solid currentColor;
   border-left: 2px solid currentColor;
-  box-shadow:
-    0 0.25rem 0 0 currentColor,
-    0.25rem 0 0 0 currentColor;
+  box-shadow: 0 0.25rem 0 0 currentColor, 0.25rem 0 0 0 currentColor;
   transform: translateY(-50%);
 }
