@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const Hero = () => {
@@ -15,12 +16,9 @@ const Hero = () => {
       <p className="mb-7 text-base md:text-lg max-w-xl">
         個人開発Labは、作ったプロダクトを仲間とシェアし、フィードバックを受け、一緒に磨き上げる場所。あなたのアイデアを次の段階へ。
       </p>
-      <Link
-        href="/products"
-        className="bg-primary text-white px-8 py-2  hover:opacity-80 text-sm cursor-pointer rounded-md"
-      >
-        プロダクトを投稿する
-      </Link>
+      <Button asChild>
+        <Link href="/products">プロダクトを投稿する</Link>
+      </Button>
     </section>
   );
 };
