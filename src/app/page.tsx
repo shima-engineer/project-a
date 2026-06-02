@@ -10,7 +10,7 @@ export default function Home() {
       <div className="mb-4">
         <RankTabs />
       </div>
-      <main className="flex mx-auto w-full max-w-7xl px-4 sm:px-6  flex-1">
+      <main className="flex-col mx-auto w-full max-w-7xl px-4 sm:px-6  flex-1 md:flex">
         <div>
           <RankList />
           <RankList />
