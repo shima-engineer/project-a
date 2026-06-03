@@ -10,9 +10,11 @@ export default function Home() {
       <div className="mb-4">
         <RankTabs />
       </div>
-      <main className="flex-col mx-auto w-full max-w-7xl px-4 sm:px-6  flex-1 md:flex">
+      <main className="flex flex-col flex-1 md:flex-row md:justify-between gap-10 mx-auto w-full max-w-308 px-4 sm:px-0">
         <div>
-          <RankList />
+          <div className="mb-10">
+            <RankList />
+          </div>
           <RankList />
         </div>
         <CategoriesSidebar />

@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
 
 const CategoriesSidebar = () => {
   return (
-    <div>CategoriesSidebar</div>
-  )
-}
+    <section>
+      <h4>カテゴリー</h4>
+      <ul>
+        <li></li>
+      </ul>
+    </section>
+  );
+};
 
-export default CategoriesSidebar
+export default CategoriesSidebar;

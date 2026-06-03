@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ChevronUp } from "lucide-react";
+import { ArrowRight, ChevronUp } from "lucide-react";
 
 const RankList = () => {
   return (
@@ -16,7 +16,7 @@ const RankList = () => {
         </div>
         <time className="text-xs text-muted-foreground">2026年5月23日</time>
       </div>
-      <div className="divide-y divide-border rounded-2xl border border-[#E2E4EA] p-2">
+      <div className="divide-y divide-border rounded-2xl border border-[#E2E4EA] p-2 mb-3">
         <ul>
           <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
             <div className="flex items-center gap-3 sm:gap-4">
@@ -114,6 +114,10 @@ const RankList = () => {
           </li>
         </ul>
       </div>
+      <button className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
+        すべて見る
+        <ArrowRight className="h-3.5 w-3.5" />
+      </button>
     </section>
   );
 };
