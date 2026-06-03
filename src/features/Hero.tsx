@@ -1,9 +1,15 @@
+import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const Hero = () => {
+const Hero = async () => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("categories").select("*");
+  console.log(data);
+  console.error(error);
   return (
     <section className="bg-linear-to-br from-hero-start to-hero-end px-4 sm:px-6 py-12 md:py-16">
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <div className="mx-auto max-w-308">
         <p className="text-xs font-medium text-primary mb-4">
           本日24個の新しいプロダクトが投稿されました
@@ -14,7 +20,7 @@ const Hero = () => {
             プロダクト実験室
           </span>
         </h1>
-        <p className="mb-7 text-base md:text-lg max-w-xl">
+        <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-xl mb-7">
           個人開発Labは、作ったプロダクトを仲間とシェアし、フィードバックを受け、一緒に磨き上げる場所。あなたのアイデアを次の段階へ。
         </p>
         <Button asChild>
