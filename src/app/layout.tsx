@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP, Geist } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layouts/Header";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -23,7 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={cn("h-full", "antialiased", notoSansJP.variable, "font-sans", geist.variable)}>
+    <html
+      lang="ja"
+      className={cn(
+        "h-full",
+        "antialiased",
+        notoSansJP.variable,
+        "font-sans",
+        geist.variable,
+      )}
+    >
       <body className="min-h-full flex flex-col">
         <Header />
         {children}
