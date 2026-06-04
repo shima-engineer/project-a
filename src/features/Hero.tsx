@@ -1,15 +1,12 @@
-import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 const Hero = async () => {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("categories").select("*");
-  console.log(data);
-  console.error(error);
+  const categories = await prisma.categories.findMany();
   return (
     <section className="bg-linear-to-br from-hero-start to-hero-end px-4 sm:px-6 py-12 md:py-16">
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre>{JSON.stringify(categories, null, 2)}</pre>
       <div className="mx-auto max-w-308">
         <p className="text-xs font-medium text-primary mb-4">
           本日24個の新しいプロダクトが投稿されました
