@@ -1,15 +1,26 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { prisma } from "@/src/lib/prisma";
+import dayjs from "dayjs";
 
 const Hero = async () => {
-  const categories = await prisma.categories.findMany();
+  const today = dayjs().startOf("day");
+  const tomorrow = today.add(1, "day");
+  
+  const todayCount = await prisma.products.count({
+    where: {
+      created_at: {
+        gte: today.toDate(),
+        lt: tomorrow.toDate(),
+      },
+    },
+  });
+
   return (
     <section className="bg-linear-to-br from-hero-start to-hero-end px-4 sm:px-6 py-12 md:py-16">
-      <pre>{JSON.stringify(categories, null, 2)}</pre>
       <div className="mx-auto max-w-308">
         <p className="text-xs font-medium text-primary mb-4">
-          本日24個の新しいプロダクトが投稿されました
+          本日{todayCount}個の新しいプロダクトが投稿されました
         </p>
         <h1 className="flex flex-col text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight max-w-3xl leading-[1.1] mb-5">
           <span>個人開発者の</span>
