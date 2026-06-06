@@ -1,26 +1,13 @@
 import "dotenv/config";
 import { prisma } from "../src/lib/prisma";
 
-const authUserIds = [
-  "33e2e8cb-19c7-4690-a656-993f542ca122",
-  "6b962cff-a04f-46e0-98c6-c5aef6900039",
-  "647f8ec6-0980-4619-9af3-f380cdbeb442",
-];
+const AUTH_USER_IDS = {
+  yamada: "33e2e8cb-19c7-4690-a656-993f542ca122",
+  hanako: "6b962cff-a04f-46e0-98c6-c5aef6900039",
+  kenta: "647f8ec6-0980-4619-9af3-f380cdbeb442",
+};
 
 async function main() {
-  const users = await prisma.public_users.findMany();
-  const categories = await prisma.categories.findMany();
-
-  const yamada = users.find((u) => u.username === "yamada")!;
-  const hanako = users.find((u) => u.username === "hanako")!;
-  const kenta = users.find((u) => u.username === "kenta")!;
-
-  const aiCategory = categories.find((c) => c.slug === "ai")!;
-  const devCategory = categories.find((c) => c.slug === "developer-tools")!;
-  const productivityCategory = categories.find(
-    (c) => c.slug === "productivity",
-  )!;
-
   await prisma.categories.createMany({
     data: [
       {
@@ -42,7 +29,7 @@ async function main() {
   await prisma.public_users.createMany({
     data: [
       {
-        id: authUserIds[0],
+        id: AUTH_USER_IDS.yamada,
         name: "山田 太郎",
         username: "yamada",
         avatar_url: "https://i.pravatar.cc/150?img=1",
@@ -54,7 +41,7 @@ async function main() {
         updated_at: new Date(),
       },
       {
-        id: authUserIds[1],
+        id: AUTH_USER_IDS.hanako,
         name: "佐藤 花子",
         username: "hanako",
         avatar_url: "https://i.pravatar.cc/150?img=5",
@@ -66,7 +53,7 @@ async function main() {
         updated_at: new Date(),
       },
       {
-        id: authUserIds[2],
+        id: AUTH_USER_IDS.kenta,
         name: "鈴木 健太",
         username: "kenta",
         avatar_url: "https://i.pravatar.cc/150?img=8",
@@ -80,6 +67,26 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+
+  const users = await prisma.public_users.findMany();
+  const categories = await prisma.categories.findMany();
+
+  const yamada = users.find((u) => u.username === "yamada");
+  const hanako = users.find((u) => u.username === "hanako");
+  const kenta = users.find((u) => u.username === "kenta");
+  if (!yamada || !hanako || !kenta) {
+    throw new Error("Seed users not found");
+  }
+
+  const aiCategory = categories.find((c) => c.slug === "ai");
+  const devCategory = categories.find((c) => c.slug === "developer-tools");
+  const productivityCategory = categories.find(
+    (c) => c.slug === "productivity",
+  );
+
+  if (!aiCategory || !devCategory || !productivityCategory) {
+    throw new Error("Seed categories not found");
+  }
 
   await prisma.products.createMany({
     data: [
@@ -174,6 +181,7 @@ async function main() {
         view_count: 460,
       },
     ],
+    skipDuplicates: true,
   });
 }
 
