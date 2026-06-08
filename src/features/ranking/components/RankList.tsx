@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { ArrowRight, ChevronUp } from "lucide-react";
 
+type RankingPeriodId = "daily" | "weekly" | "monthly";
+
 type RankListProps = {
-  id: string;
+  id: RankingPeriodId;
   period: "今日" | "今週" | "今月";
 };
 
