@@ -1,7 +1,7 @@
-import Hero from "../features/Hero";
 // import CategoriesSidebar from "../features/ranking/CategoriesSidebar";
-import RankList from "../features/ranking/RankList";
-import RankTabs from "../features/ranking/RankTabs";
+import Hero from "../features/product/components/Hero";
+import RankList from "../features/ranking/components/RankList";
+import RankTabs from "../features/ranking/components/RankTabs";
 
 export default function Home() {
   return (

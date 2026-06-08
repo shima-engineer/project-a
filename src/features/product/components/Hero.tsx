@@ -1,20 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { prisma } from "@/src/lib/prisma";
-import dayjs from "dayjs";
+import { getTodayProductCount } from "../queries/getTodayProductCount";
 
 const Hero = async () => {
-  const today = dayjs().startOf("day");
-  const tomorrow = today.add(1, "day");
-  
-  const todayCount = await prisma.products.count({
-    where: {
-      created_at: {
-        gte: today.toDate(),
-        lt: tomorrow.toDate(),
-      },
-    },
-  });
+  const todayCount = await getTodayProductCount();
 
   return (
     <section className="bg-linear-to-br from-hero-start to-hero-end px-4 sm:px-6 py-12 md:py-16">
