@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowRight, ChevronUp } from "lucide-react";
 import { RANK_TABS } from "../constants";
+import { getProduct } from "../queries/getProduct";
 
 type RankingPeriodId = (typeof RANK_TABS)[number]["id"];
 
@@ -9,7 +10,9 @@ type RankListProps = {
   period: "今日" | "今週" | "今月";
 };
 
-const RankList = ({ id, period }: RankListProps) => {
+const RankList = async({ id, period }: RankListProps) => {
+  const products = await getProduct();
+  console.log(products);
   return (
     <section id={id}>
       <div className="flex items-center justify-between mb-4">
