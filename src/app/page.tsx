@@ -13,9 +13,12 @@ export default function Home() {
       <main className="mx-auto w-full max-w-4xl px-4">
         <div>
           <div className="mb-10">
-            <RankList />
+            <RankList id="daily" period="今日" />
           </div>
-          <RankList />
+          <div className="mb-10">
+            <RankList id="weekly" period="今週" />
+          </div>
+          <RankList id="monthly" period="今月" />
         </div>
         {/* <CategoriesSidebar /> */}
       </main>

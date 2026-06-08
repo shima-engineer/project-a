@@ -1,9 +1,14 @@
 import Image from "next/image";
 import { ArrowRight, ChevronUp } from "lucide-react";
 
-const RankList = () => {
+type RankListProps = {
+  id: string;
+  period: "今日" | "今週" | "今月";
+};
+
+const RankList = ({ id, period }: RankListProps) => {
   return (
-    <section>
+    <section id={id}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-xl font-bold">
           <Image
@@ -12,7 +17,7 @@ const RankList = () => {
             width={20}
             height={20}
           />
-          <h2 className="">本日のトップ</h2>
+          <h2 className="">{period}のトップ</h2>
         </div>
         <time className="text-xs text-muted-foreground">2026年5月23日</time>
       </div>
