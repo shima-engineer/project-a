@@ -1,12 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-
-const RANK_TABS = [
-  { id: "daily", label: "今日のランキング" },
-  { id: "weekly", label: "今週のランキング" },
-  { id: "monthly", label: "今月のランキング" },
-];
+import { RANK_TABS } from "../constants";
 
 const RankTabs = () => {
   const [active, setActive] = useState("daily");

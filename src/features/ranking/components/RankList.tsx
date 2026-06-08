@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { ArrowRight, ChevronUp } from "lucide-react";
+import { RANK_TABS } from "../constants";
 
-type RankingPeriodId = "daily" | "weekly" | "monthly";
+type RankingPeriodId = (typeof RANK_TABS)[number]["id"];
 
 type RankListProps = {
   id: RankingPeriodId;
@@ -19,7 +20,7 @@ const RankList = ({ id, period }: RankListProps) => {
             width={20}
             height={20}
           />
-          <h2 className="">{period}のトップ</h2>
+          <h2>{period}のトップ</h2>
         </div>
         <time className="text-xs text-muted-foreground">2026年5月23日</time>
       </div>
