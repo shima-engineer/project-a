@@ -34,3 +34,31 @@ export async function getWeekProducts() {
     },
   });
 }
+
+export async function getMonthProducts() {
+  return prisma.products.findMany({
+    where: {
+      created_at: {
+        gte: dayjs().startOf("month").toDate(),
+      },
+    },
+    include: {
+      categories: true,
+    },
+  });
+}
+
+export async function getProductsByPeriod(
+  period: "daily" | "weekly" | "monthly",
+) {
+  switch (period) {
+    case "daily":
+      return getTodayProducts();
+
+    case "weekly":
+      return getWeekProducts();
+
+    case "monthly":
+      return getMonthProducts();
+  }
+}

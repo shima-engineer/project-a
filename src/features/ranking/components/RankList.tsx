@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ArrowRight, ChevronUp } from "lucide-react";
 import { RANK_TABS } from "../constants";
-import { getTodayProducts } from "../queries/getProduct";
+import { getProductsByPeriod } from "../queries/getProduct";
 import dayjs from "dayjs";
 
 type RankingPeriodId = (typeof RANK_TABS)[number]["id"];
@@ -12,8 +12,8 @@ type RankListProps = {
 };
 
 const RankList = async ({ id, period }: RankListProps) => {
-  const todayProducts = await getTodayProducts();
-  console.log(todayProducts);
+  const products = await getProductsByPeriod(id);
+  console.log(products);
   return (
     <section id={id}>
       <div className="flex items-center justify-between mb-4">
@@ -37,7 +37,7 @@ const RankList = async ({ id, period }: RankListProps) => {
       </div>
       <div className="divide-y divide-border rounded-2xl border border-[#E2E4EA] p-2 mb-3">
         <ul>
-          {todayProducts.map((product, index) => (
+          {products.map((product, index) => (
             <li
               key={product.id}
               className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list hover:cursor-pointer"
