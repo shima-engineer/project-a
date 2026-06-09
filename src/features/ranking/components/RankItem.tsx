@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronUp } from "lucide-react";
 import { Prisma } from "@/src/generated/prisma/client";
+import UpvoteButton from "../../upvote/components/UpvoteButton";
 
 type ProductWithCategory = Prisma.productsGetPayload<{
   include: {
@@ -16,11 +16,11 @@ type RankItemProps = {
 
 const RankItem = ({ product, index }: RankItemProps) => {
   return (
-    <li>
+    <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
         href={`/products/${product.slug}`}
         key={product.id}
-        className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list hover:cursor-pointer"
+        className="hover:cursor-pointer"
       >
         <div className="flex items-center gap-3 sm:gap-4">
           <p className="hidden sm:flex  shrink-0 items-center justify-center text-sm font-semibold text-muted-foreground tabular-nums group-hover/list:text-primary transition-colors">
@@ -28,7 +28,7 @@ const RankItem = ({ product, index }: RankItemProps) => {
           </p>
           <Image
             src={product.thumbnail_url || "/userIcon.png"}
-            alt=""
+            alt={product.name}
             width={56}
             height={56}
             className="size-12 sm:size-14 rounded-xl ring-1 ring-border"
@@ -51,13 +51,8 @@ const RankItem = ({ product, index }: RankItemProps) => {
             </div>
           </div>
         </div>
-        <button className="group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-14 h-14 text-sm bg-background border-border hover:border-upvote hover:text-upvote hover:-translate-y-0.5 hover:shadow-upvote hover:cursor-pointer">
-          <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
-          <span className="font-bold tabular-nums leading-none mt-0.5">
-            {product.upvotes_count}
-          </span>
-        </button>
       </Link>
+      <UpvoteButton id={product.id} upvotes_count={product.upvotes_count} />
     </li>
   );
 };

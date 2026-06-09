@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, ChevronUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { RANK_TABS } from "../constants";
 import { getProductsByPeriod } from "../queries/getProduct";
 import dayjs from "dayjs";
