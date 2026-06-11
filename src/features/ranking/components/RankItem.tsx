@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Prisma } from "@/src/generated/prisma/client";
 import UpvoteButton from "../../upvote/components/UpvoteButton";
+import { getUserUpvotes } from "../../upvote/queries/getUserUpvotes";
 
 type ProductWithCategory = Prisma.productsGetPayload<{
   include: {
@@ -14,7 +15,13 @@ type RankItemProps = {
   index: number;
 };
 
-const RankItem = ({ product, index }: RankItemProps) => {
+const RankItem = async({ product, index }: RankItemProps) => {
+    const userId = "33e2e8cb-19c7-4690-a656-993f542ca122";
+
+  const upvotes = await getUserUpvotes(userId);
+  const votedProductIds = new Set(
+  upvotes.map((u) => u.product_id)
+);
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
@@ -52,7 +59,7 @@ const RankItem = ({ product, index }: RankItemProps) => {
           </div>
         </div>
       </Link>
-      <UpvoteButton id={product.id} upvotes_count={product.upvotes_count} />
+      <UpvoteButton id={product.id} upvotes_count={product.upvotes_count} votedProductIds={votedProductIds}/>
     </li>
   );
 };
