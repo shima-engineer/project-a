@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { RANK_TABS } from "../constants";
-import { getProductsByPeriod } from "../queries/getProduct";
+import { getProductsByPeriod } from "../../product/queries/getProduct";
 import dayjs from "dayjs";
 import RankItem from "./RankItem";
 

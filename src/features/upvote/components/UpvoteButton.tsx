@@ -28,7 +28,6 @@ const UpvoteButton = ({
     }),
   );
 
-  console.log(upvotes_count, optimisticState.count);
   const handleClick = () => {
     const newVoted = !optimisticState.voted;
     startTransition(async () => {
