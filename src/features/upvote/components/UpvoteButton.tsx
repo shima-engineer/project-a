@@ -1,8 +1,7 @@
 "use client";
 import { ChevronUp } from "lucide-react";
 import { updateUpvoteCount } from "../actions/updateUpvoteCount";
-import { startTransition, useOptimistic, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useOptimistic, useTransition } from "react";
 
 const UpvoteButton = ({
   id,
@@ -14,6 +13,7 @@ const UpvoteButton = ({
   votedProductIds: Set<string>;
 }) => {
   const voted = votedProductIds.has(id);
+  const [isPending, startTransition] = useTransition();
   const [optimisticState, addOptimistic] = useOptimistic<
     { count: number; voted: boolean },
     boolean
@@ -29,7 +29,7 @@ const UpvoteButton = ({
   );
 
   console.log(upvotes_count, optimisticState.count);
-  const handleClick = async () => {
+  const handleClick = () => {
     const newVoted = !optimisticState.voted;
     startTransition(async () => {
       addOptimistic(newVoted);
@@ -39,6 +39,7 @@ const UpvoteButton = ({
 
   return (
     <button
+      disabled={isPending}
       onClick={handleClick}
       className={`group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-14 h-14 text-sm hover:-translate-y-0.5 hover:cursor-pointer ${
         optimisticState.voted
