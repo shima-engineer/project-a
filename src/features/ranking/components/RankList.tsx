@@ -10,9 +10,10 @@ type RankingPeriodId = (typeof RANK_TABS)[number]["id"];
 type RankListProps = {
   id: RankingPeriodId;
   period: "今日" | "今週" | "今月";
+  votedProductIds: Set<string>;
 };
 
-const RankList = async ({ id, period }: RankListProps) => {
+const RankList = async ({ id, period,votedProductIds }: RankListProps) => {
   const products = await getProductsByPeriod(id);
 
   return (
@@ -39,7 +40,7 @@ const RankList = async ({ id, period }: RankListProps) => {
       <div className="divide-y divide-border rounded-2xl border border-border p-2 mb-3">
         <ul>
           {products.map((product, index) => (
-            <RankItem key={product.id} product={product} index={index} />
+            <RankItem key={product.id} product={product} index={index} votedProductIds={votedProductIds}/>
           ))}
         </ul>
       </div>

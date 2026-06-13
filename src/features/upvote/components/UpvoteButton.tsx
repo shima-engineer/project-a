@@ -1,7 +1,8 @@
 "use client";
 import { ChevronUp } from "lucide-react";
 import { updateUpvoteCount } from "../actions/updateUpvoteCount";
-import { useState } from "react";
+import { startTransition, useOptimistic, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const UpvoteButton = ({
   id,
@@ -12,30 +13,38 @@ const UpvoteButton = ({
   upvotes_count: number;
   votedProductIds: Set<string>;
 }) => {
-  const [count, setCount] = useState(upvotes_count);
-  const [localVoted, setLocalVoted] = useState(votedProductIds.has(id));
+  const voted = votedProductIds.has(id);
+  const [optimisticState, addOptimistic] = useOptimistic<
+    { count: number; voted: boolean },
+    boolean
+  >(
+    {
+      count: upvotes_count,
+      voted,
+    },
+    (state, newVoted) => ({
+      count: newVoted ? state.count + 1 : state.count - 1,
+      voted: newVoted,
+    }),
+  );
 
-  console.log(votedProductIds);
+console.log(upvotes_count, optimisticState.count);
   const handleClick = async () => {
-    setCount((prev) => prev + 1);
-    setLocalVoted(true);
-
-    try {
+    const newVoted = !optimisticState.voted;
+    startTransition(async () => {
+      addOptimistic(newVoted);
       await updateUpvoteCount({ id });
-    } catch {
-      setLocalVoted(false);
-      setCount((prev) => prev - 1);
-    }
+    });
   };
 
-  return localVoted ? (
+  return optimisticState.voted ? (
     <button
       onClick={handleClick}
       className="group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-14 h-14 text-sm bg-background  border-upvote text-upvote hover:-translate-y-0.5 shadow-upvote hover:cursor-pointer"
     >
       <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
       <span className="font-bold tabular-nums leading-none mt-0.5">
-        {count}
+        {optimisticState.count}
       </span>
     </button>
   ) : (
@@ -45,7 +54,7 @@ const UpvoteButton = ({
     >
       <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
       <span className="font-bold tabular-nums leading-none mt-0.5">
-        {count}
+        {optimisticState.count}
       </span>
     </button>
   );

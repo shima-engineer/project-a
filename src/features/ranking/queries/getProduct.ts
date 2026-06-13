@@ -6,6 +6,9 @@ export async function getProducts() {
     include: {
       categories: true,
     },
+    orderBy: {
+      upvotes_count: "desc",
+    },
   });
 }
 
@@ -18,6 +21,9 @@ export async function getTodayProducts() {
     },
     include: {
       categories: true,
+    },
+    orderBy: {
+      upvotes_count: "desc",
     },
   });
 }
@@ -32,6 +38,9 @@ export async function getWeekProducts() {
     include: {
       categories: true,
     },
+    orderBy: {
+      upvotes_count: "desc",
+    },
   });
 }
 
@@ -44,6 +53,9 @@ export async function getMonthProducts() {
     },
     include: {
       categories: true,
+    },
+    orderBy: {
+      upvotes_count: "desc",
     },
   });
 }
