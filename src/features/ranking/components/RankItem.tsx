@@ -15,8 +15,7 @@ type RankItemProps = {
   votedProductIds: Set<string>;
 };
 
-const RankItem = async({ product, index ,votedProductIds}: RankItemProps) => {
-
+const RankItem = ({ product, index, votedProductIds }: RankItemProps) => {
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
@@ -54,7 +53,11 @@ const RankItem = async({ product, index ,votedProductIds}: RankItemProps) => {
           </div>
         </div>
       </Link>
-      <UpvoteButton id={product.id} upvotes_count={product.upvotes_count} votedProductIds={votedProductIds}/>
+      <UpvoteButton
+        id={product.id}
+        upvotes_count={product.upvotes_count}
+        votedProductIds={votedProductIds}
+      />
     </li>
   );
 };

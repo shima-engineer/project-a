@@ -25,19 +25,15 @@ export async function updateUpvoteCount({ id }: { id: string }) {
         },
       },
     });
-
-    revalidatePath("/");
-
-    return;
+  } else {
+    // 未投票なら投票
+    await prisma.upvotes.create({
+      data: {
+        user_id: userId,
+        product_id: id,
+      },
+    });
   }
-
-  // 未投票なら投票
-  await prisma.upvotes.create({
-    data: {
-      user_id: userId,
-      product_id: id,
-    },
-  });
 
   revalidatePath("/");
 }

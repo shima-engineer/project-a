@@ -28,7 +28,7 @@ const UpvoteButton = ({
     }),
   );
 
-console.log(upvotes_count, optimisticState.count);
+  console.log(upvotes_count, optimisticState.count);
   const handleClick = async () => {
     const newVoted = !optimisticState.voted;
     startTransition(async () => {
@@ -37,20 +37,14 @@ console.log(upvotes_count, optimisticState.count);
     });
   };
 
-  return optimisticState.voted ? (
+  return (
     <button
       onClick={handleClick}
-      className="group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-14 h-14 text-sm bg-background  border-upvote text-upvote hover:-translate-y-0.5 shadow-upvote hover:cursor-pointer"
-    >
-      <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
-      <span className="font-bold tabular-nums leading-none mt-0.5">
-        {optimisticState.count}
-      </span>
-    </button>
-  ) : (
-    <button
-      onClick={handleClick}
-      className="group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-14 h-14 text-sm bg-background border-border hover:border-upvote hover:text-upvote hover:-translate-y-0.5 hover:shadow-upvote hover:cursor-pointer"
+      className={`group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-14 h-14 text-sm hover:-translate-y-0.5 hover:cursor-pointer ${
+        optimisticState.voted
+          ? "bg-background border-upvote text-upvote shadow-upvote"
+          : "bg-background border-border hover:border-upvote hover:text-upvote hover:shadow-upvote"
+      }`}
     >
       <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
       <span className="font-bold tabular-nums leading-none mt-0.5">
