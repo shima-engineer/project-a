@@ -3,19 +3,9 @@ import { prisma } from "@/src/lib/prisma";
 import isoWeek from "dayjs/plugin/isoWeek";
 dayjs.extend(isoWeek);
 
-export async function getProducts() {
-  return prisma.products.findMany({
-    include: {
-      categories: true,
-    },
-    orderBy: {
-      upvotes_count: "desc",
-    },
-  });
-}
-
 export async function getProductsByPeriod(
   period: "daily" | "weekly" | "monthly",
+  take?: number,
 ) {
   const ranges = {
     daily: {
@@ -33,6 +23,7 @@ export async function getProductsByPeriod(
   };
 
   return prisma.products.findMany({
+    take,
     where: {
       created_at: ranges[period],
     },
