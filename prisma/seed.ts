@@ -87,7 +87,6 @@ async function main() {
   if (!aiCategory || !devCategory || !productivityCategory) {
     throw new Error("Seed categories not found");
   }
-  await prisma.products.deleteMany();
 
   await prisma.products.createMany({
     data: [
@@ -181,182 +180,99 @@ async function main() {
         comments_count: 4,
         view_count: 460,
       },
-      {
-        user_id: kenta.id,
-        category_id: aiCategory.id,
-        name: "MeetingAI",
-        slug: "meeting-ai",
-        url: "https://meetingai.app",
-        tagline: "会議を自動で文字起こし",
-        description: "オンライン会議の録音・要約・タスク抽出を自動化。",
-        features: "文字起こし、要約、タスク抽出",
-        pricing: "Freemium",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1516321497487-e288fb19713f",
-        status: "published",
-        upvotes_count: 27,
-        comments_count: 3,
-        view_count: 380,
-      },
-
-      {
-        user_id: yamada.id,
-        category_id: devCategory.id,
-        name: "DeployFast",
-        slug: "deploy-fast",
-        url: "https://deployfast.dev",
-        tagline: "個人開発向けデプロイ基盤",
-        description: "GitHub連携で数秒でデプロイできるホスティングサービス。",
-        features: "CI/CD、自動デプロイ、ログ閲覧",
-        pricing: "$12/month",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1558494949-ef010cbdcc31",
-        status: "published",
-        upvotes_count: 22,
-        comments_count: 2,
-        view_count: 290,
-      },
-
-      {
-        user_id: hanako.id,
-        category_id: productivityCategory.id,
-        name: "DailyMemo",
-        slug: "daily-memo",
-        url: "https://dailymemo.app",
-        tagline: "1日1分の日報アプリ",
-        description: "毎日の振り返りを簡単に記録できるジャーナルサービス。",
-        features: "日報、分析、目標管理",
-        pricing: "Free",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1455390582262-044cdead277a",
-        status: "published",
-        upvotes_count: 16,
-        comments_count: 1,
-        view_count: 180,
-      },
-
-      {
-        user_id: kenta.id,
-        category_id: devCategory.id,
-        name: "SchemaHub",
-        slug: "schemahub",
-        url: "https://schemahub.dev",
-        tagline: "API仕様書を自動生成",
-        description:
-          "OpenAPIベースでドキュメントを自動生成できる開発支援ツール。",
-        features: "OpenAPI、ドキュメント生成、共有",
-        pricing: "Freemium",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-        status: "published",
-        upvotes_count: 31,
-        comments_count: 4,
-        view_count: 450,
-      },
-
-      {
-        user_id: hanako.id,
-        category_id: aiCategory.id,
-        name: "ImagePrompt Studio",
-        slug: "image-prompt-studio",
-        url: "https://imageprompt.ai",
-        tagline: "画像生成プロンプト作成支援",
-        description: "画像生成AI向けの高品質なプロンプトを作成できるツール。",
-        features: "プロンプト生成、テンプレート、共有",
-        pricing: "Freemium",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1507146426996-ef05306b995a",
-        status: "published",
-        upvotes_count: 29,
-        comments_count: 3,
-        view_count: 410,
-      },
     ],
     skipDuplicates: true,
   });
-
-  const products = await prisma.products.findMany();
-
-  const writeMate = products.find((p) => p.slug === "writemate");
-  const focusFlow = products.find((p) => p.slug === "focusflow");
-  const promptBox = products.find((p) => p.slug === "promptbox");
-  const apiMonitor = products.find((p) => p.slug === "api-monitor");
-  const habitBoard = products.find((p) => p.slug === "habitboard");
-
-  if (!writeMate || !focusFlow || !promptBox || !apiMonitor || !habitBoard) {
-    throw new Error("Seed products not found");
-  }
 
   await prisma.comments.createMany({
     data: [
       {
         user_id: AUTH_USER_IDS.kenta,
-        product_id: writeMate.id,
+        product_id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
         content: "日本語の文章生成がかなり自然でした。",
       },
       {
         user_id: AUTH_USER_IDS.yamada,
-        product_id: writeMate.id,
+        product_id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
         content: "SEO記事の下書き作成に便利です。",
       },
       {
         user_id: AUTH_USER_IDS.yamada,
-        product_id: focusFlow.id,
+        product_id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
         content: "ポモドーロタイマーが使いやすいです。",
       },
       {
         user_id: AUTH_USER_IDS.yamada,
-        product_id: focusFlow.id,
+        product_id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
         content: "集中時間の分析機能が面白い。",
       },
       {
         user_id: AUTH_USER_IDS.hanako,
-        product_id: promptBox.id,
+        product_id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
         content: "プロンプト管理がかなり楽になりました。",
       },
       {
         user_id: AUTH_USER_IDS.yamada,
-        product_id: promptBox.id,
+        product_id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
         content: "カテゴリ分け機能が欲しいです。",
       },
       {
         user_id: AUTH_USER_IDS.hanako,
-        product_id: apiMonitor.id,
+        product_id: "b173a81f-0cd6-4c17-b825-38a05a41a853",
         content: "API監視の通知が分かりやすいです。",
       },
       {
         user_id: AUTH_USER_IDS.yamada,
-        product_id: habitBoard.id,
+        product_id: "bf017948-65d1-40c7-b39e-8353b7a499e5",
         content: "習慣化のモチベーション維持に役立っています。",
       },
     ],
   });
-  await Promise.all([
-    prisma.products.update({
-      where: { id: writeMate.id },
-      data: { comments_count: 2 },
-    }),
 
-    prisma.products.update({
-      where: { id: focusFlow.id },
-      data: { comments_count: 2 },
-    }),
+await Promise.all([
+  prisma.products.update({
+    where: {
+      id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
+    },
+    data: {
+      comments_count: 2,
+    },
+  }),
 
-    prisma.products.update({
-      where: { id: promptBox.id },
-      data: { comments_count: 2 },
-    }),
+  prisma.products.update({
+    where: {
+      id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
+    },
+    data: {
+      comments_count: 2,
+    },
+  }),
 
-    prisma.products.update({
-      where: { id: apiMonitor.id },
-      data: { comments_count: 1 },
-    }),
-
-    prisma.products.update({
-      where: { id: habitBoard.id },
-      data: { comments_count: 1 },
-    }),
-  ]);
+  prisma.products.update({
+    where: {
+      id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
+    },
+    data: {
+      comments_count: 2,
+    },
+  }),
+  prisma.products.update({
+    where: {
+      id: "b173a81f-0cd6-4c17-b825-38a05a41a853",
+    },
+    data: {
+      comments_count: 1,
+    },
+  }),
+  prisma.products.update({
+    where: {
+      id: "bf017948-65d1-40c7-b39e-8353b7a499e5",
+    },
+    data: {
+      comments_count: 1,
+    },
+  }),
+]);
 }
 
 main()
