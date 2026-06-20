@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 const userId = "33e2e8cb-19c7-4690-a656-993f542ca122";

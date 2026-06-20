@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getTodayProductCount } from "../queries/getTodayProductCount";
+import { Button } from "../../../../components/ui/button";
 
 const Hero = async () => {
   const todayCount = await getTodayProductCount();

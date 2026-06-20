@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Prisma } from "@/src/generated/prisma/client";
 import UpvoteButton from "../../upvote/components/UpvoteButton";
+import { Prisma } from "@/generated/prisma/client";
 
 type ProductWithCategory = Prisma.productsGetPayload<{
   include: {

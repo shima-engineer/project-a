@@ -1,7 +1,21 @@
+"use client";
+import GoogleAuthButton from "@/features/auth/GoogleAuthButton";
+import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleClick = () => {
+    console.log(isOpen);
+    setIsOpen(true);
+  };
+
   return (
     <header className="sticky top-0 z-40 h-14 bg-white border-b border-gray-200">
       <div className="mx-auto flex justify-between h-14 max-w-7xl items-center gap-3 sm:gap-4 px-4 sm:px-6">
@@ -23,15 +37,22 @@ const Header = () => {
               投稿する
             </p>
           </Link>
-          <Image
+          <button
+            onClick={handleClick}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:opacity-80 hover:text-accent-foreground h-8 rounded-md px-3 text-xs"
+          >
+            ログイン
+          </button>
+          {/* <Image
             src="/avatar.png"
             alt="ユーザーのアバター"
             width={38}
             height={38}
             className="rounded-full border border-gray-300"
-          />
+          /> */}
         </div>
       </div>
+      <AuthModal isOpen={isOpen} onClose={onClose} />
     </header>
   );
 };

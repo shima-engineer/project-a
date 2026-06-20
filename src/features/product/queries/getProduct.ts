@@ -1,5 +1,5 @@
+import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
-import { prisma } from "@/src/lib/prisma";
 import isoWeek from "dayjs/plugin/isoWeek";
 dayjs.extend(isoWeek);
 
