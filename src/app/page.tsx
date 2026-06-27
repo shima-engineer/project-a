@@ -3,11 +3,13 @@ import Hero from "../features/product/components/Hero";
 import RankList from "../features/ranking/components/RankList";
 import RankTabs from "../features/ranking/components/RankTabs";
 import { getUserUpvotes } from "../features/upvote/queries/getUserUpvotes";
+import { getCurrentUser } from "@/features/auth/actions/getCurrentUser";
 
 export default async function Home() {
-  // userIdは仮置き。認証実装後にセッションから取得するようにする
-  const userId = "33e2e8cb-19c7-4690-a656-993f542ca122";
-  const upvotes = await getUserUpvotes(userId);
+  const user = await getCurrentUser();
+
+  const upvotes = user ? await getUserUpvotes(user.id) : [];
+  
   // 投票したプロダクトIDのセットを作成
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
 
