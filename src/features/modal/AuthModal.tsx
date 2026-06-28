@@ -22,24 +22,18 @@ interface AuthModalProps {
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      {/* 
-        shadcnのDialogContentは自動的に背景のダークアウトや
-        右上の一角にある「閉じるボタン（✕）」、Escキー制御を処理してくれます。
-      */}
       <DialogContent className="sm:max-w-md p-8 rounded-xl bg-white text-slate-800 border-none gap-0">
-        {/* ヘッダー情報 */}
         <div className="mb-6 text-left">
           <DialogTitle className="text-xl font-bold text-slate-900">
             ProductJPへようこそ
           </DialogTitle>
           <DialogDescription className="mt-2 text-sm text-slate-500 leading-relaxed">
-            アップボート、コメント、プロダクト投稿にはログインが必要です。
+            投票、コメント、プロダクト投稿にはログインが必要です。
           </DialogDescription>
         </div>
 
-          <GoogleAuthButton />
+        <GoogleAuthButton />
 
-        {/* 区切り線 */}
         <div className="relative mb-6 text-center text-xs text-slate-400">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-slate-200"></div>
@@ -47,18 +41,17 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <span className="relative bg-white px-3">または</span>
         </div>
 
-        {/* shadcnのTabsによる「ログイン」「新規登録」の切り替え */}
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-5 bg-slate-100 p-1 rounded-lg h-auto">
             <TabsTrigger
               value="login"
-              className="py-1.5 text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md"
+              className=" text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md"
             >
               ログイン
             </TabsTrigger>
             <TabsTrigger
               value="signup"
-              className="py-1.5 text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md"
+              className=" text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md"
             >
               新規登録
             </TabsTrigger>

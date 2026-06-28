@@ -12,6 +12,7 @@ type HeaderClientProps = {
 
 const HeaderClient = ({ user }: HeaderClientProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  
   const onClose = () => {
     setIsOpen(false);
   };
