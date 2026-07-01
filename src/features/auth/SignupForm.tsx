@@ -72,7 +72,7 @@ const SignupForm = () => {
           type="text"
           placeholder="山田 太郎"
           className="w-full rounded-lg border border-slate-200 p-2.5 text-sm focus:border-blue-500 focus:outline-none transition mb-1"
-          {...register("displayName", { required: true })}
+          {...register("displayName")}
         />
         <p className="text-red-500 text-xs">{errors.displayName?.message}</p>
       </div>
@@ -88,7 +88,7 @@ const SignupForm = () => {
           type="email"
           placeholder="you@example.com"
           className=" w-full rounded-lg border border-slate-200 p-2.5 text-sm focus:border-blue-500 focus:outline-none transition mb-1"
-          {...register("email", { required: true })}
+          {...register("email")}
         />
         <p className="text-red-500 text-xs">{errors.email?.message}</p>
       </div>
@@ -104,7 +104,7 @@ const SignupForm = () => {
           type="password"
           placeholder="6文字以上"
           className="w-full rounded-lg border border-slate-200 p-2.5 text-sm focus:border-blue-500 focus:outline-none transition mb-1"
-          {...register("password", { required: true })}
+          {...register("password")}
         />
         <p className="text-red-500 text-xs">{errors.password?.message}</p>
       </div>
@@ -120,7 +120,7 @@ const SignupForm = () => {
           type="password"
           placeholder="6文字以上"
           className=" w-full rounded-lg border border-slate-200 p-2.5 text-sm focus:border-blue-500 focus:outline-none transition mb-1"
-          {...register("confirmPassword", { required: true })}
+          {...register("confirmPassword")}
         />
         <p className="text-red-500 text-xs">
           {errors.confirmPassword?.message}
