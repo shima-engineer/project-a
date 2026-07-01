@@ -2,10 +2,9 @@
 
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
-
 const GoogleAuthButton = () => {
   const handleClick = async () => {
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {

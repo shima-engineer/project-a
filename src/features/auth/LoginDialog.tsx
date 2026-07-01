@@ -13,13 +13,13 @@ const LoginDialog = () => {
       <TabsList className="grid w-full grid-cols-2 mb-5 bg-slate-100 p-1 rounded-lg h-auto">
         <TabsTrigger
           value="login"
-          className=" text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md"
+          className=" text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md hover:cursor-pointer"
         >
           ログイン
         </TabsTrigger>
         <TabsTrigger
           value="signup"
-          className=" text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md"
+          className=" text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500 data-[state=active]:text-slate-900 rounded-md hover:cursor-pointer"
         >
           新規登録
         </TabsTrigger>
