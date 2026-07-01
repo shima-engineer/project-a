@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupFormValues, signupSchema } from "./schemas/signupSchema";
+import { toast } from "sonner";
 
 const SignupForm = () => {
   const [loading, setLoading] = useState(false);
@@ -42,14 +43,14 @@ const SignupForm = () => {
 
       if (error) {
         console.error(error.message);
-        // toast.error(error.message);
+        toast.error("エラーが発生しました。もう一度お試しください。");
         return;
       }
 
-      console.log(data);
-      // toast.success("認証メールを送信しました。メールをご確認ください。");
+      toast.success("認証メールを送信しました。メールをご確認ください。");
     } catch (error) {
       console.error(error);
+      toast.error("エラーが発生しました。もう一度お試しください。");
     } finally {
       setLoading(false);
     }

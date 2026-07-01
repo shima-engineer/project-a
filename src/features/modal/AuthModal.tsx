@@ -6,12 +6,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../../../components/ui/dialog";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../../components/ui/tabs";
 import GoogleAuthButton from "../auth/GoogleAuthButton";
 import LoginDialog from "../auth/LoginDialog";
 
