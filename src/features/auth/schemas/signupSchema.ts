@@ -12,11 +12,14 @@ export const signupSchema = z
 
     password: z
       .string()
-      .min(6, "パスワードは6文字以上で入力してください"),
+      .min(6, "パスワードは6文字以上で入力してください")
+      .max(100, "パスワードは100文字以内で入力してください"),
 
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, "確認用パスワードを入力してください"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "パスワードが一致しません",
   });
+
+export type SignupFormValues = z.infer<typeof signupSchema>;
