@@ -1,20 +1,26 @@
 // import CategoriesSidebar from "../features/ranking/CategoriesSidebar";
+import VerifiedToast from "@/features/toast/VerifiedToast";
 import Hero from "../features/product/components/Hero";
 import RankList from "../features/ranking/components/RankList";
 import RankTabs from "../features/ranking/components/RankTabs";
 import { getUserUpvotes } from "../features/upvote/queries/getUserUpvotes";
 import { getCurrentUser } from "@/features/auth/actions/getCurrentUser";
 
-export default async function Home() {
-  const user = await getCurrentUser();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ verified?: string }>;
+}) {
+  const params = await searchParams;
 
+  const user = await getCurrentUser();
   const upvotes = user ? await getUserUpvotes(user.id) : [];
-  
   // 投票したプロダクトIDのセットを作成
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
 
   return (
     <>
+      <VerifiedToast verified={params.verified} />
       <Hero />
       <div className="mb-4">
         <RankTabs />
