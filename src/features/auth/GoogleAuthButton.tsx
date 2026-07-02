@@ -16,7 +16,7 @@ const GoogleAuthButton = () => {
   return (
     <button
       onClick={handleClick}
-      className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-200 py-2.5 text-sm font-medium hover:bg-slate-50 transition mb-6"
+      className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-200 py-2.5 text-sm font-medium hover:bg-slate-50 transition mb-6 hover:cursor-pointer"
     >
       <svg className="h-5 w-5" viewBox="0 0 24 24">
         <path

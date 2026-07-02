@@ -5,20 +5,25 @@ import Link from "next/link";
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { logout } from "@/features/auth/actions/logout";
+import ProfileIconDropdownMenu from "@/features/dropdownmenu/ProfileIconDropdownMenu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type HeaderClientProps = {
   user: User | null;
 };
 
 const HeaderClient = ({ user }: HeaderClientProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const onClose = () => {
-    setIsOpen(false);
+    setIsAuthModalOpen(false);
   };
 
-  const handleClick = () => {
-    setIsOpen(true);
+  const handleLoginClick = () => {
+    setIsAuthModalOpen(true);
   };
 
   const avatarUrl = user?.user_metadata?.avatar_url;
@@ -45,27 +50,31 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
             </p>
           </Link>
           {avatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt="ユーザーのアバター"
-              width={38}
-              height={38}
-              className="rounded-full border border-gray-300"
-            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button">
+                  <Image
+                    src={avatarUrl}
+                    alt="ユーザーのアバター"
+                    width={38}
+                    height={38}
+                    className="rounded-full border border-gray-300 hover:cursor-pointer hover:opacity-80 duration-200"
+                  />
+                </button>
+              </DropdownMenuTrigger>
+              <ProfileIconDropdownMenu />
+            </DropdownMenu>
           ) : (
             <button
-              onClick={handleClick}
+              onClick={handleLoginClick}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:opacity-80 hover:text-accent-foreground h-8 rounded-md px-3 text-xs"
             >
               ログイン
             </button>
           )}
-          <form action={logout}>
-            <button type="submit">ログアウト</button>
-          </form>
         </div>
       </div>
-      <AuthModal isOpen={isOpen} onClose={onClose} />
+      <AuthModal isOpen={isAuthModalOpen} onClose={onClose} />
     </header>
   );
 };
