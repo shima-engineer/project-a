@@ -4,10 +4,14 @@ import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormValues, loginSchema } from "./schemas/loginSchema";
+import { LoginFormValues, loginSchema } from "../schemas/loginSchema";
 import { toast } from "sonner";
 
-const LoginForm = () => {
+interface LoginFormProps {
+  onAuthModalClose: () => void;
+}
+
+const LoginForm = ({ onAuthModalClose }: LoginFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -39,6 +43,7 @@ const LoginForm = () => {
         return;
       }
 
+      onAuthModalClose();
       toast.success("ログインに成功しました。");
     } catch (error) {
       console.error(error);
@@ -47,6 +52,7 @@ const LoginForm = () => {
       setLoading(false);
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit(handleLoginSubmit)}

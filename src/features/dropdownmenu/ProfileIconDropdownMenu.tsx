@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { logout } from "../auth/actions/logout";
 import Link from "next/link";
+import LogoutMenuItem from "../auth/components/LogoutMenuItem ";
 
 interface ProfileIconDropdownMenuProps {
   name: string;
@@ -38,15 +39,8 @@ export default function ProfileIconDropdownMenu({
       </DropdownMenuItem>
 
       <DropdownMenuSeparator />
-
-      <form action={logout} className="w-full">
-        <DropdownMenuItem
-          asChild
-          className="w-full cursor-pointer text-left text-destructive hover:bg-gray-100 duration-200"
-        >
-          <button type="submit">ログアウト</button>
-        </DropdownMenuItem>
-      </form>
+      
+      <LogoutMenuItem />
     </DropdownMenuContent>
   );
 }

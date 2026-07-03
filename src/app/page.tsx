@@ -2,7 +2,7 @@ import Hero from "../features/product/components/Hero";
 import RankList from "../features/ranking/components/RankList";
 import RankTabs from "../features/ranking/components/RankTabs";
 import { getUserUpvotes } from "../features/upvote/queries/getUserUpvotes";
-import { getCurrentUser } from "@/features/auth/actions/getCurrentUser";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 
 export default async function Home() {
   const user = await getCurrentUser();

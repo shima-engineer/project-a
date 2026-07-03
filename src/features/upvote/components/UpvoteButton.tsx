@@ -36,10 +36,6 @@ const UpvoteButton = ({
   );
 
   const handleUpvoteClick = () => {
-    if (!user) {
-      return;
-    }
-
     const newVoted = !optimisticState.voted;
     startTransition(async () => {
       addOptimistic(newVoted);
@@ -71,7 +67,7 @@ const UpvoteButton = ({
           {optimisticState.count}
         </span>
       </button>
-      <AuthModal isOpen={isAuthModalOpen} onClose={onAuthModalClose} />
+      <AuthModal isAuthModalOpen={isAuthModalOpen} onAuthModalClose={onAuthModalClose} />
     </>
   );
 };

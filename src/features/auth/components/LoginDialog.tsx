@@ -3,11 +3,15 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../../components/ui/tabs";
+} from "../../../../components/ui/tabs";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
-const LoginDialog = () => {
+interface LoginDialogProps {
+  onAuthModalClose: () => void;
+}
+
+const LoginDialog = ({ onAuthModalClose }: LoginDialogProps) => {
   return (
     <Tabs defaultValue="login" className="w-full">
       <TabsList className="grid w-full grid-cols-2 mb-5 bg-slate-100 p-1 rounded-lg h-auto">
@@ -26,7 +30,7 @@ const LoginDialog = () => {
       </TabsList>
 
       <TabsContent value="login" className="mt-0">
-        <LoginForm />
+        <LoginForm onAuthModalClose={onAuthModalClose} />
       </TabsContent>
 
       <TabsContent value="signup" className="mt-0">

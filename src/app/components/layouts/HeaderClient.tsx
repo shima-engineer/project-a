@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import UserAvatarMenu from "./UserAvatarMenu";
 
 interface HeaderClientProps {
   user: User | null;
@@ -49,23 +50,11 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
             </p>
           </Link>
           {avatarUrl ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button type="button">
-                  <Image
-                    src={avatarUrl}
-                    alt="ユーザーのアバター"
-                    width={38}
-                    height={38}
-                    className="rounded-full border border-gray-300 cursor-pointer hover:opacity-80 duration-200"
-                  />
-                </button>
-              </DropdownMenuTrigger>
-              <ProfileIconDropdownMenu
-                name={user?.user_metadata?.name ?? ""}
-                email={user?.email ?? ""}
-              />
-            </DropdownMenu>
+            <UserAvatarMenu
+              avatarUrl={avatarUrl}
+              name={user?.user_metadata?.name ?? ""}
+              email={user?.email ?? ""}
+            />
           ) : (
             <button
               onClick={handleLoginClick}
@@ -76,7 +65,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
           )}
         </div>
       </div>
-      <AuthModal isOpen={isAuthModalOpen} onClose={onAuthModalClose} />
+      <AuthModal isAuthModalOpen={isAuthModalOpen} onAuthModalClose={onAuthModalClose} />
     </header>
   );
 };

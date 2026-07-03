@@ -6,17 +6,23 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../../../components/ui/dialog";
-import GoogleAuthButton from "../auth/GoogleAuthButton";
-import LoginDialog from "../auth/LoginDialog";
+import GoogleAuthButton from "../auth/components/GoogleAuthButton";
+import LoginDialog from "../auth/components/LoginDialog";
 
 interface AuthModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isAuthModalOpen: boolean;
+  onAuthModalClose: () => void;
 }
 
-export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
+export default function AuthModal({
+  isAuthModalOpen,
+  onAuthModalClose,
+}: AuthModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog
+      open={isAuthModalOpen}
+      onOpenChange={(open) => !open && onAuthModalClose()}
+    >
       <DialogContent className="sm:max-w-md p-8 rounded-xl bg-white text-slate-800 border-none gap-0">
         <div className="mb-6 text-left">
           <DialogTitle className="text-xl font-bold text-slate-900">
@@ -36,7 +42,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <span className="relative bg-white px-3">または</span>
         </div>
 
-        <LoginDialog />
+        <LoginDialog onAuthModalClose={onAuthModalClose} />
       </DialogContent>
     </Dialog>
   );
