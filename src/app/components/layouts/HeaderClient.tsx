@@ -4,11 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
-import ProfileIconDropdownMenu from "@/features/dropdownmenu/ProfileIconDropdownMenu";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import UserAvatarMenu from "./UserAvatarMenu";
 
 interface HeaderClientProps {
@@ -65,7 +60,10 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
           )}
         </div>
       </div>
-      <AuthModal isAuthModalOpen={isAuthModalOpen} onAuthModalClose={onAuthModalClose} />
+      <AuthModal
+        isAuthModalOpen={isAuthModalOpen}
+        onAuthModalClose={onAuthModalClose}
+      />
     </header>
   );
 };

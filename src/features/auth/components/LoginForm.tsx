@@ -6,12 +6,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormValues, loginSchema } from "../schemas/loginSchema";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface LoginFormProps {
   onAuthModalClose: () => void;
 }
 
 const LoginForm = ({ onAuthModalClose }: LoginFormProps) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -45,6 +47,7 @@ const LoginForm = ({ onAuthModalClose }: LoginFormProps) => {
 
       onAuthModalClose();
       toast.success("ログインに成功しました。");
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("エラーが発生しました。もう一度お試しください。");
