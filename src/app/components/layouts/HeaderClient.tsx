@@ -4,21 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
-import { logout } from "@/features/auth/actions/logout";
 import ProfileIconDropdownMenu from "@/features/dropdownmenu/ProfileIconDropdownMenu";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type HeaderClientProps = {
+interface HeaderClientProps {
   user: User | null;
-};
+}
 
 const HeaderClient = ({ user }: HeaderClientProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  const onClose = () => {
+  const onAuthModalClose = () => {
     setIsAuthModalOpen(false);
   };
 
@@ -58,7 +57,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
                     alt="ユーザーのアバター"
                     width={38}
                     height={38}
-                    className="rounded-full border border-gray-300 hover:cursor-pointer hover:opacity-80 duration-200"
+                    className="rounded-full border border-gray-300 cursor-pointer hover:opacity-80 duration-200"
                   />
                 </button>
               </DropdownMenuTrigger>
@@ -77,7 +76,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
           )}
         </div>
       </div>
-      <AuthModal isOpen={isAuthModalOpen} onClose={onClose} />
+      <AuthModal isOpen={isAuthModalOpen} onClose={onAuthModalClose} />
     </header>
   );
 };

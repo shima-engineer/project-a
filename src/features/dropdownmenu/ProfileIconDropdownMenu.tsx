@@ -9,10 +9,10 @@ import {
 import { logout } from "../auth/actions/logout";
 import Link from "next/link";
 
-type ProfileIconDropdownMenuProps = {
+interface ProfileIconDropdownMenuProps {
   name: string;
   email: string;
-};
+}
 
 export default function ProfileIconDropdownMenu({
   name,

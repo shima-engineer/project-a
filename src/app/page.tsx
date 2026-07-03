@@ -23,6 +23,7 @@ export default async function Home() {
               id="daily"
               period="今日"
               votedProductIds={votedProductIds}
+              user={user}
             />
           </div>
           <div className="mb-10">
@@ -30,12 +31,14 @@ export default async function Home() {
               id="weekly"
               period="今週"
               votedProductIds={votedProductIds}
+              user={user}
             />
           </div>
           <RankList
             id="monthly"
             period="今月"
             votedProductIds={votedProductIds}
+            user={user}
           />
         </div>
         {/* <CategoriesSidebar /> */}

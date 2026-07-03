@@ -88,7 +88,7 @@ const LoginForm = () => {
       <button
         type="submit"
         disabled={loading}
-        className="mt-2 w-full rounded-lg bg-[#4f46e5] py-3 text-sm font-semibold text-white hover:bg-[#4338ca] transition shadow-md shadow-indigo-100 hover:cursor-pointer"
+        className="mt-2 w-full rounded-lg bg-[#4f46e5] py-3 text-sm font-semibold text-white hover:bg-[#4338ca] transition shadow-md shadow-indigo-100 cursor-pointer"
       >
         {loading ? "ログイン中..." : "ログイン"}
       </button>
