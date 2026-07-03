@@ -9,14 +9,22 @@ import {
 import { logout } from "../auth/actions/logout";
 import Link from "next/link";
 
-export default function ProfileIconDropdownMenu() {
+type ProfileIconDropdownMenuProps = {
+  name: string;
+  email: string;
+};
+
+export default function ProfileIconDropdownMenu({
+  name,
+  email,
+}: ProfileIconDropdownMenuProps) {
   return (
     <DropdownMenuContent align="end" className="w-56">
       <DropdownMenuLabel>
         <div className="flex flex-col">
-          <span className="font-semibold">エンジニア</span>
+          <span className="font-semibold">{name}</span>
           <span className="text-sm font-normal text-muted-foreground">
-            zennengineer@gmail.com
+            {email}
           </span>
         </div>
       </DropdownMenuLabel>

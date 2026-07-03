@@ -62,7 +62,10 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
                   />
                 </button>
               </DropdownMenuTrigger>
-              <ProfileIconDropdownMenu />
+              <ProfileIconDropdownMenu
+                name={user?.user_metadata?.name ?? ""}
+                email={user?.email ?? ""}
+              />
             </DropdownMenu>
           ) : (
             <button
