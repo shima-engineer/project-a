@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Prisma } from "@/src/generated/prisma/client";
 import UpvoteButton from "../../upvote/components/UpvoteButton";
+import { Prisma } from "@/generated/prisma/client";
+import type { User } from "@supabase/supabase-js";
 
 type ProductWithCategory = Prisma.productsGetPayload<{
   include: {
@@ -9,19 +10,20 @@ type ProductWithCategory = Prisma.productsGetPayload<{
   };
 }>;
 
-type RankItemProps = {
+interface RankItemProps {
   product: ProductWithCategory;
   index: number;
   votedProductIds: Set<string>;
+  user: User | null;
 };
 
-const RankItem = ({ product, index, votedProductIds }: RankItemProps) => {
+const RankItem = ({ product, index, votedProductIds, user }: RankItemProps) => {
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
         href={`/products/${product.slug}`}
         key={product.id}
-        className="hover:cursor-pointer"
+        className="cursor-pointer"
       >
         <div className="flex items-center gap-3 sm:gap-4">
           <p className="hidden sm:flex  shrink-0 items-center justify-center text-sm font-semibold text-muted-foreground tabular-nums group-hover/list:text-primary transition-colors">
@@ -57,6 +59,7 @@ const RankItem = ({ product, index, votedProductIds }: RankItemProps) => {
         id={product.id}
         upvotes_count={product.upvotes_count}
         votedProductIds={votedProductIds}
+        user={user}
       />
     </li>
   );

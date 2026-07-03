@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP, Geist } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layouts/Header";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Header />
         {children}
+        <Toaster />
       </body>
     </html>
   );

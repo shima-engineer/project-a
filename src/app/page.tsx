@@ -1,13 +1,12 @@
-// import CategoriesSidebar from "../features/ranking/CategoriesSidebar";
 import Hero from "../features/product/components/Hero";
 import RankList from "../features/ranking/components/RankList";
 import RankTabs from "../features/ranking/components/RankTabs";
 import { getUserUpvotes } from "../features/upvote/queries/getUserUpvotes";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 
 export default async function Home() {
-  // userIdは仮置き。認証実装後にセッションから取得するようにする
-  const userId = "33e2e8cb-19c7-4690-a656-993f542ca122";
-  const upvotes = await getUserUpvotes(userId);
+  const user = await getCurrentUser();
+  const upvotes = user ? await getUserUpvotes(user.id) : [];
   // 投票したプロダクトIDのセットを作成
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
 
@@ -24,6 +23,7 @@ export default async function Home() {
               id="daily"
               period="今日"
               votedProductIds={votedProductIds}
+              user={user}
             />
           </div>
           <div className="mb-10">
@@ -31,12 +31,14 @@ export default async function Home() {
               id="weekly"
               period="今週"
               votedProductIds={votedProductIds}
+              user={user}
             />
           </div>
           <RankList
             id="monthly"
             period="今月"
             votedProductIds={votedProductIds}
+            user={user}
           />
         </div>
         {/* <CategoriesSidebar /> */}

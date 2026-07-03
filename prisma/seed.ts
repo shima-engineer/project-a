@@ -8,6 +8,12 @@ const AUTH_USER_IDS = {
 };
 
 async function main() {
+  await prisma.upvotes.deleteMany();
+  await prisma.comments.deleteMany();
+  await prisma.products.deleteMany();
+  await prisma.categories.deleteMany();
+  await prisma.public_users.deleteMany();
+
   await prisma.categories.createMany({
     data: [
       {
@@ -184,95 +190,107 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await prisma.comments.createMany({
-    data: [
-      {
-        user_id: AUTH_USER_IDS.kenta,
-        product_id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
-        content: "日本語の文章生成がかなり自然でした。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
-        content: "SEO記事の下書き作成に便利です。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
-        content: "ポモドーロタイマーが使いやすいです。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
-        content: "集中時間の分析機能が面白い。",
-      },
-      {
-        user_id: AUTH_USER_IDS.hanako,
-        product_id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
-        content: "プロンプト管理がかなり楽になりました。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
-        content: "カテゴリ分け機能が欲しいです。",
-      },
-      {
-        user_id: AUTH_USER_IDS.hanako,
-        product_id: "b173a81f-0cd6-4c17-b825-38a05a41a853",
-        content: "API監視の通知が分かりやすいです。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: "bf017948-65d1-40c7-b39e-8353b7a499e5",
-        content: "習慣化のモチベーション維持に役立っています。",
-      },
-    ],
-  });
+  const products = await prisma.products.findMany();
 
-await Promise.all([
-  prisma.products.update({
-    where: {
-      id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
-    },
-    data: {
-      comments_count: 2,
-    },
-  }),
+  const writeMate = products.find((p) => p.slug === "writemate");
+  const focusFlow = products.find((p) => p.slug === "focusflow");
+  const apiMonitor = products.find((p) => p.slug === "api-monitor");
+  const promptBox = products.find((p) => p.slug === "promptbox");
+  const habitBoard = products.find((p) => p.slug === "habitboard");
 
-  prisma.products.update({
-    where: {
-      id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
-    },
-    data: {
-      comments_count: 2,
-    },
-  }),
+  if (!writeMate || !focusFlow || !apiMonitor || !promptBox || !habitBoard) {
+    throw new Error("Seed products not found");
+  }
 
-  prisma.products.update({
-    where: {
-      id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
+await prisma.comments.createMany({
+  data: [
+    {
+      user_id: AUTH_USER_IDS.kenta,
+      product_id: writeMate.id,
+      content: "日本語の文章生成がかなり自然でした。",
     },
-    data: {
-      comments_count: 2,
+    {
+      user_id: AUTH_USER_IDS.yamada,
+      product_id: writeMate.id,
+      content: "SEO記事の下書き作成に便利です。",
     },
-  }),
-  prisma.products.update({
-    where: {
-      id: "b173a81f-0cd6-4c17-b825-38a05a41a853",
+    {
+      user_id: AUTH_USER_IDS.yamada,
+      product_id: focusFlow.id,
+      content: "ポモドーロタイマーが使いやすいです。",
     },
-    data: {
-      comments_count: 1,
+    {
+      user_id: AUTH_USER_IDS.yamada,
+      product_id: focusFlow.id,
+      content: "集中時間の分析機能が面白い。",
     },
-  }),
-  prisma.products.update({
-    where: {
-      id: "bf017948-65d1-40c7-b39e-8353b7a499e5",
+    {
+      user_id: AUTH_USER_IDS.hanako,
+      product_id: promptBox.id,
+      content: "プロンプト管理がかなり楽になりました。",
     },
-    data: {
-      comments_count: 1,
+    {
+      user_id: AUTH_USER_IDS.yamada,
+      product_id: promptBox.id,
+      content: "カテゴリ分け機能が欲しいです。",
     },
-  }),
-]);
+    {
+      user_id: AUTH_USER_IDS.hanako,
+      product_id: apiMonitor.id,
+      content: "API監視の通知が分かりやすいです。",
+    },
+    {
+      user_id: AUTH_USER_IDS.yamada,
+      product_id: habitBoard.id,
+      content: "習慣化のモチベーション維持に役立っています。",
+    },
+  ],
+});
+
+  // await Promise.all([
+  //   prisma.products.update({
+  //     where: {
+  //       id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
+  //     },
+  //     data: {
+  //       comments_count: 2,
+  //     },
+  //   }),
+
+  //   prisma.products.update({
+  //     where: {
+  //       id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
+  //     },
+  //     data: {
+  //       comments_count: 2,
+  //     },
+  //   }),
+
+  //   prisma.products.update({
+  //     where: {
+  //       id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
+  //     },
+  //     data: {
+  //       comments_count: 2,
+  //     },
+  //   }),
+  //   prisma.products.update({
+  //     where: {
+  //       id: "b173a81f-0cd6-4c17-b825-38a05a41a853",
+  //     },
+  //     data: {
+  //       comments_count: 1,
+  //     },
+  //   }),
+  //   prisma.products.update({
+  //     where: {
+  //       id: "bf017948-65d1-40c7-b39e-8353b7a499e5",
+  //     },
+  //     data: {
+  //       comments_count: 1,
+  //     },
+  //   }),
+  // ]);
 }
 
 main()

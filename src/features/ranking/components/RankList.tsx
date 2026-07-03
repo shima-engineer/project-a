@@ -1,19 +1,25 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { RANK_TABS } from "../constants";
 import { getProductsByPeriod } from "../../product/queries/getProduct";
 import dayjs from "dayjs";
 import RankItem from "./RankItem";
+import type { User } from "@supabase/supabase-js";
 
 type RankingPeriodId = (typeof RANK_TABS)[number]["id"];
 
-type RankListProps = {
+interface RankListProps {
   id: RankingPeriodId;
   period: "今日" | "今週" | "今月";
   votedProductIds: Set<string>;
-};
+  user: User | null;
+}
 
-const RankList = async ({ id, period, votedProductIds }: RankListProps) => {
+const RankList = async ({
+  id,
+  period,
+  votedProductIds,
+  user,
+}: RankListProps) => {
   const products = await getProductsByPeriod(id);
 
   return (
@@ -45,6 +51,7 @@ const RankList = async ({ id, period, votedProductIds }: RankListProps) => {
               product={product}
               index={index}
               votedProductIds={votedProductIds}
+              user={user}
             />
           ))}
         </ul>
