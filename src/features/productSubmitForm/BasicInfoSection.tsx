@@ -7,7 +7,7 @@ const BasicInfoSection = () => {
       </div>
       <div className="mb-4">
         <label htmlFor="productName">
-          <div className="flex items-center justify-left mb-1.5">
+          <div className="flex items-center gap-1 mb-1.5">
             <span className="text-sm font-medium">プロダクト名</span>
             <span className="text-primary">*</span>
           </div>
@@ -26,9 +26,14 @@ const BasicInfoSection = () => {
       </div>
       <div className="mb-4">
         <label htmlFor="productTagline">
-          <div className="flex items-center justify-left mb-1.5">
-            <span className="text-sm font-medium">タグライン</span>
-            <span className="text-primary">*</span>
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-medium">タグライン</span>
+              <span className="text-primary">*</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              60文字以内、プロダクトを一言で。
+            </p>
           </div>
         </label>
         <div className="relative">
@@ -45,7 +50,7 @@ const BasicInfoSection = () => {
       </div>
       <div className="mb-4">
         <label htmlFor="productWebsite">
-          <div className="flex items-center justify-left mb-1.5">
+          <div className="flex items-center gap-1 mb-1.5">
             <span className="text-sm font-medium">Webサイト URL</span>
             <span className="text-primary">*</span>
           </div>
@@ -55,6 +60,46 @@ const BasicInfoSection = () => {
           id="productWebsite"
           className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           placeholder="例: https://shibuya-ai.com"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="productCategory">
+          <div className="flex items-center gap-1 mb-1.5">
+            <span className="text-sm font-medium">カテゴリー</span>
+            <span className="text-primary">*</span>
+          </div>
+        </label>
+        <select
+          id="productCategory"
+          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+        >
+          <option>AIツール</option>
+          <option>SaaS</option>
+          <option>Webアプリ</option>
+          <option>ネイティブアプリ</option>
+          <option>Developer Tools</option>
+          <option>生産性</option>
+          <option>デザイン</option>
+          <option>マーケティング</option>
+        </select>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="productTag">
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-medium">タグ</span>
+              <span className="text-primary">*</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              最大5つ。Enterで追加
+            </p>
+          </div>
+        </label>
+        <input
+          type="text"
+          id="productTag"
+          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+          placeholder="AI, SaaS, Indie…"
         />
       </div>
     </>
