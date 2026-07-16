@@ -15,7 +15,7 @@ interface RankItemProps {
   index: number;
   votedProductIds: Set<string>;
   user: User | null;
-};
+}
 
 const RankItem = ({ product, index, votedProductIds, user }: RankItemProps) => {
   return (
@@ -30,7 +30,7 @@ const RankItem = ({ product, index, votedProductIds, user }: RankItemProps) => {
             {index + 1}
           </p>
           <Image
-            src={product.thumbnail_url || "/userIcon.png"}
+            src={product.thumbnail_url || "/user-icon.png"}
             alt={product.name}
             width={56}
             height={56}
@@ -45,7 +45,7 @@ const RankItem = ({ product, index, votedProductIds, user }: RankItemProps) => {
             </p>
             <div className="flex items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
-                <Image src="/commentIcon.png" alt="" width={12} height={12} />
+                <Image src="/comment-icon.png" alt="" width={12} height={12} />
                 <span className="">{product.comments_count}</span>
               </div>
               <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
