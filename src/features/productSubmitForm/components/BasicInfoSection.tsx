@@ -6,8 +6,8 @@ const BasicInfoSection = () => {
         <p className="text-xs text-muted-foreground">Basic Information</p>
       </div>
       <div className="mb-4">
-        <label htmlFor="productName">
-          <div className="flex items-center gap-1 mb-1.5">
+        <label htmlFor="productName" className="mb-1.5 block">
+          <div className="flex items-center gap-1">
             <span className="text-sm font-medium">プロダクト名</span>
             <span className="text-primary">*</span>
           </div>
@@ -25,8 +25,8 @@ const BasicInfoSection = () => {
         </div>
       </div>
       <div className="mb-4">
-        <label htmlFor="productTagline">
-          <div className="flex items-center justify-between mb-1.5">
+        <label htmlFor="productTagline" className="mb-1.5 block">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm font-medium">タグライン</span>
               <span className="text-primary">*</span>
@@ -49,8 +49,8 @@ const BasicInfoSection = () => {
         </div>
       </div>
       <div className="mb-4">
-        <label htmlFor="productWebsite">
-          <div className="flex items-center gap-1 mb-1.5">
+        <label htmlFor="productWebsite" className="mb-1.5 block">
+          <div className="flex items-center gap-1">
             <span className="text-sm font-medium">Webサイト URL</span>
             <span className="text-primary">*</span>
           </div>
@@ -63,8 +63,8 @@ const BasicInfoSection = () => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="productCategory">
-          <div className="flex items-center gap-1 mb-1.5">
+        <label htmlFor="productCategory" className="mb-1.5 block">
+          <div className="flex items-center gap-1">
             <span className="text-sm font-medium">カテゴリー</span>
             <span className="text-primary">*</span>
           </div>
@@ -84,8 +84,8 @@ const BasicInfoSection = () => {
         </select>
       </div>
       <div className="mb-4">
-        <label htmlFor="productTag">
-          <div className="flex items-center justify-between mb-1.5">
+        <label htmlFor="productTag" className="mb-1.5 block">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm font-medium">タグ</span>
               <span className="text-primary">*</span>

@@ -1,4 +1,4 @@
-import ProductSubmitForm from "@/features/productSubmitForm/ProductSubmitForm";
+import ProductSubmitForm from "@/features/productSubmitForm/components/ProductSubmitForm";
 
 const page = () => {
   return (
