@@ -1,6 +1,7 @@
 import BasicInfoSection from "./BasicInfoSection";
 import DetailsSection from "./DetailsSection";
 import MediaSection from "./MediaSection";
+import SocialLinksSection from "./SocialLinksSection";
 
 const ProductSubmitForm = () => {
   return (
@@ -8,6 +9,7 @@ const ProductSubmitForm = () => {
       <BasicInfoSection />
       <DetailsSection />
       <MediaSection />
+      <SocialLinksSection />
     </form>
   );
 };
