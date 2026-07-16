@@ -22,6 +22,8 @@ const BasicInfoSection = () => {
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
             0/40
           </span>
+
+          
         </div>
       </div>
       <div className="mb-4">
