@@ -1,7 +1,13 @@
-import React from "react";
+import ProductDetailPreview from "./ProductDetailPreview";
+import ProductItemPreview from "./ProductItemPreview";
 
 const ProductPreviewContent = () => {
-  return <div className="bg-red-500  h-100 z-100">ProductPreviewContent</div>;
+  return (
+    <>
+      <ProductItemPreview />
+      <ProductDetailPreview />
+    </>
+  );
 };
 
 export default ProductPreviewContent;

@@ -1,11 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -38,17 +34,10 @@ const ProductPreviewModal = ({
                 </p>
               </div>
             </DrawerTitle>
-            <DrawerDescription>
-              Drag the drawer to snap between a compact peek and a near
-              full-height view.
-            </DrawerDescription>
           </DrawerHeader>
-          <ProductPreviewContent />
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button type="button">Close</Button>
-            </DrawerClose>
-          </DrawerFooter>
+          <div className="px-5 py-6 space-y-6">
+            <ProductPreviewContent />
+          </div>
         </DrawerContent>
       </Drawer>
     </>

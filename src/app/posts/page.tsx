@@ -13,7 +13,10 @@ const page = () => {
         </div>
 
         <ProductSubmitForm />
+        <div>
         <ProductSubmitPreview />
+
+        </div>
       </div>
     </main>
   );
