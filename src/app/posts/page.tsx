@@ -1,5 +1,5 @@
 import ProductSubmitForm from "@/features/productSubmitForm/components/ProductSubmitForm";
-import ProductPreviewButton from "@/features/productSubmitPreview/ProductPreviewButton";
+import ProductSubmitPreview from "@/features/productSubmitPreview/components/ProductSubmitPreview";
 
 const page = () => {
   return (
@@ -13,7 +13,7 @@ const page = () => {
         </div>
 
         <ProductSubmitForm />
-        <ProductPreviewButton />
+        <ProductSubmitPreview />
       </div>
     </main>
   );
