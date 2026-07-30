@@ -30,7 +30,7 @@ const RankItem = ({ product, index, votedProductIds, user }: RankItemProps) => {
             {index + 1}
           </p>
           <Image
-            src={product.thumbnail_url || "/user-icon.png"}
+            src={product.thumbnail_url || "/user-icon.png"} // TODO: デフォルトアイコンが決まったら差し替える
             alt={product.name}
             width={56}
             height={56}
