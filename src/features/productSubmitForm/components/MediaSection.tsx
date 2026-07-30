@@ -29,6 +29,7 @@ const MediaSection = () => {
           </div>
         </label>
       </div>
+      {/* TODO#12:画像アップロードのUIが三つあるが、一つでいいか検討すること */}
       <div className="mb-4">
         <label htmlFor="productScreenshot" className="mb-1.5 block">
           <div className="flex items-center justify-between">
@@ -39,20 +40,20 @@ const MediaSection = () => {
           </div>
         </label>
         <div className="grid grid-cols-3 gap-2">
-          <label>   
-            <input type="file" id="productScreenshot" className="sr-only" />
+          <label>
+            <input type="file" id="productScreenshot1" className="sr-only" />
             <div className="aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer">
               <Image src="/upload-icon.svg" alt="" width={24} height={24} />
             </div>
           </label>
           <label>
-            <input type="file" id="productScreenshot" className="sr-only" />
+            <input type="file" id="productScreenshot2" className="sr-only" />
             <div className="aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer">
               <Image src="/upload-icon.svg" alt="" width={24} height={24} />
             </div>
           </label>
           <label>
-            <input type="file" id="productScreenshot" className="sr-only" />
+            <input type="file" id="productScreenshot3" className="sr-only" />
             <div className="aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer">
               <Image src="/upload-icon.svg" alt="" width={24} height={24} />
             </div>
