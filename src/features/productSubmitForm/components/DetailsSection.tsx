@@ -14,7 +14,7 @@ const DetailsSection = () => {
         <p className="text-xs text-muted-foreground">Details</p>
       </div>
       <div className="mb-4">
-        <label htmlFor="productName" className="mb-1.5 block">
+        <label htmlFor="productDescription" className="mb-1.5 block">
           <div className="flex items-center gap-1">
             <span className="text-sm font-medium">説明</span>
             <span className="text-primary">*</span>
@@ -33,7 +33,7 @@ const DetailsSection = () => {
       </div>
       <div className="lg:flex">
         <div className="mb-4">
-          <label htmlFor="productName" className="mb-1.5 block">
+          <label htmlFor="productFeatures" className="mb-1.5 block">
             <span className="text-sm font-medium">主な機能</span>
           </label>
           <div className="relative">
@@ -49,7 +49,7 @@ const DetailsSection = () => {
           </div>
         </div>
         <div className="mb-4">
-          <label htmlFor="productName" className="mb-1.5 block">
+          <label htmlFor="productTechnology" className="mb-1.5 block">
             <span className="text-sm font-medium">技術スタック</span>
           </label>
           <div className="relative">
