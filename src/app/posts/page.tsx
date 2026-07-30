@@ -20,7 +20,7 @@ const page = () => {
       </div>
       <div className="hidden md:block border-l border-border">
         <div className="text-left px-8 py-3 border-b border-border">
-          <p className="text-sm font-semibold">投稿後のプレビュー</p>
+          <p className="text-sm font-semibold">TODO#14投稿後のプレビュー</p>
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
             LIVE PREVIEW
           </p>

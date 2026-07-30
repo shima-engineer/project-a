@@ -2,7 +2,7 @@ const BasicInfoSection = () => {
   return (
     <>
       <div className="mb-4">
-        <h2 className="mb-0.5 text-base font-semibold">基本情報</h2>
+        <h2 className="mb-0.5 text-base font-semibold">TODO#9基本情報</h2>
         <p className="text-xs text-muted-foreground">Basic Information</p>
       </div>
       <div className="mb-4">

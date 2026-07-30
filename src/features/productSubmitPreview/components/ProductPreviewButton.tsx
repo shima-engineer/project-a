@@ -14,7 +14,7 @@ const ProductPreviewButton = ({
       onClick={handleProductPreviewButtonClick}
     >
       <Eye className="size-4 text-white" />
-      <p>プレビュー</p>
+      <p>TODO#14プレビュー</p>
     </button>
   );
 };

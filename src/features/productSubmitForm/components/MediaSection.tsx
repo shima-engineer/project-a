@@ -4,7 +4,7 @@ const MediaSection = () => {
   return (
     <>
       <div className="mb-4">
-        <h2 className="mb-0.5 text-base font-semibold">メディア</h2>
+        <h2 className="mb-0.5 text-base font-semibold">TODO#12メディア</h2>
         <p className="text-xs text-muted-foreground">Media</p>
       </div>
       <div className="mb-4">

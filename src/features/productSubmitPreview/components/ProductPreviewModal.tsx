@@ -25,7 +25,7 @@ const ProductPreviewModal = ({
         <DrawerContent>
           <DrawerHeader className="p-0">
             <DrawerTitle className="text-left px-5 py-3 border-b border-border">
-              <p className="text-sm font-semibold">投稿後のプレビュー</p>
+              <p className="text-sm font-semibold">TODO#14投稿後のプレビュー</p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                 LIVE PREVIEW
               </p>

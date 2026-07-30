@@ -10,7 +10,7 @@ const DetailsSection = () => {
   return (
     <>
       <div className="mb-4">
-        <h2 className="mb-0.5 text-base font-semibold">詳細</h2>
+        <h2 className="mb-0.5 text-base font-semibold">TODO#11詳細</h2>
         <p className="text-xs text-muted-foreground">Details</p>
       </div>
       <div className="mb-4">
