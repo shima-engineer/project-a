@@ -4,7 +4,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import ProductPreviewContent from "./ProductPreviewContent";
 
@@ -23,7 +22,6 @@ const ProductPreviewModal = ({
         open={isProductPreviewModalOpen}
         onOpenChange={(open) => !open && handleProductPreviewModalClose()}
       >
-        <DrawerTrigger />
         <DrawerContent>
           <DrawerHeader className="p-0">
             <DrawerTitle className="text-left px-5 py-3 border-b border-border">
