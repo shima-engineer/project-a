@@ -8,7 +8,7 @@ const MediaSection = () => {
         <p className="text-xs text-muted-foreground">Media</p>
       </div>
       <div className="mb-4">
-        <label htmlFor="productName" className="mb-1.5 block">
+        <label htmlFor="productThumbnail" className="mb-1.5 block">
           <div className="flex items-center gap-1">
             <span className="text-sm font-medium">サムネイル</span>
             <span className="text-primary">*</span>
