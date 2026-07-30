@@ -7,8 +7,10 @@ const SubmitActionBar = () => {
         必須項目を入力してください
       </span>
       <div className="flex gap-2">
-        <Button variant="outline">下書き保存</Button>
-        <Button>投稿する</Button>
+        <Button variant="outline" type="button">
+          下書き保存
+        </Button>
+        <Button type="submit">投稿する</Button>
       </div>
     </div>
   );
