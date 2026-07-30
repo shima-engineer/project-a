@@ -77,8 +77,9 @@ const DetailsSection = () => {
               className={`
              rounded-lg border px-3 py-1.5 text-sm transition-colors border-border hover:border-foreground/30
               ${
-                selected === plan.value &&
-                "border-primary bg-primary/10 text-primary"
+                selected === plan.value
+                  ? "border-primary bg-primary/10 text-primary"
+                  : ""
               }
             `}
             >
