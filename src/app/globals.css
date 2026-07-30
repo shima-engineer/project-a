@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --breakpoint-md:768px; /* 800px */
-  --breakpoint-lg: 1280px; /* 1200px */
+  --breakpoint-md:768px;
+  --breakpoint-lg: 1280px;
 }
 
 
