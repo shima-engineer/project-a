@@ -27,7 +27,7 @@ const RankList = async ({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-xl font-bold">
           <Image
-            src="/upIcon.png"
+            src="/up-icon.png"
             alt="ランキングのイメージ"
             width={20}
             height={20}
