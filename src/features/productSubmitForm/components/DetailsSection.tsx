@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { Pricing_Plans } from "../constants";
+import { PRICING_PLANS } from "../constants";
 
-type PricingPlan = (typeof Pricing_Plans)[number]["value"];
+type PricingPlan = (typeof PRICING_PLANS)[number]["value"];
 
 const DetailsSection = () => {
   const [selected, setSelected] = useState<PricingPlan>("free");
@@ -71,7 +71,7 @@ const DetailsSection = () => {
         </label>
 
         <div className="flex flex-wrap gap-2">
-          {Pricing_Plans.map((plan) => (
+          {PRICING_PLANS.map((plan) => (
             <label
               key={plan.value}
               className={`

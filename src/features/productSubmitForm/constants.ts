@@ -1,4 +1,4 @@
-export const Pricing_Plans = [
+export const PRICING_PLANS = [
   { value: "free", label: "Free" },
   { value: "freemium", label: "Freemium" },
   { value: "paid", label: "Paid" },
