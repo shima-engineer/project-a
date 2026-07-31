@@ -2,6 +2,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "../schema";
 import ErrorMessage from "./ErrorMessage";
+import { X } from "lucide-react";
 
 const BasicInfoSection = () => {
   const {
@@ -71,14 +72,22 @@ const BasicInfoSection = () => {
       }
 
       setValue("productTags", [...currentTags, tag], {
-        shouldDirty: true,
-        shouldTouch: true,
         shouldValidate: true,
       });
 
       clearErrors("productTags");
       e.currentTarget.value = "";
     }
+  };
+
+  const handleDeleteTag = (tag: string) => {
+    const currentTags = getValues("productTags") ?? [];
+
+    const filteredTags = currentTags.filter((currentTag) => currentTag !== tag);
+
+    setValue("productTags", filteredTags, {
+      shouldValidate: true,
+    });
   };
 
   console.log(productTags);
@@ -187,13 +196,21 @@ const BasicInfoSection = () => {
           </div>
         </label>
         <div className="flex flex-wrap gap-1.5 rounded-lg border border-input bg-background p-2 h-10 mb-2">
-          {productTags.map((tag: string, index: number) => (
-            <span
-              key={index}
-              className="bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs"
+          {productTags.map((tag) => (
+            <div
+              key={tag}
+              className="bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs flex items-center gap-1"
             >
-              {tag}
-            </span>
+              <span>{tag}</span>
+              <button
+                type="button"
+                onClick={() => handleDeleteTag(tag)}
+                aria-label={`${tag}タグを削除`}
+                className="cursor-pointer"
+              >
+                <X className="size-3" />
+              </button>
+            </div>
           ))}
           <input
             type="text"
