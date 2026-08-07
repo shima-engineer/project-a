@@ -11,6 +11,13 @@ import SubmitActionBar from "./SubmitActionBar";
 const ProductSubmitForm = () => {
   const methods = useForm<ProductSubmitFormValues>({
     resolver: zodResolver(productSubmitFormSchema),
+    defaultValues: {
+      productName: "",
+      productTagline: "",
+      productWebsite: "",
+      productCategory: "",
+      productTags: [],
+    },
   });
 
   const onSubmit = (data: ProductSubmitFormValues) => {
