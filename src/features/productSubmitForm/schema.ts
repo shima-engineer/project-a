@@ -11,20 +11,33 @@ export const productSubmitFormSchema = z.object({
     .trim()
     .min(1, { message: "タグラインは必須です。" })
     .max(60, { message: "60文字以内で入力してください。" }),
-  productWebsite: z.url({ message: "有効なURLを入力してください。" }),
-  productCategory: z.enum(
-    [
-      "AIツール",
-      "SaaS",
-      "Webアプリ",
-      "ネイティブアプリ",
-      "Developer Tools",
-      "生産性",
-      "デザイン",
-      "マーケティング",
-    ],
-    { message: "カテゴリーを選択してください。" },
+  productWebsite: z.string().check(
+    z.trim(),
+    z.minLength(1, "プロダクトURLを入力してください。"),
+    z.url({
+      protocol: /^https?$/,
+      hostname: z.regexes.domain,
+      error: "有効なURLを入力してください。",
+    }),
   ),
+  productCategory: z
+    .enum(
+      [
+        "",
+        "AIツール",
+        "SaaS",
+        "Webアプリ",
+        "ネイティブアプリ",
+        "Developer Tools",
+        "生産性",
+        "デザイン",
+        "マーケティング",
+      ],
+      { message: "カテゴリーを選択してください。" },
+    )
+    .refine((value) => value !== "", {
+      message: "カテゴリーを選択してください。",
+    }),
   productTags: z
     .array(
       z
