@@ -53,10 +53,10 @@ const BasicInfoSection = () => {
       return;
     }
 
-    if (tag.length > 20) {
+    if (tag.length > 10) {
       setError("productTags", {
         type: "manual",
-        message: "タグは20文字以内で入力してください。",
+        message: "タグは10文字以内で入力してください。",
       });
       return;
     }
