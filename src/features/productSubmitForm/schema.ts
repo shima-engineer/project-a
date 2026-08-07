@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PRODUCT_CATEGORIES } from "./constants";
 
 export const productSubmitFormSchema = z.object({
   productName: z
@@ -20,24 +21,9 @@ export const productSubmitFormSchema = z.object({
       error: "有効なURLを入力してください。",
     }),
   ),
-  productCategory: z
-    .enum(
-      [
-        "",
-        "AIツール",
-        "SaaS",
-        "Webアプリ",
-        "ネイティブアプリ",
-        "Developer Tools",
-        "生産性",
-        "デザイン",
-        "マーケティング",
-      ],
-      { message: "カテゴリーを選択してください。" },
-    )
-    .refine((value) => value !== "", {
-      message: "カテゴリーを選択してください。",
-    }),
+  productCategory: z.enum(PRODUCT_CATEGORIES).refine((value) => value !== "", {
+    message: "カテゴリーを選択してください。",
+  }),
   productTags: z
     .array(
       z
