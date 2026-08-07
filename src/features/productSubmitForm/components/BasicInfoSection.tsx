@@ -12,7 +12,6 @@ const BasicInfoSection = () => {
     setValue,
     getValues,
     setError,
-    clearErrors,
   } = useFormContext<ProductSubmitFormValues>();
 
   const productName = useWatch({
@@ -40,44 +39,41 @@ const BasicInfoSection = () => {
 
     e.preventDefault();
 
-    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-      const tag = e.currentTarget.value.trim();
-      if (!tag) {
-        return;
-      }
-      const currentTags = getValues("productTags") ?? [];
-
-      if (currentTags.length >= 5) {
-        setError("productTags", {
-          type: "manual",
-          message: "タグは最大5つまでです。",
-        });
-        return;
-      }
-
-      if (tag.length > 20) {
-        setError("productTags", {
-          type: "manual",
-          message: "タグは20文字以内で入力してください。",
-        });
-        return;
-      }
-
-      if (currentTags.includes(tag)) {
-        setError("productTags", {
-          type: "manual",
-          message: "同じタグは追加できません。",
-        });
-        return;
-      }
-
-      setValue("productTags", [...currentTags, tag], {
-        shouldValidate: true,
-      });
-
-      clearErrors("productTags");
-      e.currentTarget.value = "";
+    const tag = e.currentTarget.value.trim();
+    if (!tag) {
+      return;
     }
+    const currentTags = getValues("productTags") ?? [];
+
+    if (currentTags.length >= 5) {
+      setError("productTags", {
+        type: "manual",
+        message: "タグは最大5つまでです。",
+      });
+      return;
+    }
+
+    if (tag.length > 20) {
+      setError("productTags", {
+        type: "manual",
+        message: "タグは20文字以内で入力してください。",
+      });
+      return;
+    }
+
+    if (currentTags.includes(tag)) {
+      setError("productTags", {
+        type: "manual",
+        message: "同じタグは追加できません。",
+      });
+      return;
+    }
+
+    setValue("productTags", [...currentTags, tag], {
+      shouldValidate: true,
+    });
+
+    e.currentTarget.value = "";
   };
 
   const handleDeleteTag = (tag: string) => {
@@ -89,8 +85,6 @@ const BasicInfoSection = () => {
       shouldValidate: true,
     });
   };
-
-  console.log(productTags);
 
   return (
     <>
@@ -109,12 +103,12 @@ const BasicInfoSection = () => {
           <input
             type="text"
             id="productName"
-            className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+            className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
             placeholder="例: Shibuya AI"
             {...register("productName")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            {productName.length}/40
+            {productName.trim().length}/40
           </span>
         </div>
         <ErrorMessage errorMessage={errors.productName?.message || ""} />
@@ -135,12 +129,12 @@ const BasicInfoSection = () => {
           <input
             type="text"
             id="productTagline"
-            className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+            className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
             placeholder="例: 日本語特化のAIライティングアシスタント"
             {...register("productTagline")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            {productTagline.length}/60
+            {productTagline.trim().length}/60
           </span>
         </div>
         <ErrorMessage errorMessage={errors.productTagline?.message || ""} />
@@ -153,10 +147,11 @@ const BasicInfoSection = () => {
           </div>
         </label>
         <input
-          type="text"
+          type="url"
           id="productWebsite"
-          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
+          className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
           placeholder="例: https://shibuya-ai.com"
+          {...register("productWebsite")}
         />
         <ErrorMessage errorMessage={errors.productWebsite?.message || ""} />
       </div>
@@ -169,22 +164,23 @@ const BasicInfoSection = () => {
         </label>
         <select
           id="productCategory"
-          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
+          className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
           {...register("productCategory")}
         >
-          <option>AIツール</option>
-          <option>SaaS</option>
-          <option>Webアプリ</option>
-          <option>ネイティブアプリ</option>
-          <option>Developer Tools</option>
-          <option>生産性</option>
-          <option>デザイン</option>
-          <option>マーケティング</option>
+          <option value="">カテゴリーを選択してください</option>
+          <option value="AIツール">AIツール</option>
+          <option value="SaaS">SaaS</option>
+          <option value="Webアプリ">Webアプリ</option>
+          <option value="ネイティブアプリ">ネイティブアプリ</option>
+          <option value="Developer Tools">Developer Tools</option>
+          <option value="生産性">生産性</option>
+          <option value="デザイン">デザイン</option>
+          <option value="マーケティング">マーケティング</option>
         </select>
         <ErrorMessage errorMessage={errors.productCategory?.message || ""} />
       </div>
       <div className="mb-4">
-        <label htmlFor="productTag" className="mb-1.5 block">
+        <label htmlFor="productTags" className="mb-1.5 block">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm font-medium">タグ</span>
@@ -195,7 +191,7 @@ const BasicInfoSection = () => {
             </p>
           </div>
         </label>
-        <div className="flex flex-wrap gap-1.5 rounded-lg border border-input bg-background p-2 h-10 mb-2">
+        <div className="flex flex-wrap gap-1.5 rounded-lg border border-input bg-background p-2 min-h-10 mb-2">
           {productTags.map((tag) => (
             <div
               key={tag}
