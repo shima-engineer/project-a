@@ -1,11 +1,3 @@
-export const PRICING_PLAN_VALUES = [
-  "free",
-  "freemium",
-  "paid",
-  "subscription",
-  "one-time",
-] as const;
-
 export const PRICING_PLANS = [
   { value: "free", label: "Free" },
   { value: "freemium", label: "Freemium" },
@@ -13,6 +5,8 @@ export const PRICING_PLANS = [
   { value: "subscription", label: "Subscription" },
   { value: "one-time", label: "One-time" },
 ] as const;
+
+export const PRICING_PLAN_VALUES = PRICING_PLANS.map((plan) => plan.value);
 
 export const PRODUCT_CATEGORIES = [
   "",
