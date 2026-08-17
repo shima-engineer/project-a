@@ -25,6 +25,10 @@ const ProductSubmitForm = () => {
       productWebsite: "",
       productCategory: "",
       productTags: [],
+      productDescription: "",
+      productFeatures: "",
+      productTechnology: "",
+      productPlans: "",
     },
   });
 

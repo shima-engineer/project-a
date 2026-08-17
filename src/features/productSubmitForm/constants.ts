@@ -1,5 +1,12 @@
+export const PRICING_PLAN_VALUES = [
+  "free",
+  "freemium",
+  "paid",
+  "subscription",
+  "one-time",
+] as const;
+
 export const PRICING_PLANS = [
-  { value: "", label: "" },
   { value: "free", label: "Free" },
   { value: "freemium", label: "Freemium" },
   { value: "paid", label: "Paid" },

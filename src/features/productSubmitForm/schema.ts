@@ -6,7 +6,7 @@ import {
   PRODUCT_DESCRIPTION_MAX_LENGTH,
   PRODUCT_FEATURES_MAX_LENGTH,
   PRODUCT_TECHNOLOGY_MAX_LENGTH,
-  PRICING_PLANS,
+  PRICING_PLAN_VALUES,
 } from "./constants";
 
 export const productSubmitFormSchema = z.object({
@@ -83,8 +83,8 @@ export const productSubmitFormSchema = z.object({
     .max(PRODUCT_TECHNOLOGY_MAX_LENGTH, {
       message: `${PRODUCT_TECHNOLOGY_MAX_LENGTH}文字以内で入力してください。`,
     }),
-  productPlan: z
-    .union([z.literal(""), z.enum(PRICING_PLANS.map((plan) => plan.value))])
+  productPlans: z
+    .union([z.literal(""), z.enum(PRICING_PLAN_VALUES)])
     .transform((value, ctx) => {
       if (value === "") {
         ctx.addIssue({
