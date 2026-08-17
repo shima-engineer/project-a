@@ -23,13 +23,11 @@ const BasicInfoSection = () => {
   const productName = useWatch({
     control,
     name: "productName",
-    defaultValue: "",
   });
 
   const productTagline = useWatch({
     control,
     name: "productTagline",
-    defaultValue: "",
   });
 
   const productTags =

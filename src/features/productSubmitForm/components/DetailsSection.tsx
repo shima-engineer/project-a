@@ -19,19 +19,16 @@ const DetailsSection = () => {
   const productDescription = useWatch({
     control,
     name: "productDescription",
-    defaultValue: "",
   });
 
   const productFeatures = useWatch({
     control,
     name: "productFeatures",
-    defaultValue: "",
   });
 
   const productTechnology = useWatch({
     control,
     name: "productTechnology",
-    defaultValue: "",
   });
 
   const productPlans = useWatch({
