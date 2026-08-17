@@ -12,6 +12,8 @@ export const productSubmitFormSchema = z.object({
     .trim()
     .min(1, { message: "タグラインは必須です。" })
     .max(60, { message: "60文字以内で入力してください。" }),
+  // z.url()ではtrim()をチェーンできないため、先に文字列としてtrimする
+  // See: https://github.com/colinhacks/zod/issues/4642
   productWebsite: z
     .string()
     .trim()
