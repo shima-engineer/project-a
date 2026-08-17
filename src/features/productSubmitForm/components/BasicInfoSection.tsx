@@ -4,6 +4,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "../schema";
 import ErrorMessage from "./ErrorMessage";
 import { X } from "lucide-react";
+import { PRODUCT_CATEGORIES } from "../constants";
 
 const BasicInfoSection = () => {
   const {
@@ -168,15 +169,11 @@ const BasicInfoSection = () => {
           className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
           {...register("productCategory")}
         >
-          <option value="">カテゴリーを選択してください</option>
-          <option value="AIツール">AIツール</option>
-          <option value="SaaS">SaaS</option>
-          <option value="Webアプリ">Webアプリ</option>
-          <option value="ネイティブアプリ">ネイティブアプリ</option>
-          <option value="Developer Tools">Developer Tools</option>
-          <option value="生産性">生産性</option>
-          <option value="デザイン">デザイン</option>
-          <option value="マーケティング">マーケティング</option>
+          {PRODUCT_CATEGORIES.map((category) => (
+            <option key={category} value={category}>
+              {category || "カテゴリーを選択してください"}
+            </option>
+          ))}
         </select>
         <ErrorMessage errorMessage={errors.productCategory?.message || ""} />
       </div>

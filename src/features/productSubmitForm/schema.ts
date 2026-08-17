@@ -26,9 +26,20 @@ export const productSubmitFormSchema = z.object({
         })
         .min(1, { message: "プロダクトURLを入力してください。" }),
     ),
-  productCategory: z.enum(PRODUCT_CATEGORIES).refine((value) => value !== "", {
-    message: "カテゴリーを選択してください。",
-  }),
+  productCategory: z
+    .union([z.literal(""), z.enum(PRODUCT_CATEGORIES)])
+    .transform((value, ctx) => {
+      if (value === "") {
+        ctx.addIssue({
+          code: "custom",
+          message: "カテゴリーを選択してください。",
+        });
+
+        return z.NEVER;
+      }
+
+      return value;
+    }),
   productTags: z
     .array(
       z
@@ -41,4 +52,8 @@ export const productSubmitFormSchema = z.object({
     .max(5, { message: "タグは最大5つまでです。" }),
 });
 
-export type ProductSubmitFormValues = z.infer<typeof productSubmitFormSchema>;
+export type ProductSubmitFormInput =
+  z.input<typeof productSubmitFormSchema>;
+
+export type ProductSubmitFormValues =
+  z.output<typeof productSubmitFormSchema>;
