@@ -12,15 +12,18 @@ export const productSubmitFormSchema = z.object({
     .trim()
     .min(1, { message: "タグラインは必須です。" })
     .max(60, { message: "60文字以内で入力してください。" }),
-  productWebsite: z.string().check(
-    z.trim(),
-    z.minLength(1, "プロダクトURLを入力してください。"),
-    z.url({
-      protocol: /^https?$/,
-      hostname: z.regexes.domain,
-      error: "有効なURLを入力してください。",
-    }),
-  ),
+  productWebsite: z
+    .string()
+    .trim()
+    .check(
+      z
+        .url({
+          protocol: /^https?$/,
+          hostname: z.regexes.domain,
+          error: "有効なURLを入力してください。",
+        })
+        .min(1, { message: "プロダクトURLを入力してください。" }),
+    ),
   productCategory: z.enum(PRODUCT_CATEGORIES).refine((value) => value !== "", {
     message: "カテゴリーを選択してください。",
   }),
