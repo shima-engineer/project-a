@@ -1,4 +1,5 @@
 "use client";
+import type React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "../schema";
 import ErrorMessage from "./ErrorMessage";
