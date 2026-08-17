@@ -21,7 +21,7 @@ const ProductSubmitForm = () => {
   });
 
   const onSubmit = (data: ProductSubmitFormValues) => {
-    console.log(data);
+    // TODO#13
   };
 
   return (
