@@ -52,11 +52,11 @@ const DetailsSection = () => {
         <div className="relative">
           <textarea
             id="productDescription"
-            className="min-h-30 w-full rounded-lg border border-input bg-background p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+            className="min-h-30 w-full rounded-lg border border-input bg-background p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
             placeholder="このプロダクトが解決する問題、独自の特徴、ユーザーへの提供価値を書いてください。"
             {...register("productDescription")}
           />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
+          <span className="absolute right-3 bottom-2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
             {productDescription.trim().length}/{PRODUCT_DESCRIPTION_MAX_LENGTH}
           </span>
         </div>
@@ -71,7 +71,7 @@ const DetailsSection = () => {
             <input
               type="text"
               id="productFeatures"
-              className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
               placeholder="リアルタイム編集, AI補完…"
               {...register("productFeatures")}
             />
@@ -89,7 +89,7 @@ const DetailsSection = () => {
             <input
               type="text"
               id="productTechnology"
-              className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
               placeholder="Next.js, Supabase…"
               {...register("productTechnology")}
             />
@@ -116,7 +116,7 @@ const DetailsSection = () => {
               key={plan.value}
               className={`
         rounded-lg border px-3 py-1.5 text-sm transition-colors
-        border-border hover:border-foreground/30
+        border-border hover:border-foreground/30 cursor-pointer
         ${
           productPlans === plan.value
             ? "border-primary bg-primary/10 text-primary"
@@ -127,7 +127,7 @@ const DetailsSection = () => {
               <input
                 type="radio"
                 value={plan.value}
-                className="sr-only cursor-pointer"
+                className="sr-only"
                 {...register("productPlans")}
               />
               {plan.label}
