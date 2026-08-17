@@ -17,3 +17,7 @@ export const PRODUCT_CATEGORIES = [
   "デザイン",
   "マーケティング",
 ] as const;
+
+export const PRODUCT_NAME_MAX_LENGTH = 40;
+
+export const PRODUCT_TAGLINE_MAX_LENGTH = 60;

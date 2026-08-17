@@ -4,7 +4,11 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "../schema";
 import ErrorMessage from "./ErrorMessage";
 import { X } from "lucide-react";
-import { PRODUCT_CATEGORIES } from "../constants";
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_TAGLINE_MAX_LENGTH,
+  PRODUCT_NAME_MAX_LENGTH,
+} from "../constants";
 
 const BasicInfoSection = () => {
   const {
@@ -110,7 +114,7 @@ const BasicInfoSection = () => {
             {...register("productName")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            {productName.trim().length}/40
+            {productName.trim().length}/{PRODUCT_NAME_MAX_LENGTH}
           </span>
         </div>
         <ErrorMessage errorMessage={errors.productName?.message || ""} />
@@ -136,7 +140,7 @@ const BasicInfoSection = () => {
             {...register("productTagline")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            {productTagline.trim().length}/60
+            {productTagline.trim().length}/{PRODUCT_TAGLINE_MAX_LENGTH}
           </span>
         </div>
         <ErrorMessage errorMessage={errors.productTagline?.message || ""} />

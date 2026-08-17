@@ -1,17 +1,25 @@
 import { z } from "zod";
-import { PRODUCT_CATEGORIES } from "./constants";
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_NAME_MAX_LENGTH,
+  PRODUCT_TAGLINE_MAX_LENGTH,
+} from "./constants";
 
 export const productSubmitFormSchema = z.object({
   productName: z
     .string()
     .trim()
     .min(1, { message: "プロダクト名は必須です。" })
-    .max(40, { message: "40文字以内で入力してください。" }),
+    .max(PRODUCT_NAME_MAX_LENGTH, {
+      message: "40文字以内で入力してください。",
+    }),
   productTagline: z
     .string()
     .trim()
     .min(1, { message: "タグラインは必須です。" })
-    .max(60, { message: "60文字以内で入力してください。" }),
+    .max(PRODUCT_TAGLINE_MAX_LENGTH, {
+      message: "60文字以内で入力してください。",
+    }),
   // z.url()ではtrim()をチェーンできないため、先に文字列としてtrimする
   // See: https://github.com/colinhacks/zod/issues/4642
   productWebsite: z
@@ -52,8 +60,6 @@ export const productSubmitFormSchema = z.object({
     .max(5, { message: "タグは最大5つまでです。" }),
 });
 
-export type ProductSubmitFormInput =
-  z.input<typeof productSubmitFormSchema>;
+export type ProductSubmitFormInput = z.input<typeof productSubmitFormSchema>;
 
-export type ProductSubmitFormValues =
-  z.output<typeof productSubmitFormSchema>;
+export type ProductSubmitFormValues = z.output<typeof productSubmitFormSchema>;
