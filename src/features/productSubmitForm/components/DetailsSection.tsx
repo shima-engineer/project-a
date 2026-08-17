@@ -1,10 +1,43 @@
 "use client";
 import { useState } from "react";
-import { PRICING_PLANS } from "../constants";
+import {
+  PRICING_PLANS,
+  PRODUCT_FEATURES_MAX_LENGTH,
+  PRODUCT_TECHNOLOGY_MAX_LENGTH,
+} from "../constants";
+import { useFormContext, useWatch } from "react-hook-form";
+import { ProductSubmitFormValues } from "../schema";
 
 type PricingPlan = (typeof PRICING_PLANS)[number]["value"];
 
 const DetailsSection = () => {
+  const {
+    register,
+    control,
+    formState: { errors },
+    setValue,
+    getValues,
+    setError,
+  } = useFormContext<ProductSubmitFormValues>();
+
+  const productDescription = useWatch({
+    control,
+    name: "productDescription",
+    defaultValue: "",
+  });
+
+  const productFeatures = useWatch({
+    control,
+    name: "productFeatures",
+    defaultValue: "",
+  });
+
+  const productTechnology = useWatch({
+    control,
+    name: "productTechnology",
+    defaultValue: "",
+  });
+
   const [selected, setSelected] = useState<PricingPlan>("free");
 
   return (
@@ -25,9 +58,10 @@ const DetailsSection = () => {
             id="productDescription"
             className="min-h-30 w-full rounded-lg border border-input bg-background p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
             placeholder="このプロダクトが解決する問題、独自の特徴、ユーザーへの提供価値を書いてください。"
+            {...register("productDescription")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            0/120
+            {productDescription.trim().length}/{PRODUCT_DESCRIPTION_MAX_LENGTH}
           </span>
         </div>
       </div>
@@ -44,7 +78,7 @@ const DetailsSection = () => {
               placeholder="リアルタイム編集, AI補完…"
             />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-              0/40
+              {productDescription.trim().length}/{PRODUCT_FEATURES_MAX_LENGTH}
             </span>
           </div>
         </div>
@@ -60,14 +94,17 @@ const DetailsSection = () => {
               placeholder="Next.js, Supabase…"
             />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-              0/40
+              {productDescription.trim().length}/{PRODUCT_TECHNOLOGY_MAX_LENGTH}
             </span>
           </div>
         </div>
       </div>
       <div className="mb-4">
         <label htmlFor="productPricing" className="mb-1.5 block">
-          <span className="text-sm font-medium">料金プラン</span>
+          <div className="flex items-center gap-1">
+            <span className="text-sm font-medium">料金プラン</span>
+            <span className="text-primary">*</span>
+          </div>
         </label>
 
         <div className="flex flex-wrap gap-2">

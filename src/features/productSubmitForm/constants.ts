@@ -1,4 +1,5 @@
 export const PRICING_PLANS = [
+  { value: "", label: "" },
   { value: "free", label: "Free" },
   { value: "freemium", label: "Freemium" },
   { value: "paid", label: "Paid" },
@@ -21,3 +22,9 @@ export const PRODUCT_CATEGORIES = [
 export const PRODUCT_NAME_MAX_LENGTH = 40;
 
 export const PRODUCT_TAGLINE_MAX_LENGTH = 60;
+
+export const PRODUCT_DESCRIPTION_MAX_LENGTH = 120;
+
+export const PRODUCT_FEATURES_MAX_LENGTH = 40;
+
+export const PRODUCT_TECHNOLOGY_MAX_LENGTH = 40;
