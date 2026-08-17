@@ -3,6 +3,10 @@ import {
   PRODUCT_CATEGORIES,
   PRODUCT_NAME_MAX_LENGTH,
   PRODUCT_TAGLINE_MAX_LENGTH,
+  PRODUCT_DESCRIPTION_MAX_LENGTH,
+  PRODUCT_FEATURES_MAX_LENGTH,
+  PRODUCT_TECHNOLOGY_MAX_LENGTH,
+  PRICING_PLAN_VALUES,
 } from "./constants";
 
 export const productSubmitFormSchema = z.object({
@@ -58,6 +62,41 @@ export const productSubmitFormSchema = z.object({
     )
     .min(1, { message: "タグを1つ以上追加してください。" })
     .max(5, { message: "タグは最大5つまでです。" }),
+  productDescription: z
+    .string()
+    .trim()
+    .min(1, { message: "プロダクトの説明は必須です。" })
+    .max(PRODUCT_DESCRIPTION_MAX_LENGTH, {
+      message: `${PRODUCT_DESCRIPTION_MAX_LENGTH}文字以内で入力してください。`,
+    }),
+  productFeatures: z
+    .string()
+    .trim()
+    .min(1, { message: "主な機能は必須です。" })
+    .max(PRODUCT_FEATURES_MAX_LENGTH, {
+      message: `${PRODUCT_FEATURES_MAX_LENGTH}文字以内で入力してください。`,
+    }),
+  productTechnology: z
+    .string()
+    .trim()
+    .min(1, { message: "技術スタックは必須です。" })
+    .max(PRODUCT_TECHNOLOGY_MAX_LENGTH, {
+      message: `${PRODUCT_TECHNOLOGY_MAX_LENGTH}文字以内で入力してください。`,
+    }),
+  productPlans: z
+    .union([z.literal(""), z.enum(PRICING_PLAN_VALUES)])
+    .transform((value, ctx) => {
+      if (value === "") {
+        ctx.addIssue({
+          code: "custom",
+          message: "料金プランを選択してください。",
+        });
+
+        return z.NEVER;
+      }
+
+      return value;
+    }),
 });
 
 export type ProductSubmitFormInput = z.input<typeof productSubmitFormSchema>;
