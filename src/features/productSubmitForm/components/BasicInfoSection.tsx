@@ -1,4 +1,97 @@
+"use client";
+import type React from "react";
+import { useFormContext, useWatch } from "react-hook-form";
+import { ProductSubmitFormValues } from "../schema";
+import ErrorMessage from "./ErrorMessage";
+import { X } from "lucide-react";
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_TAGLINE_MAX_LENGTH,
+  PRODUCT_NAME_MAX_LENGTH,
+} from "../constants";
+
 const BasicInfoSection = () => {
+  const {
+    register,
+    control,
+    formState: { errors },
+    setValue,
+    getValues,
+    setError,
+  } = useFormContext<ProductSubmitFormValues>();
+
+  const productName = useWatch({
+    control,
+    name: "productName",
+    defaultValue: "",
+  });
+
+  const productTagline = useWatch({
+    control,
+    name: "productTagline",
+    defaultValue: "",
+  });
+
+  const productTags =
+    useWatch({
+      control,
+      name: "productTags",
+    }) ?? [];
+
+  const exchangeTextToTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter" || e.nativeEvent.isComposing) {
+      return;
+    }
+
+    e.preventDefault();
+
+    const tag = e.currentTarget.value.trim();
+    if (!tag) {
+      return;
+    }
+    const currentTags = getValues("productTags") ?? [];
+
+    if (currentTags.length >= 5) {
+      setError("productTags", {
+        type: "manual",
+        message: "タグは最大5つまでです。",
+      });
+      return;
+    }
+
+    if (tag.length > 20) {
+      setError("productTags", {
+        type: "manual",
+        message: "タグは20文字以内で入力してください。",
+      });
+      return;
+    }
+
+    if (currentTags.includes(tag)) {
+      setError("productTags", {
+        type: "manual",
+        message: "同じタグは追加できません。",
+      });
+      return;
+    }
+
+    setValue("productTags", [...currentTags, tag], {
+      shouldValidate: true,
+    });
+
+    e.currentTarget.value = "";
+  };
+
+  const handleDeleteTag = (tag: string) => {
+    const currentTags = getValues("productTags") ?? [];
+
+    const filteredTags = currentTags.filter((currentTag) => currentTag !== tag);
+
+    setValue("productTags", filteredTags, {
+      shouldValidate: true,
+    });
+  };
+
   return (
     <>
       <div className="mb-4">
@@ -12,19 +105,19 @@ const BasicInfoSection = () => {
             <span className="text-primary">*</span>
           </div>
         </label>
-        <div className="relative">
+        <div className="relative mb-2">
           <input
             type="text"
             id="productName"
-            className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+            className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
             placeholder="例: Shibuya AI"
+            {...register("productName")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            0/40
+            {productName.trim().length}/{PRODUCT_NAME_MAX_LENGTH}
           </span>
-
-          
         </div>
+        <ErrorMessage errorMessage={errors.productName?.message || ""} />
       </div>
       <div className="mb-4">
         <label htmlFor="productTagline" className="mb-1.5 block">
@@ -38,31 +131,35 @@ const BasicInfoSection = () => {
             </p>
           </div>
         </label>
-        <div className="relative">
+        <div className="relative mb-2">
           <input
             type="text"
             id="productTagline"
-            className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+            className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
             placeholder="例: 日本語特化のAIライティングアシスタント"
+            {...register("productTagline")}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-            0/60
+            {productTagline.trim().length}/{PRODUCT_TAGLINE_MAX_LENGTH}
           </span>
         </div>
+        <ErrorMessage errorMessage={errors.productTagline?.message || ""} />
       </div>
       <div className="mb-4">
         <label htmlFor="productWebsite" className="mb-1.5 block">
           <div className="flex items-center gap-1">
-            <span className="text-sm font-medium">Webサイト URL</span>
+            <span className="text-sm font-medium">WebサイトURL</span>
             <span className="text-primary">*</span>
           </div>
         </label>
         <input
-          type="text"
+          type="url"
           id="productWebsite"
-          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
           placeholder="例: https://shibuya-ai.com"
+          {...register("productWebsite")}
         />
+        <ErrorMessage errorMessage={errors.productWebsite?.message || ""} />
       </div>
       <div className="mb-4">
         <label htmlFor="productCategory" className="mb-1.5 block">
@@ -73,20 +170,19 @@ const BasicInfoSection = () => {
         </label>
         <select
           id="productCategory"
-          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
+          {...register("productCategory")}
         >
-          <option>AIツール</option>
-          <option>SaaS</option>
-          <option>Webアプリ</option>
-          <option>ネイティブアプリ</option>
-          <option>Developer Tools</option>
-          <option>生産性</option>
-          <option>デザイン</option>
-          <option>マーケティング</option>
+          {PRODUCT_CATEGORIES.map((category) => (
+            <option key={category} value={category}>
+              {category || "カテゴリーを選択してください"}
+            </option>
+          ))}
         </select>
+        <ErrorMessage errorMessage={errors.productCategory?.message || ""} />
       </div>
       <div className="mb-4">
-        <label htmlFor="productTag" className="mb-1.5 block">
+        <label htmlFor="productTags" className="mb-1.5 block">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm font-medium">タグ</span>
@@ -97,12 +193,32 @@ const BasicInfoSection = () => {
             </p>
           </div>
         </label>
-        <input
-          type="text"
-          id="productTag"
-          className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
-          placeholder="AI, SaaS, Indie…"
-        />
+        <div className="flex flex-wrap gap-1.5 rounded-lg border border-input bg-background p-2 min-h-10 mb-2">
+          {productTags.map((tag) => (
+            <div
+              key={tag}
+              className="bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs flex items-center gap-1"
+            >
+              <span>{tag}</span>
+              <button
+                type="button"
+                onClick={() => handleDeleteTag(tag)}
+                aria-label={`${tag}タグを削除`}
+                className="cursor-pointer"
+              >
+                <X className="size-3" />
+              </button>
+            </div>
+          ))}
+          <input
+            type="text"
+            id="productTags"
+            className="flex-1 min-w-30 bg-transparent text-sm outline-none px-1"
+            placeholder="AI, SaaS, Indie…"
+            onKeyDown={exchangeTextToTag}
+          />
+        </div>
+        <ErrorMessage errorMessage={errors.productTags?.message || ""} />
       </div>
     </>
   );
