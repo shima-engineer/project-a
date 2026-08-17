@@ -103,12 +103,12 @@ const DetailsSection = () => {
         </div>
       </div>
       <div className="mb-4">
-        <label htmlFor="productPlans" className="mb-1.5 block">
+        <div className="mb-1.5 block">
           <div className="flex items-center gap-1">
             <span className="text-sm font-medium">料金プラン</span>
             <span className="text-primary">*</span>
           </div>
-        </label>
+        </div>
 
         <div className="flex flex-wrap gap-2 mb-2">
           {PRICING_PLANS.map((plan) => (
