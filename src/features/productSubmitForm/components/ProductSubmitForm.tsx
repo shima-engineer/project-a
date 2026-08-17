@@ -21,6 +21,8 @@ const ProductSubmitForm = () => {
   });
 
   const onSubmit = (data: ProductSubmitFormValues) => {
+    // dataを使わないとlintのエラーになるため、一時的にconsoleを残す。
+    console.log(data);
     // TODO#13
   };
 

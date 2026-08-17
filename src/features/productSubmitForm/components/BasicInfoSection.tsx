@@ -130,7 +130,7 @@ const BasicInfoSection = () => {
           <input
             type="text"
             id="productTagline"
-            className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+            className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
             placeholder="例: 日本語特化のAIライティングアシスタント"
             {...register("productTagline")}
           />
