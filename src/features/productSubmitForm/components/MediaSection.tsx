@@ -127,8 +127,16 @@ const MediaSection = () => {
     setSelectedScreenshotIndex(index);
     setIsProductScreenshotModalOpen(true);
   };
-  console.log(productThumbnail);
-  console.log(productScreenshots[0]);
+
+  const handleScreenshotDelete = (index: number) => {
+    const updatedScreenshots = productScreenshots.filter((_, i) => i !== index);
+    setProductScreenshots(updatedScreenshots);
+    setValue("productScreenshots", updatedScreenshots, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+  console.log(selectedScreenshotIndex);
 
   return (
     <>
@@ -212,15 +220,35 @@ const MediaSection = () => {
           {productScreenshots.length > 0 &&
             productScreenshots.map((screenshot, index) => {
               return (
-                <Image
+                <div
                   key={`${screenshot.name}-${screenshot.lastModified}`}
-                  src={URL.createObjectURL(screenshot)}
-                  alt="Product Screenshot"
-                  width={64}
-                  height={64}
-                  className="z-10 relative cursor-pointer"
-                  onClick={() => handleScreenshotClick(index)}
-                />
+                  className="relative group"
+                >
+                  <Image
+                    src={URL.createObjectURL(screenshot)}
+                    alt="Product Screenshot"
+                    width={64}
+                    height={64}
+                    className="z-10 relative cursor-pointer h-16"
+                    onClick={() => handleScreenshotClick(index)}
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity lucide lucide-x-icon lucide-x text-white absolute z-100 -top-1 -right-1 cursor-pointer border-border border-2 bg-primary rounded-3xl"
+                    onClick={() => handleScreenshotDelete(index)}
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </div>
               );
             })}
           <ProductScreenshotModal
