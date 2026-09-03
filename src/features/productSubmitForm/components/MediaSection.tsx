@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import ProductThumbnailModal from "./ProductThumbnailModal";
 import ErrorMessage from "./ErrorMessage";
 import { ProductSubmitFormValues } from "../schema";
+import ProductScreenshotModal from "./ProductScreenshotModal";
 
 const MediaSection = () => {
   const {
@@ -19,6 +20,16 @@ const MediaSection = () => {
   const [productThumbnail, setProductThumbnail] = useState<File | null>(null);
   const [productThumbnailDragOver, setProductThumbnailDragOver] =
     useState(false);
+  const [productScreenshots, setProductScreenshots] = useState<File[]>([]);
+  const [productScreenshotDragOver, setProductScreenshotDragOver] =
+    useState(false);
+  const [isProductThumnailModalOpen, setIsProductThumnailModalOpen] =
+    useState(false);
+  const [isProductScreenshotModalOpen, setIsProductScreenshotModalOpen] =
+    useState(false);
+  const [selectedScreenshotIndex, setSelectedScreenshotIndex] = useState<
+    number | null
+  >(null);
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -32,18 +43,18 @@ const MediaSection = () => {
     });
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+  const handleThumbnailDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setProductThumbnailDragOver(true);
     console.log("drag");
   };
 
-  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+  const handleThumbnailDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setProductThumbnailDragOver(false);
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+  const handleThumbnailDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setProductThumbnailDragOver(false);
     const file = e.dataTransfer.files?.[0];
@@ -56,8 +67,48 @@ const MediaSection = () => {
     });
   };
 
-  const [isProductThumnailModalOpen, setIsProductThumnailModalOpen] =
-    useState(false);
+  const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setProductScreenshotDragOver(false);
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const updatedScreenshots = [...productScreenshots, file];
+
+    setProductScreenshots(updatedScreenshots);
+
+    setValue("productScreenshots", updatedScreenshots, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const handleScreenshotDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setProductScreenshotDragOver(true);
+    console.log("drag");
+  };
+
+  const handleScreenshotDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setProductScreenshotDragOver(false);
+  };
+
+  const handleScreenshotDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setProductScreenshotDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    const updatedScreenshots = [...productScreenshots, file];
+
+    setProductScreenshots(updatedScreenshots);
+
+    setValue("productScreenshots", updatedScreenshots, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
   const onProductThumnailModalClose = () => {
     setIsProductThumnailModalOpen(false);
@@ -67,6 +118,17 @@ const MediaSection = () => {
     e.preventDefault();
     setIsProductThumnailModalOpen(true);
   };
+
+  const onProductScreenshotModalClose = () => {
+    setIsProductScreenshotModalOpen(false);
+  };
+
+  const handleScreenshotClick = (index: number) => {
+    setSelectedScreenshotIndex(index);
+    setIsProductScreenshotModalOpen(true);
+  };
+  console.log(productThumbnail);
+  console.log(productScreenshots[0]);
 
   return (
     <>
@@ -84,9 +146,9 @@ const MediaSection = () => {
         <label
           htmlFor="productThumbnail"
           className="cursor-pointer"
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
+          onDragOver={handleThumbnailDragOver}
+          onDragLeave={handleThumbnailDragLeave}
+          onDrop={handleThumbnailDrop}
         >
           <input
             type="file"
@@ -146,25 +208,66 @@ const MediaSection = () => {
             </p>
           </div>
         </label>
-        <div className="grid grid-cols-3 gap-2">
-          <label>
-            <input type="file" id="productScreenshot1" className="sr-only" />
-            <div className="aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer">
-              <Image src="/upload-icon.svg" alt="" width={24} height={24} />
+        <div className="flex gap-2">
+          {productScreenshots.length > 0 &&
+            productScreenshots.map((screenshot, index) => {
+              return (
+                <Image
+                  key={`${screenshot.name}-${screenshot.lastModified}`}
+                  src={URL.createObjectURL(screenshot)}
+                  alt="Product Screenshot"
+                  width={64}
+                  height={64}
+                  className="z-10 relative cursor-pointer"
+                  onClick={() => handleScreenshotClick(index)}
+                />
+              );
+            })}
+          <ProductScreenshotModal
+            productScreenshotURL={
+              selectedScreenshotIndex !== null
+                ? URL.createObjectURL(
+                    productScreenshots[selectedScreenshotIndex],
+                  )
+                : ""
+            }
+            isProductScreenshotModalOpen={isProductScreenshotModalOpen}
+            onProductScreenshotModalClose={onProductScreenshotModalClose}
+          />
+          <label
+            onDragOver={handleScreenshotDragOver}
+            onDragLeave={handleScreenshotDragLeave}
+            onDrop={handleScreenshotDrop}
+          >
+            <input
+              type="file"
+              id="productScreenshot"
+              className="sr-only"
+              onChange={handleScreenshotChange}
+            />
+            <div
+              className={`w-16 h-16 aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer ${productScreenshotDragOver ? "border-primary bg-primary/5" : ""}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-plus-icon lucide-plus"
+              >
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
             </div>
           </label>
-          <label>
-            <input type="file" id="productScreenshot2" className="sr-only" />
-            <div className="aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer">
-              <Image src="/upload-icon.svg" alt="" width={24} height={24} />
-            </div>
-          </label>
-          <label>
-            <input type="file" id="productScreenshot3" className="sr-only" />
-            <div className="aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer">
-              <Image src="/upload-icon.svg" alt="" width={24} height={24} />
-            </div>
-          </label>
+          <ErrorMessage
+            errorMessage={errors.productScreenshots?.message || ""}
+          />
         </div>
       </div>
     </>

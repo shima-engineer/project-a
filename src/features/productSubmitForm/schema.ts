@@ -109,6 +109,19 @@ export const productSubmitFormSchema = z.object({
     .mime(["image/png", "image/jpeg", "image/svg+xml"], {
       error: "サムネイル画像はPNG、JPG、SVG形式でアップロードしてください。",
     }),
+  productScreenshots: z.array(
+    z
+      .file({
+        error: "プロダクトのスクリーンショット画像をアップロードしてください。",
+      })
+      .max(MAX_THUMBNAIL_SIZE_BYTES, {
+        error: `スクリーンショット画像は${MAX_THUMBNAIL_SIZE_MB}MB以下にしてください。`,
+      })
+      .mime(["image/png", "image/jpeg", "image/svg+xml"], {
+        error:
+          "スクリーンショット画像はPNG、JPG、SVG形式でアップロードしてください。",
+      }),
+  ),
 });
 
 export type ProductSubmitFormInput = z.input<typeof productSubmitFormSchema>;
