@@ -7,6 +7,8 @@ import {
   PRODUCT_FEATURES_MAX_LENGTH,
   PRODUCT_TECHNOLOGY_MAX_LENGTH,
   PRICING_PLAN_VALUES,
+  MAX_THUMBNAIL_SIZE_BYTES,
+  MAX_THUMBNAIL_SIZE_MB,
 } from "./constants";
 
 export const productSubmitFormSchema = z.object({
@@ -101,8 +103,8 @@ export const productSubmitFormSchema = z.object({
     .file({
       error: "プロダクトのサムネイル画像をアップロードしてください。",
     })
-    .max(2 * 1024 * 1024, {
-      error: "サムネイル画像は2MB以下にしてください。",
+    .max(MAX_THUMBNAIL_SIZE_BYTES, {
+      error: `サムネイル画像は${MAX_THUMBNAIL_SIZE_MB}MB以下にしてください。`,
     })
     .mime(["image/png", "image/jpeg", "image/svg+xml"], {
       error: "サムネイル画像はPNG、JPG、SVG形式でアップロードしてください。",

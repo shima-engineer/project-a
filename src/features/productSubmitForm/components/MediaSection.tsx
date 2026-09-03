@@ -68,8 +68,6 @@ const MediaSection = () => {
     setIsProductThumnailModalOpen(true);
   };
 
-  console.log(productThumbnail);
-
   return (
     <>
       <div className="mb-4">
