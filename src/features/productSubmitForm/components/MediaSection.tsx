@@ -42,13 +42,22 @@ const MediaSection = () => {
     return URL.createObjectURL(productThumbnail);
   }, [productThumbnail]);
 
+  const productScreenshotsURLs = useMemo(() => {
+    if (productScreenshots.length === 0) return [];
+
+    return productScreenshots.map((screenshot) =>
+      URL.createObjectURL(screenshot.file)
+    );
+  }, [productScreenshots]);
+
   useEffect(() => {
     return () => {
       if (productThumbnailURL) {
         URL.revokeObjectURL(productThumbnailURL);
       }
+      productScreenshotsURLs.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [productThumbnailURL]);
+  }, [productThumbnailURL, productScreenshotsURLs]);
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
