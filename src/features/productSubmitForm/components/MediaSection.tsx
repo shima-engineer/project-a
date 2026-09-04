@@ -281,7 +281,7 @@ const MediaSection = () => {
                   <button
                     type="button"
                     aria-label={`スクリーンショット${index + 1}を削除`}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-white absolute z-60 -top-1 -right-1 cursor-pointer border-border border-2 bg-primary rounded-3xl"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-white absolute z-50 -top-1 -right-1 cursor-pointer border-border border-2 bg-primary rounded-3xl"
                     onClick={() => handleScreenshotDelete(index)}
                   >
                     <svg
