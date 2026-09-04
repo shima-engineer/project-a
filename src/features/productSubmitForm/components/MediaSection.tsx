@@ -222,9 +222,9 @@ const MediaSection = () => {
             className={`flex items-center gap-4 mb-2 rounded-xl border-2 border-dashed border-border p-5 hover:border-primary hover:bg-primary/5 cursor-pointer transition-colors ${productThumbnailDragOver ? "border-primary bg-primary/5" : ""}`}
           >
             <div className="size-16 rounded-xl bg-secondary grid place-items-center">
-              {productThumbnail ? (
+              {productThumbnailURL ? (
                 <Image
-                  src={URL.createObjectURL(productThumbnail)}
+                  src={productThumbnailURL}
                   alt="Product Thumbnail"
                   width={64}
                   height={64}
@@ -271,7 +271,7 @@ const MediaSection = () => {
               return (
                 <div key={`${screenshot.id}`} className="relative group">
                   <Image
-                    src={URL.createObjectURL(screenshot.file)}
+                    src={productScreenshotsURLs[index]}
                     alt="Product Screenshot"
                     width={64}
                     height={64}
@@ -306,9 +306,7 @@ const MediaSection = () => {
           <ProductScreenshotModal
             productScreenshotURL={
               selectedScreenshotIndex !== null
-                ? URL.createObjectURL(
-                    productScreenshots[selectedScreenshotIndex].file,
-                  )
+                ? productScreenshotsURLs[selectedScreenshotIndex]
                 : ""
             }
             isProductScreenshotModalOpen={isProductScreenshotModalOpen}
