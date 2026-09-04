@@ -178,6 +178,7 @@ const MediaSection = () => {
         shouldDirty: true,
       },
     );
+    setSelectedScreenshotIndex(null);
   };
 
   return (
