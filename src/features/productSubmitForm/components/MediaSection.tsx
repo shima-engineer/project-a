@@ -278,7 +278,7 @@ const MediaSection = () => {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity lucide lucide-x-icon lucide-x text-white absolute z-100 -top-1 -right-1 cursor-pointer border-border border-2 bg-primary rounded-3xl"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity lucide lucide-x-icon lucide-x text-white absolute z-60 -top-1 -right-1 cursor-pointer border-border border-2 bg-primary rounded-3xl"
                     onClick={() => handleScreenshotDelete(index)}
                   >
                     <path d="M18 6 6 18" />
