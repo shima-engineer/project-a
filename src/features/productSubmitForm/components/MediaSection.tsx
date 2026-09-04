@@ -144,6 +144,7 @@ const MediaSection = () => {
 
   const onProductScreenshotModalClose = () => {
     setIsProductScreenshotModalOpen(false);
+    setSelectedScreenshotIndex(null);
   };
 
   const handleScreenshotClick = (index: number) => {
