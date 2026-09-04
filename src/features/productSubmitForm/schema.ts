@@ -9,6 +9,9 @@ import {
   PRICING_PLAN_VALUES,
   MAX_THUMBNAIL_SIZE_BYTES,
   MAX_THUMBNAIL_SIZE_MB,
+  MAX_SCREENSHOT_SIZE_BYTES,
+  MAX_SCREENSHOT_COUNT,
+  MAX_SCREENSHOT_SIZE_MB,
 } from "./constants";
 
 export const productSubmitFormSchema = z.object({
@@ -109,19 +112,25 @@ export const productSubmitFormSchema = z.object({
     .mime(["image/png", "image/jpeg", "image/svg+xml"], {
       error: "サムネイル画像はPNG、JPG、SVG形式でアップロードしてください。",
     }),
-  productScreenshots: z.array(
-    z
-      .file({
-        error: "プロダクトのスクリーンショット画像をアップロードしてください。",
-      })
-      .max(MAX_THUMBNAIL_SIZE_BYTES, {
-        error: `スクリーンショット画像は${MAX_THUMBNAIL_SIZE_MB}MB以下にしてください。`,
-      })
-      .mime(["image/png", "image/jpeg", "image/svg+xml"], {
-        error:
-          "スクリーンショット画像はPNG、JPG、SVG形式でアップロードしてください。",
-      }),
-  ),
+  productScreenshots: z
+    .array(
+      z
+        .file({
+          error:
+            "プロダクトのスクリーンショット画像をアップロードしてください。",
+        })
+        .max(MAX_SCREENSHOT_SIZE_BYTES, {
+          error: `スクリーンショット画像は${MAX_SCREENSHOT_SIZE_MB}MB以下にしてください。`,
+        })
+        .mime(["image/png", "image/jpeg", "image/svg+xml"], {
+          error:
+            "スクリーンショット画像はPNG、JPG、SVG形式でアップロードしてください。",
+        }),
+    )
+    .max(MAX_SCREENSHOT_COUNT, {
+      message: `スクリーンショットは最大${MAX_SCREENSHOT_COUNT}枚までです。`,
+    })
+    .optional(),
 });
 
 export type ProductSubmitFormInput = z.input<typeof productSubmitFormSchema>;

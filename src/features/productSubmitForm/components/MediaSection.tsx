@@ -1,26 +1,30 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { MAX_SCREENSHOT_COUNT } from "../constants";
 import { useFormContext } from "react-hook-form";
 import ProductThumbnailModal from "./ProductThumbnailModal";
 import ErrorMessage from "./ErrorMessage";
 import { ProductSubmitFormValues } from "../schema";
 import ProductScreenshotModal from "./ProductScreenshotModal";
 
+type ProductScreenshot = {
+  id: string;
+  file: File;
+};
+
 const MediaSection = () => {
   const {
-    register,
-    control,
     formState: { errors },
     setValue,
-    getValues,
-    setError,
   } = useFormContext<ProductSubmitFormValues>();
 
   const [productThumbnail, setProductThumbnail] = useState<File | null>(null);
   const [productThumbnailDragOver, setProductThumbnailDragOver] =
     useState(false);
-  const [productScreenshots, setProductScreenshots] = useState<File[]>([]);
+  const [productScreenshots, setProductScreenshots] = useState<
+    ProductScreenshot[]
+  >([]);
   const [productScreenshotDragOver, setProductScreenshotDragOver] =
     useState(false);
   const [isProductThumnailModalOpen, setIsProductThumnailModalOpen] =
@@ -46,7 +50,6 @@ const MediaSection = () => {
   const handleThumbnailDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setProductThumbnailDragOver(true);
-    console.log("drag");
   };
 
   const handleThumbnailDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -67,26 +70,46 @@ const MediaSection = () => {
     });
   };
 
+  const onProductThumnailModalClose = () => {
+    setIsProductThumnailModalOpen(false);
+  };
+
+  const handleThumbnailClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    setIsProductThumnailModalOpen(true);
+  };
+
   const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    if (productScreenshots.length >= MAX_SCREENSHOT_COUNT) return;
+
     setProductScreenshotDragOver(false);
+
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const updatedScreenshots = [...productScreenshots, file];
+    const newScreenshot: ProductScreenshot = {
+      id: crypto.randomUUID(),
+      file,
+    };
+
+    const updatedScreenshots = [...productScreenshots, newScreenshot];
 
     setProductScreenshots(updatedScreenshots);
 
-    setValue("productScreenshots", updatedScreenshots, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
+    setValue(
+      "productScreenshots",
+      updatedScreenshots.map((screenshot) => screenshot.file),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      },
+    );
   };
 
   const handleScreenshotDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setProductScreenshotDragOver(true);
-    console.log("drag");
   };
 
   const handleScreenshotDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -96,27 +119,27 @@ const MediaSection = () => {
 
   const handleScreenshotDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
+    if (productScreenshots.length >= MAX_SCREENSHOT_COUNT) return;
     setProductScreenshotDragOver(false);
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
 
-    const updatedScreenshots = [...productScreenshots, file];
+    const newScreenshot: ProductScreenshot = {
+      id: crypto.randomUUID(),
+      file,
+    };
+    const updatedScreenshots = [...productScreenshots, newScreenshot];
 
     setProductScreenshots(updatedScreenshots);
 
-    setValue("productScreenshots", updatedScreenshots, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  const onProductThumnailModalClose = () => {
-    setIsProductThumnailModalOpen(false);
-  };
-
-  const handleThumbnailClick = (e: React.MouseEvent<HTMLImageElement>) => {
-    e.preventDefault();
-    setIsProductThumnailModalOpen(true);
+    setValue(
+      "productScreenshots",
+      updatedScreenshots.map((screenshot) => screenshot.file),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      },
+    );
   };
 
   const onProductScreenshotModalClose = () => {
@@ -131,12 +154,15 @@ const MediaSection = () => {
   const handleScreenshotDelete = (index: number) => {
     const updatedScreenshots = productScreenshots.filter((_, i) => i !== index);
     setProductScreenshots(updatedScreenshots);
-    setValue("productScreenshots", updatedScreenshots, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
+    setValue(
+      "productScreenshots",
+      updatedScreenshots.map((screenshot) => screenshot.file),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      },
+    );
   };
-  console.log(selectedScreenshotIndex);
 
   return (
     <>
@@ -216,16 +242,13 @@ const MediaSection = () => {
             </p>
           </div>
         </label>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-2 flex-wrap">
           {productScreenshots.length > 0 &&
             productScreenshots.map((screenshot, index) => {
               return (
-                <div
-                  key={`${screenshot.name}-${screenshot.lastModified}`}
-                  className="relative group"
-                >
+                <div key={`${screenshot.id}`} className="relative group">
                   <Image
-                    src={URL.createObjectURL(screenshot)}
+                    src={URL.createObjectURL(screenshot.file)}
                     alt="Product Screenshot"
                     width={64}
                     height={64}
@@ -255,48 +278,54 @@ const MediaSection = () => {
             productScreenshotURL={
               selectedScreenshotIndex !== null
                 ? URL.createObjectURL(
-                    productScreenshots[selectedScreenshotIndex],
+                    productScreenshots[selectedScreenshotIndex].file,
                   )
                 : ""
             }
             isProductScreenshotModalOpen={isProductScreenshotModalOpen}
             onProductScreenshotModalClose={onProductScreenshotModalClose}
           />
-          <label
-            onDragOver={handleScreenshotDragOver}
-            onDragLeave={handleScreenshotDragLeave}
-            onDrop={handleScreenshotDrop}
-          >
-            <input
-              type="file"
-              id="productScreenshot"
-              className="sr-only"
-              onChange={handleScreenshotChange}
-            />
-            <div
-              className={`w-16 h-16 aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer ${productScreenshotDragOver ? "border-primary bg-primary/5" : ""}`}
+          {productScreenshots.length < MAX_SCREENSHOT_COUNT && (
+            <label
+              onDragOver={handleScreenshotDragOver}
+              onDragLeave={handleScreenshotDragLeave}
+              onDrop={handleScreenshotDrop}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-plus-icon lucide-plus"
+              <input
+                type="file"
+                id="productScreenshot"
+                className="sr-only"
+                onChange={handleScreenshotChange}
+              />
+              <div
+                className={`w-16 h-16 aspect-video rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-primary hover:bg-primary/5 cursor-pointer ${productScreenshotDragOver ? "border-primary bg-primary/5" : ""}`}
               >
-                <path d="M5 12h14" />
-                <path d="M12 5v14" />
-              </svg>
-            </div>
-          </label>
-          <ErrorMessage
-            errorMessage={errors.productScreenshots?.message || ""}
-          />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-plus-icon lucide-plus"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+              </div>
+            </label>
+          )}
         </div>
+        <ErrorMessage errorMessage={errors.productScreenshots?.message || ""} />
+        {productScreenshots.map((_, index) => (
+          <ErrorMessage
+            key={index}
+            errorMessage={errors.productScreenshots?.[index]?.message}
+          />
+        ))}
       </div>
     </>
   );
