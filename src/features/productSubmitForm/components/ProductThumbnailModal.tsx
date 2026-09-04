@@ -5,19 +5,19 @@ import Image from "next/image";
 
 interface ProductThumbnailModalProps {
   productThumbnailURL: string | null;
-  isProductThumnailModalOpen: boolean;
-  onProductThumnailModalClose: () => void;
+  isProductThumbnailModalOpen: boolean;
+  onProductThumbnailModalClose: () => void;
 }
 
 const ProductThumbnailModal = ({
   productThumbnailURL,
-  isProductThumnailModalOpen,
-  onProductThumnailModalClose,
+  isProductThumbnailModalOpen,
+  onProductThumbnailModalClose,
 }: ProductThumbnailModalProps) => {
   return (
     <Dialog
-      open={isProductThumnailModalOpen}
-      onOpenChange={onProductThumnailModalClose}
+      open={isProductThumbnailModalOpen}
+      onOpenChange={onProductThumbnailModalClose}
     >
       <DialogContent className="p-8">
         <DialogTitle className="sr-only">サムネイル画像</DialogTitle>

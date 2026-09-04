@@ -28,7 +28,7 @@ const MediaSection = () => {
   >([]);
   const [productScreenshotDragOver, setProductScreenshotDragOver] =
     useState(false);
-  const [isProductThumnailModalOpen, setIsProductThumnailModalOpen] =
+  const [isProductThumbnailModalOpen, setIsProductThumbnailModalOpen] =
     useState(false);
   const [isProductScreenshotModalOpen, setIsProductScreenshotModalOpen] =
     useState(false);
@@ -85,13 +85,13 @@ const MediaSection = () => {
     });
   };
 
-  const onProductThumnailModalClose = () => {
-    setIsProductThumnailModalOpen(false);
+  const onProductThumbnailModalClose = () => {
+    setIsProductThumbnailModalOpen(false);
   };
 
   const handleThumbnailClick = (e: React.MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
-    setIsProductThumnailModalOpen(true);
+    setIsProductThumbnailModalOpen(true);
   };
 
   const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -242,8 +242,8 @@ const MediaSection = () => {
         <ErrorMessage errorMessage={errors.productThumbnail?.message || ""} />
         <ProductThumbnailModal
           productThumbnailURL={productThumbnailURL}
-          isProductThumnailModalOpen={isProductThumnailModalOpen}
-          onProductThumnailModalClose={onProductThumnailModalClose}
+          isProductThumbnailModalOpen={isProductThumbnailModalOpen}
+          onProductThumbnailModalClose={onProductThumbnailModalClose}
         />
       </div>
       <div className="mb-4">
