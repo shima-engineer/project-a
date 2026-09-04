@@ -262,4 +262,54 @@ describe("MediaSection", () => {
       expect(screen.getAllByAltText("Product Screenshot")).toHaveLength(1);
     });
   });
+
+  describe("バリデーション連携", () => {
+    it("不正なサムネイルを選択するとエラーメッセージが表示される", async () => {
+      renderMediaSection();
+
+      const input = document.getElementById(
+        "productThumbnail",
+      ) as HTMLInputElement;
+
+      const invalidFile = new File(["file"], "test.txt", {
+        type: "text/plain",
+      });
+
+      fireEvent.change(input, {
+        target: {
+          files: [invalidFile],
+        },
+      });
+
+      expect(
+        await screen.findByText(
+          "サムネイル画像はPNG、JPG、SVG形式でアップロードしてください。",
+        ),
+      ).toBeInTheDocument();
+    });
+
+    it("不正なスクリーンショットを選択するとエラーメッセージが表示される", async () => {
+      renderMediaSection();
+
+      const input = document.getElementById(
+        "productScreenshot",
+      ) as HTMLInputElement;
+
+      const invalidFile = new File(["file"], "test.txt", {
+        type: "text/plain",
+      });
+
+      fireEvent.change(input, {
+        target: {
+          files: [invalidFile],
+        },
+      });
+
+      expect(
+        await screen.findByText(
+          "スクリーンショット画像はPNG、JPG、SVG形式でアップロードしてください。",
+        ),
+      ).toBeInTheDocument();
+    });
+  });
 });
