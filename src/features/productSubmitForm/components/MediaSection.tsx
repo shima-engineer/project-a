@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { MAX_SCREENSHOT_COUNT } from "../constants";
 import { useFormContext } from "react-hook-form";
@@ -34,6 +35,20 @@ const MediaSection = () => {
   const [selectedScreenshotIndex, setSelectedScreenshotIndex] = useState<
     number | null
   >(null);
+
+  const productThumbnailURL = useMemo(() => {
+    if (!productThumbnail) return null;
+
+    return URL.createObjectURL(productThumbnail);
+  }, [productThumbnail]);
+
+  useEffect(() => {
+    return () => {
+      if (productThumbnailURL) {
+        URL.revokeObjectURL(productThumbnailURL);
+      }
+    };
+  }, [productThumbnailURL]);
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -226,9 +241,7 @@ const MediaSection = () => {
         </label>
         <ErrorMessage errorMessage={errors.productThumbnail?.message || ""} />
         <ProductThumbnailModal
-          productThumbnailURL={
-            productThumbnail ? URL.createObjectURL(productThumbnail) : ""
-          }
+          productThumbnailURL={productThumbnailURL}
           isProductThumnailModalOpen={isProductThumnailModalOpen}
           onProductThumnailModalClose={onProductThumnailModalClose}
         />
