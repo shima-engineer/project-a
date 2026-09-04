@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { productSubmitFormSchema } from "./schema";
 import {
+  MAX_SCREENSHOT_COUNT,
   MAX_SCREENSHOT_SIZE_BYTES,
   MAX_THUMBNAIL_SIZE_BYTES,
 } from "./constants";
@@ -157,8 +158,8 @@ describe("productScreenshots", () => {
     expect(result.success).toBe(false);
   });
 
-  it("6枚なら成功する", () => {
-    const files = Array.from({ length: 6 }, (_, index) =>
+  it(`${MAX_SCREENSHOT_COUNT}枚なら成功する`, () => {
+    const files = Array.from({ length: MAX_SCREENSHOT_COUNT }, (_, index) =>
       createFile({
         name: `screenshot-${index}.png`,
         type: "image/png",
@@ -171,8 +172,8 @@ describe("productScreenshots", () => {
     expect(result.success).toBe(true);
   });
 
-  it("7枚なら失敗する", () => {
-    const files = Array.from({ length: 7 }, (_, index) =>
+  it(`${MAX_SCREENSHOT_COUNT + 1}枚なら失敗する`, () => {
+    const files = Array.from({ length: MAX_SCREENSHOT_COUNT + 1 }, (_, index) =>
       createFile({
         name: `screenshot-${index}.png`,
         type: "image/png",
