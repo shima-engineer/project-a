@@ -29,6 +29,8 @@ const ProductSubmitForm = () => {
       productFeatures: "",
       productTechnology: "",
       productPlans: "",
+      productThumbnail: undefined,
+      productScreenshots: [],
     },
   });
 
