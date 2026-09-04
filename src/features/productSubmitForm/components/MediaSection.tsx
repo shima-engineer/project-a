@@ -232,7 +232,6 @@ const MediaSection = () => {
           onProductThumnailModalClose={onProductThumnailModalClose}
         />
       </div>
-      {/* TODO#12:画像アップロードのUIが三つあるが、一つでいいか検討すること */}
       <div className="mb-4">
         <label htmlFor="productScreenshot" className="mb-1.5 block">
           <div className="flex items-center justify-between">
