@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { productSubmitFormSchema } from "./schema";
+import {
+  MAX_SCREENSHOT_SIZE_BYTES,
+  MAX_THUMBNAIL_SIZE_BYTES,
+} from "./constants";
 
 const createFile = ({
   name = "test.png",
@@ -50,9 +54,9 @@ describe("productThumbnail", () => {
     expect(result.success).toBe(true);
   });
 
-  it("2MB以下なら成功する", () => {
+  it(`${MAX_THUMBNAIL_SIZE_BYTES}以下なら成功する`, () => {
     const file = createFile({
-      size: 2 * 1024 * 1024,
+      size: MAX_THUMBNAIL_SIZE_BYTES,
     });
 
     const result =
@@ -61,9 +65,9 @@ describe("productThumbnail", () => {
     expect(result.success).toBe(true);
   });
 
-  it("2MBを超えると失敗する", () => {
+  it(`${MAX_THUMBNAIL_SIZE_BYTES}を超えると失敗する`, () => {
     const file = createFile({
-      size: 2 * 1024 * 1024 + 1,
+      size: MAX_THUMBNAIL_SIZE_BYTES + 1,
     });
 
     const result =
@@ -113,12 +117,23 @@ describe("productScreenshots", () => {
     expect(result.success).toBe(true);
   });
 
-  it("2MBを超える画像が含まれていると失敗する", () => {
+  it(`${MAX_SCREENSHOT_SIZE_BYTES}以下なら成功する`, () => {
+    const file = createFile({
+      size: MAX_SCREENSHOT_SIZE_BYTES,
+    });
+
+    const result =
+      productSubmitFormSchema.shape.productScreenshots.safeParse(file);
+
+    expect(result.success).toBe(true);
+  });
+
+  it(`${MAX_SCREENSHOT_SIZE_BYTES}を超える画像が含まれていると失敗する`, () => {
     const files = [
       createFile({
         name: "large.png",
         type: "image/png",
-        size: 2 * 1024 * 1024 + 1,
+        size: MAX_SCREENSHOT_SIZE_BYTES + 1,
       }),
     ];
 
