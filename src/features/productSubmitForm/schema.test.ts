@@ -123,23 +123,23 @@ describe("productScreenshots", () => {
       size: MAX_SCREENSHOT_SIZE_BYTES,
     });
 
-    const result =
-      productSubmitFormSchema.shape.productScreenshots.safeParse(file);
+    const result = productSubmitFormSchema.shape.productScreenshots.safeParse([
+      file,
+    ]);
 
     expect(result.success).toBe(true);
   });
 
   it(`${MAX_SCREENSHOT_SIZE_BYTES}を超える画像が含まれていると失敗する`, () => {
-    const files = [
-      createFile({
-        name: "large.png",
-        type: "image/png",
-        size: MAX_SCREENSHOT_SIZE_BYTES + 1,
-      }),
-    ];
+    const file = new File(
+      [new Uint8Array(MAX_SCREENSHOT_SIZE_BYTES + 1)],
+      "screenshot.png",
+      { type: "image/png" },
+    );
 
-    const result =
-      productSubmitFormSchema.shape.productScreenshots.safeParse(files);
+    const result = productSubmitFormSchema.shape.productScreenshots.safeParse([
+      file,
+    ]);
 
     expect(result.success).toBe(false);
   });
