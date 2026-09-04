@@ -7,4 +7,5 @@ URL.revokeObjectURL = vi.fn();
 
 afterEach(() => {
   cleanup();
+  vi.clearAllMocks();
 });
