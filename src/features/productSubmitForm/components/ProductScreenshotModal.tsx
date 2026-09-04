@@ -21,12 +21,14 @@ const ProductScreenshotModal = ({
     >
       <DialogContent className="p-8">
         <DialogTitle className="sr-only">スクリーンショット画像</DialogTitle>
-        <Image
-          src={productScreenshotURL}
-          alt="Product Screenshot"
-          width={600}
-          height={600}
-        />
+        {productScreenshotURL && (
+          <Image
+            src={productScreenshotURL}
+            alt="Product Screenshot"
+            width={600}
+            height={600}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );
