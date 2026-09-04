@@ -307,6 +307,7 @@ const MediaSection = () => {
               <input
                 type="file"
                 id="productScreenshot"
+                accept=".png,.jpg,.jpeg,.svg"
                 className="sr-only"
                 onChange={handleScreenshotChange}
               />
