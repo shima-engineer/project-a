@@ -1,7 +1,6 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { FormProvider } from "react-hook-form";
 import BasicInfoSection from "./BasicInfoSection";
 import { ProductSubmitFormValues } from "../schema";
 import DetailsSection from "./DetailsSection";
