@@ -1,18 +1,16 @@
 "use client";
-import { useEffect, useMemo } from "react";
 
 import Image from "next/image";
 import ProductUpvoteButtonPreview from "./ProductUpvoteButtonPreview";
 import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
 
-const ProductItemPreview = () => {
+const ProductItemPreview = ({
+  productThumbnailURL,
+}: {
+  productThumbnailURL: string | null;
+}) => {
   const { control } = useFormContext<ProductSubmitFormValues>();
-
-  const productThumbnail = useWatch({
-    control,
-    name: "productThumbnail",
-  });
 
   const productName = useWatch({
     control,
@@ -28,20 +26,6 @@ const ProductItemPreview = () => {
     control,
     name: "productCategory",
   });
-
-  const productThumbnailURL = useMemo(() => {
-    if (!productThumbnail) return null;
-
-    return URL.createObjectURL(productThumbnail);
-  }, [productThumbnail]);
-
-  useEffect(() => {
-    return () => {
-      if (productThumbnailURL) {
-        URL.revokeObjectURL(productThumbnailURL);
-      }
-    };
-  }, [productThumbnailURL]);
 
   return (
     <>
@@ -59,7 +43,7 @@ const ProductItemPreview = () => {
                     alt=""
                     width={64}
                     height={64}
-                    className="size-full w-full h-full"
+                    className="size-full object-cover"
                   />
                 </div>
               ) : (

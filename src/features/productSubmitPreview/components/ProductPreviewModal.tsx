@@ -10,11 +10,13 @@ import ProductPreviewContent from "./ProductPreviewContent";
 interface ProductPreviewModalProps {
   isProductPreviewModalOpen: boolean;
   handleProductPreviewModalClose: () => void;
+  productThumbnailURL: string | null;
 }
 
 const ProductPreviewModal = ({
   isProductPreviewModalOpen,
   handleProductPreviewModalClose,
+  productThumbnailURL,
 }: ProductPreviewModalProps) => {
   return (
     <>
@@ -32,7 +34,7 @@ const ProductPreviewModal = ({
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-5 py-6 space-y-6">
-            <ProductPreviewContent />
+            <ProductPreviewContent productThumbnailURL={productThumbnailURL} />
           </div>
         </DrawerContent>
       </Drawer>

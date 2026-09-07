@@ -1,6 +1,6 @@
 import ProductUpvoteButtonPreview from "./ProductUpvoteButtonPreview";
 
-const ProductDetailPreview = () => {
+const ProductDetailPreview = ({ productThumbnailURL }: { productThumbnailURL: string | null }) => {
   return (
     <>
       <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">

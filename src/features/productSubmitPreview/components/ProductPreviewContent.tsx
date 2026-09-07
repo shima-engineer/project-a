@@ -1,11 +1,11 @@
 import ProductDetailPreview from "./ProductDetailPreview";
 import ProductItemPreview from "./ProductItemPreview";
 
-const ProductPreviewContent = () => {
+const ProductPreviewContent = ({ productThumbnailURL }: { productThumbnailURL: string | null }) => {
   return (
     <>
-      <ProductItemPreview />
-      <ProductDetailPreview />
+      <ProductItemPreview productThumbnailURL={productThumbnailURL} />
+      <ProductDetailPreview productThumbnailURL={productThumbnailURL} />
     </>
   );
 };

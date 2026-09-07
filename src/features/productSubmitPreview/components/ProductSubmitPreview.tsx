@@ -3,7 +3,11 @@ import { useState } from "react";
 import ProductPreviewButton from "./ProductPreviewButton";
 import ProductPreviewModal from "./ProductPreviewModal";
 
-const ProductSubmitPreview = () => {
+const ProductSubmitPreview = ({
+  productThumbnailURL,
+}: {
+  productThumbnailURL: string | null;
+}) => {
   const [isProductPreviewModalOpen, setIsProductPreviewModalOpen] =
     useState(false);
 
@@ -23,6 +27,7 @@ const ProductSubmitPreview = () => {
       <ProductPreviewModal
         isProductPreviewModalOpen={isProductPreviewModalOpen}
         handleProductPreviewModalClose={handleProductPreviewModalClose}
+        productThumbnailURL={productThumbnailURL}
       />
     </>
   );
