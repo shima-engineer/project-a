@@ -1,9 +1,9 @@
 export const PRICING_PLANS = [
-  { value: "free", label: "Free" },
-  { value: "freemium", label: "Freemium" },
-  { value: "paid", label: "Paid" },
-  { value: "subscription", label: "Subscription" },
-  { value: "one-time", label: "One-time" },
+  { value: "Free", label: "Free" },
+  { value: "Freemium", label: "Freemium" },
+  { value: "Paid", label: "Paid" },
+  { value: "Subscription", label: "Subscription" },
+  { value: "One-time", label: "One-time" },
 ] as const;
 
 export const PRICING_PLAN_VALUES = PRICING_PLANS.map((plan) => plan.value);
