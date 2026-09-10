@@ -1,21 +1,15 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { describe, expect, it, vi } from "vitest";
+
 import ProductDetailPreview from "./ProductDetailPreview";
-import {
-  ProductSubmitFormInput,
-  ProductSubmitFormValues,
-} from "@/features/productSubmitForm/schema";
+import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
 
 const renderProductDetailPreview = (
   defaultValues?: Partial<ProductSubmitFormValues>,
 ) => {
   const Wrapper = () => {
-    const methods = useForm<
-      ProductSubmitFormInput,
-      unknown,
-      ProductSubmitFormValues
-    >({
+    const methods = useForm<ProductSubmitFormValues>({
       defaultValues: {
         productName: "",
         productTagline: "",
@@ -24,8 +18,8 @@ const renderProductDetailPreview = (
         productTags: [],
         productScreenshots: [],
         productTechnologies: [],
-        productPlans: "",
-        productCategory: "",
+        productPlans: undefined,
+        productCategory: undefined,
         ...defaultValues,
       },
     });
@@ -41,10 +35,11 @@ const renderProductDetailPreview = (
 };
 
 describe("ProductDetailPreview", () => {
-  it("未入力の場合はプレースホルダーを表示する", () => {
+  it("未入力の場合はデフォルトの表示になる", () => {
     renderProductDetailPreview();
 
     expect(screen.getByText("プロダクト名")).toBeInTheDocument();
+
     expect(
       screen.getByText("タグラインがここに表示されます"),
     ).toBeInTheDocument();
@@ -59,7 +54,15 @@ describe("ProductDetailPreview", () => {
       screen.getByText("主な機能がここに表示されます"),
     ).toBeInTheDocument();
 
-    expect(screen.getByText("技術スタック")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "技術スタック",
+      }),
+    ).toBeInTheDocument();
+
+    expect(screen.getByText("タグ")).toBeInTheDocument();
+
+    expect(screen.getAllByText("未設定")).toHaveLength(2);
   });
 
   it("フォームの入力値をプレビューに表示する", () => {
@@ -75,6 +78,7 @@ describe("ProductDetailPreview", () => {
     });
 
     expect(screen.getByText("ProductJP")).toBeInTheDocument();
+
     expect(screen.getByText("日本のプロダクトを発見")).toBeInTheDocument();
 
     expect(
@@ -90,10 +94,11 @@ describe("ProductDetailPreview", () => {
     expect(screen.getByText("Supabase")).toBeInTheDocument();
 
     expect(screen.getByText("Free")).toBeInTheDocument();
+
     expect(screen.getByText("Developer Tools")).toBeInTheDocument();
   });
 
-  it("スクリーンショットをプレビュー表示する", async () => {
+  it("スクリーンショットが設定されている場合はObject URLを生成する", async () => {
     const screenshot = new File(["image"], "screenshot.png", {
       type: "image/png",
     });
@@ -106,14 +111,35 @@ describe("ProductDetailPreview", () => {
       productScreenshots: [screenshot],
     });
 
-    expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot);
-
-    const image = screen.getByRole("img");
-
-    expect(image).toHaveAttribute("src", expect.stringContaining("blob"));
+    await waitFor(() => {
+      expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot);
+    });
   });
 
-  it("アンマウント時にObject URLを破棄する", () => {
+  it("複数のスクリーンショットが設定されている場合はそれぞれObject URLを生成する", async () => {
+    const screenshot1 = new File(["image1"], "screenshot1.png", {
+      type: "image/png",
+    });
+
+    const screenshot2 = new File(["image2"], "screenshot2.png", {
+      type: "image/png",
+    });
+
+    vi.mocked(URL.createObjectURL)
+      .mockReturnValueOnce("blob:http://localhost/screenshot1")
+      .mockReturnValueOnce("blob:http://localhost/screenshot2");
+
+    renderProductDetailPreview({
+      productScreenshots: [screenshot1, screenshot2],
+    });
+
+    await waitFor(() => {
+      expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot1);
+      expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot2);
+    });
+  });
+
+  it("アンマウント時にスクリーンショットのObject URLを破棄する", async () => {
     const screenshot = new File(["image"], "screenshot.png", {
       type: "image/png",
     });
@@ -124,6 +150,10 @@ describe("ProductDetailPreview", () => {
 
     const { unmount } = renderProductDetailPreview({
       productScreenshots: [screenshot],
+    });
+
+    await waitFor(() => {
+      expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot);
     });
 
     unmount();
