@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ProductUpvoteButtonPreview from "./ProductUpvoteButtonPreview";
 import { useFormContext, useWatch } from "react-hook-form";
-import { useEffect, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
 
 const ProductItemPreview = () => {
@@ -29,19 +29,27 @@ const ProductItemPreview = () => {
     name: "productThumbnail",
   });
 
-  const productThumbnailURL = useMemo(() => {
-    if (!productThumbnail) return null;
-
-    return URL.createObjectURL(productThumbnail);
-  }, [productThumbnail]);
+  const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
+    null,
+  );
+  const productThumbnailURLRef = useRef<string | null>(null);
 
   useEffect(() => {
+    const objectUrl = productThumbnail
+      ? URL.createObjectURL(productThumbnail)
+      : null;
+
+    if (productThumbnailURLRef.current !== objectUrl) {
+      productThumbnailURLRef.current = objectUrl;
+      setProductThumbnailURL(objectUrl);
+    }
+
     return () => {
-      if (productThumbnailURL) {
-        URL.revokeObjectURL(productThumbnailURL);
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
       }
     };
-  }, [productThumbnailURL]);
+  }, [productThumbnail]);
 
   return (
     <>
