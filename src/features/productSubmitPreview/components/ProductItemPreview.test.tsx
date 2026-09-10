@@ -3,24 +3,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import { describe, expect, it, vi } from "vitest";
 
 import ProductItemPreview from "./ProductItemPreview";
-import {
-  ProductSubmitFormInput,
-  ProductSubmitFormValues,
-} from "@/features/productSubmitForm/schema";
+import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
 
 const renderProductItemPreview = (
   defaultValues?: Partial<ProductSubmitFormValues>,
 ) => {
   const Wrapper = () => {
-    const methods = useForm<
-      ProductSubmitFormInput,
-      unknown,
-      ProductSubmitFormValues
-    >({
+    const methods = useForm<ProductSubmitFormValues>({
       defaultValues: {
         productName: "",
         productTagline: "",
-        productCategory: "",
+        productTags: [],
         productThumbnail: undefined,
         ...defaultValues,
       },
@@ -41,21 +34,27 @@ describe("ProductItemPreview", () => {
     renderProductItemPreview();
 
     expect(screen.getByText("プロダクト名")).toBeInTheDocument();
+
     expect(
       screen.getByText("タグラインがここに表示されます"),
     ).toBeInTheDocument();
+
+    expect(screen.getByText("タグ")).toBeInTheDocument();
   });
 
   it("フォームの入力値をプレビューに表示する", () => {
     renderProductItemPreview({
       productName: "ProductJP",
       productTagline: "日本のプロダクトを発見",
-      productCategory: "Developer Tools",
+      productTags: ["開発", "Web"],
     });
 
     expect(screen.getByText("ProductJP")).toBeInTheDocument();
+
     expect(screen.getByText("日本のプロダクトを発見")).toBeInTheDocument();
-    expect(screen.getByText("Developer Tools")).toBeInTheDocument();
+
+    expect(screen.getByText("開発")).toBeInTheDocument();
+    expect(screen.getByText("Web")).toBeInTheDocument();
   });
 
   it("サムネイルが設定されている場合はObject URLを生成する", async () => {
