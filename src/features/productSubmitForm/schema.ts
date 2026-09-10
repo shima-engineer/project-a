@@ -81,13 +81,16 @@ export const productSubmitFormSchema = z.object({
     .max(PRODUCT_FEATURES_MAX_LENGTH, {
       message: `${PRODUCT_FEATURES_MAX_LENGTH}文字以内で入力してください。`,
     }),
-  productTechnology: z
-    .string()
-    .trim()
-    .min(1, { message: "技術スタックは必須です。" })
-    .max(PRODUCT_TECHNOLOGY_MAX_LENGTH, {
-      message: `${PRODUCT_TECHNOLOGY_MAX_LENGTH}文字以内で入力してください。`,
-    }),
+  productTechnologies: z
+    .array(
+      z
+        .string()
+        .trim()
+        .min(1, { message: "技術スタックを入力してください。" })
+        .max(20, { message: "技術スタックは20文字以内で入力してください。" }),
+    )
+    .min(1, { message: "技術スタックを1つ以上追加してください。" })
+    .max(5, { message: "技術スタックは最大5つまでです。" }),
   productPlans: z
     .union([z.literal(""), z.enum(PRICING_PLAN_VALUES)])
     .transform((value, ctx) => {

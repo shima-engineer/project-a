@@ -27,6 +27,18 @@ const ProductDetailPreview = () => {
     name: "productFeatures",
   });
 
+  const productTags =
+    useWatch({
+      control,
+      name: "productTags",
+    }) ?? [];
+
+  const productTechnologies =
+    useWatch({
+      control,
+      name: "productTechnologies",
+    }) ?? [];
+
   const productCategory = useWatch({
     control,
     name: "productCategory",
@@ -44,7 +56,7 @@ const ProductDetailPreview = () => {
               <div className="size-16 rounded-xl ring-1 ring-border bg-secondary overflow-hidden grid place-items-center text-xs text-muted-foreground">
                 <span className="text-xs">画像</span>
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <span className="text-[11px] text-muted-foreground">
                   AI ツール
                 </span>
@@ -54,6 +66,22 @@ const ProductDetailPreview = () => {
                 <p className="text-sm text-muted-foreground">
                   {productTagline || "タグラインがここに表示されます"}
                 </p>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
+                  {productTags.length > 0 ? (
+                    productTags.map((tag) => (
+                      <span
+                        className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
+                        key={tag}
+                      >
+                        {tag}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                      タグ
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -109,13 +137,21 @@ const ProductDetailPreview = () => {
         </div>
         <div className="mb-4">
           <h4 className="text-base font-bold mb-2">技術スタック</h4>
-          <div className="flex flex-wrap gap-1.5">
-            <code className="rounded-md bg-secondary px-2 py-1 text-[11px] font-mono">
-              Next.js
-            </code>
-            <code className="rounded-md bg-secondary px-2 py-1 text-[11px] font-mono">
-              Supabase
-            </code>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
+            {productTechnologies.length > 0 ? (
+              productTechnologies.map((tag) => (
+                <span
+                  className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
+                  key={tag}
+                >
+                  {tag}
+                </span>
+              ))
+            ) : (
+              <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                技術スタック
+              </span>
+            )}
           </div>
         </div>
         <div className="rounded-xl border border-border p-4 flex items-center gap-3 mb-4">

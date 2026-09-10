@@ -8,11 +8,15 @@ import {
 import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "../schema";
 import ErrorMessage from "./ErrorMessage";
+import { X } from "lucide-react";
 
 const DetailsSection = () => {
   const {
     register,
     control,
+    setValue,
+    getValues,
+    setError,
     formState: { errors },
   } = useFormContext<ProductSubmitFormValues>();
 
@@ -26,15 +30,70 @@ const DetailsSection = () => {
     name: "productFeatures",
   });
 
-  const productTechnology = useWatch({
-    control,
-    name: "productTechnology",
-  });
+  const productTechnologies =
+    useWatch({
+      control,
+      name: "productTechnologies",
+    }) ?? [];
 
   const productPlans = useWatch({
     control,
     name: "productPlans",
   });
+
+  const exchangeTextToTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter" || e.nativeEvent.isComposing) {
+      return;
+    }
+
+    e.preventDefault();
+
+    const tag = e.currentTarget.value.trim();
+    if (!tag) {
+      return;
+    }
+    const currentTechnologies = getValues("productTechnologies") ?? [];
+
+    if (currentTechnologies.length >= 5) {
+      setError("productTechnologies", {
+        type: "manual",
+        message: "技術スタックは最大5つまでです。",
+      });
+      return;
+    }
+
+    if (tag.length > 20) {
+      setError("productTechnologies", {
+        type: "manual",
+        message: "技術スタックは20文字以内で入力してください。",
+      });
+      return;
+    }
+
+    if (currentTechnologies.includes(tag)) {
+      setError("productTechnologies", {
+        type: "manual",
+        message: "同じ技術スタックは追加できません。",
+      });
+      return;
+    }
+
+    setValue("productTechnologies", [...currentTechnologies, tag], {
+      shouldValidate: true,
+    });
+
+    e.currentTarget.value = "";
+  };
+
+  const handleDeleteTag = (tag: string) => {
+    const currentTags = getValues("productTechnologies") ?? [];
+
+    const filteredTags = currentTags.filter((currentTag) => currentTag !== tag);
+
+    setValue("productTechnologies", filteredTags, {
+      shouldValidate: true,
+    });
+  };
 
   return (
     <>
@@ -82,23 +141,44 @@ const DetailsSection = () => {
           <ErrorMessage errorMessage={errors.productFeatures?.message || ""} />
         </div>
         <div className="mb-4">
-          <label htmlFor="productTechnology" className="mb-1.5 block">
-            <span className="text-sm font-medium">技術スタック</span>
+          <label htmlFor="productTechnologies" className="mb-1.5 block">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <span className="text-sm font-medium">技術スタック</span>
+                <span className="text-primary">*</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                最大5つ。Enterで追加
+              </p>
+            </div>
           </label>
-          <div className="relative mb-2">
+          <div className="flex flex-wrap gap-1.5 rounded-lg border border-input bg-background p-2 min-h-10 mb-2">
+            {productTechnologies.map((tag) => (
+              <div
+                key={tag}
+                className="bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs flex items-center gap-1"
+              >
+                <span>{tag}</span>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteTag(tag)}
+                  aria-label={`${tag}タグを削除`}
+                  className="cursor-pointer"
+                >
+                  <X className="size-3" />
+                </button>
+              </div>
+            ))}
             <input
               type="text"
-              id="productTechnology"
-              className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30 pr-12"
+              id="productTechnologies"
+              className="flex-1 min-w-30 bg-transparent text-sm outline-none px-1"
               placeholder="Next.js, Supabase…"
-              {...register("productTechnology")}
+              onKeyDown={exchangeTextToTag}
             />
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground tabular-nums">
-              {productTechnology.trim().length}/{PRODUCT_TECHNOLOGY_MAX_LENGTH}
-            </span>
           </div>
           <ErrorMessage
-            errorMessage={errors.productTechnology?.message || ""}
+            errorMessage={errors.productTechnologies?.message || ""}
           />
         </div>
       </div>

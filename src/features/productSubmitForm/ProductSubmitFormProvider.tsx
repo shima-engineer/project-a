@@ -26,7 +26,7 @@ const ProductSubmitFormProvider = ({
       productTags: [],
       productDescription: "",
       productFeatures: "",
-      productTechnology: "",
+      productTechnologies: [],
       productPlans: "",
       productThumbnail: undefined,
       productScreenshots: [],
