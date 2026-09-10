@@ -3,9 +3,19 @@
 import ProductUpvoteButtonPreview from "./ProductUpvoteButtonPreview";
 import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
+type ProductScreenshotURL = {
+  id: string;
+  url: string;
+};
 const ProductDetailPreview = () => {
   const { control } = useFormContext<ProductSubmitFormValues>();
+  const [productScreenshotURLs, setProductScreenshotURLs] = useState<
+    ProductScreenshotURL[]
+  >([]);
+  const productScreenshotURLsRef = useRef<ProductScreenshotURL[]>([]);
 
   const productName = useWatch({
     control,
@@ -33,6 +43,11 @@ const ProductDetailPreview = () => {
       name: "productTags",
     }) ?? [];
 
+  const productScreenshots = useWatch({
+    control,
+    name: "productScreenshots",
+  });
+
   const productTechnologies =
     useWatch({
       control,
@@ -48,6 +63,26 @@ const ProductDetailPreview = () => {
     control,
     name: "productCategory",
   });
+
+  useEffect(() => {
+    const screenshots = productScreenshots ?? [];
+
+    const objectUrls = screenshots.map((screenshot) => ({
+      id: crypto.randomUUID(),
+      url: URL.createObjectURL(screenshot),
+    }));
+
+    if (productScreenshotURLsRef.current !== objectUrls) {
+      productScreenshotURLsRef.current = objectUrls;
+      setProductScreenshotURLs(objectUrls);
+    }
+
+    return () => {
+      objectUrls.forEach((screenshot) => {
+        URL.revokeObjectURL(screenshot.url);
+      });
+    };
+  }, [productScreenshots]);
 
   return (
     <>
@@ -117,15 +152,34 @@ const ProductDetailPreview = () => {
           </button>
         </div>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
-            <span className="text-[10px] text-muted-foreground">SS</span>
-          </div>
-          <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
-            <span className="text-[10px] text-muted-foreground">SS</span>
-          </div>
-          <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
-            <span className="text-[10px] text-muted-foreground">SS</span>
-          </div>
+          {productScreenshotURLs.length > 0 ? (
+            productScreenshotURLs.map((screenshot) => (
+              <div
+                key={screenshot.id}
+                className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center"
+              >
+                <Image
+                  src={screenshot.url}
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ))
+          ) : (
+            <>
+              <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
+                <span className="text-[10px] text-muted-foreground">SS</span>
+              </div>
+              <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
+                <span className="text-[10px] text-muted-foreground">SS</span>
+              </div>
+              <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
+                <span className="text-[10px] text-muted-foreground">SS</span>
+              </div>
+            </>
+          )}
         </div>
         <div className="mb-4">
           <h4 className="text-base font-bold mb-2">概要</h4>
