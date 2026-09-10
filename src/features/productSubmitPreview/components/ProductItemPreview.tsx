@@ -19,9 +19,9 @@ const ProductItemPreview = () => {
     name: "productTagline",
   });
 
-  const productCategory = useWatch({
+  const productTags = useWatch({
     control,
-    name: "productCategory",
+    name: "productTags",
   });
 
   const productThumbnail = useWatch({
@@ -82,7 +82,7 @@ const ProductItemPreview = () => {
                 <p className="text-sm text-muted-foreground mb-1.5">
                   {productTagline || "タグラインがここに表示されます"}
                 </p>
-                <div className="flex items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Image
                       src="/comment-icon.png"
@@ -92,9 +92,16 @@ const ProductItemPreview = () => {
                     />
                     <span>0</span>
                   </div>
-                  <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
-                    {productCategory || "カテゴリ名"}
-                  </span>
+                  {productTags.length > 0
+                    ? productTags.map((tag) => (
+                        <span
+                          className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
+                          key={tag}
+                        >
+                          {tag}
+                        </span>
+                      ))
+                    : "タグ"}
                 </div>
               </div>
             </div>
