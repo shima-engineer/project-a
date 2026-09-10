@@ -19,10 +19,11 @@ const ProductItemPreview = () => {
     name: "productTagline",
   });
 
-  const productTags = useWatch({
-    control,
-    name: "productTags",
-  });
+  const productTags =
+    useWatch({
+      control,
+      name: "productTags",
+    }) ?? [];
 
   const productThumbnail = useWatch({
     control,
