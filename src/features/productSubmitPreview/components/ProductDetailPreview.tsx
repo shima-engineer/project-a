@@ -13,6 +13,7 @@ type ProductScreenshotURL = {
 
 const ProductDetailPreview = () => {
   const { control } = useFormContext<ProductSubmitFormValues>();
+  
   const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
     null,
   );
