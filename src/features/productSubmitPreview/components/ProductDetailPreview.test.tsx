@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { describe, expect, it, vi } from "vitest";
 
@@ -63,7 +63,7 @@ describe("ProductDetailPreview", () => {
     expect(screen.getByText("タグ")).toBeInTheDocument();
 
     expect(screen.getByText("料金プラン")).toBeInTheDocument();
-    
+
     expect(screen.getAllByText("カテゴリー")).toHaveLength(3);
   });
 
@@ -97,7 +97,11 @@ describe("ProductDetailPreview", () => {
 
     expect(screen.getByText("Free")).toBeInTheDocument();
 
-    expect(screen.getByText("Developer Tools")).toBeInTheDocument();
+    const productInfo = screen.getByText("プロダクト情報").parentElement;
+
+    expect(
+      within(productInfo!).getByText("Developer Tools"),
+    ).toBeInTheDocument();
   });
 
   it("スクリーンショットが設定されている場合はObject URLを生成する", async () => {
