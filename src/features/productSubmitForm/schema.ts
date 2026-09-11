@@ -66,10 +66,14 @@ export const productSubmitFormSchema = z.object({
         .string()
         .trim()
         .min(1, { message: "タグを入力してください。" })
-        .max(PRODUCT_TAGS_MAX_LENGTH, { message: `${PRODUCT_TAGS_MAX_LENGTH}文字以内で入力してください。` }),
+        .max(PRODUCT_TAGS_MAX_LENGTH, {
+          message: `タグは${PRODUCT_TAGS_MAX_LENGTH}文字以内で入力してください。`,
+        }),
     )
     .min(1, { message: "タグを1つ以上追加してください。" })
-    .max(PRODUCT_TAGS_MAX_COUNT, { message: `タグは最大${PRODUCT_TAGS_MAX_COUNT}つまでです。` }),
+    .max(PRODUCT_TAGS_MAX_COUNT, {
+      message: `タグは最大${PRODUCT_TAGS_MAX_COUNT}つまでです。`,
+    }),
   productDescription: z
     .string()
     .trim()
@@ -90,10 +94,14 @@ export const productSubmitFormSchema = z.object({
         .string()
         .trim()
         .min(1, { message: "技術スタックを入力してください。" })
-        .max(PRODUCT_TECHNOLOGY_MAX_LENGTH, { message: `${PRODUCT_TECHNOLOGY_MAX_LENGTH}文字以内で入力してください。` }),
+        .max(PRODUCT_TECHNOLOGY_MAX_LENGTH, {
+          message: `技術スタックは${PRODUCT_TECHNOLOGY_MAX_LENGTH}文字以内で入力してください。`,
+        }),
     )
     .min(1, { message: "技術スタックを1つ以上追加してください。" })
-    .max(PRODUCT_TECHNOLOGIES_MAX_COUNT, { message: `技術スタックは最大${PRODUCT_TECHNOLOGIES_MAX_COUNT}つまでです。` }),
+    .max(PRODUCT_TECHNOLOGIES_MAX_COUNT, {
+      message: `技術スタックは最大${PRODUCT_TECHNOLOGIES_MAX_COUNT}つまでです。`,
+    }),
   productPlans: z
     .union([z.literal(""), z.enum(PRICING_PLAN_VALUES)])
     .transform((value, ctx) => {
