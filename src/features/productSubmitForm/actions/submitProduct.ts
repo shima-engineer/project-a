@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { prisma } from "@/lib/prisma";
 import { ProductSubmitFormValues } from "../schema";
 import { convertProductSubmitFormToData } from "../utils/convertProductSubmitFormToData";
 
@@ -18,8 +19,19 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
 
   const submitData = convertProductSubmitFormToData(data);
 
+  const category = await prisma.categories.findUnique({
+    where: {
+      name: submitData.category,
+    },
+  });
+
+  if (!category) {
+    throw new Error("カテゴリーが見つかりません。");
+  }
+
   console.log({
     userId: user.id,
+    categoryId: category.id,
     submitData,
   });
 };
