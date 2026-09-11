@@ -16,7 +16,7 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
   if (error || !user) {
     throw new Error("ログインが必要です。");
   }
-
+  
   const category = await prisma.categories.findUnique({
     where: {
       name: data.productCategory,
