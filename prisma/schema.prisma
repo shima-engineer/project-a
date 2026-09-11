@@ -555,23 +555,24 @@ model product_tech_stacks {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model products {
-  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id             String                @db.Uuid
-  name                String
-  slug                String                @unique
-  url                 String
-  category_id         String                @db.Uuid
-  tagline             String
-  description         String
-  features            String?
-  pricing             String?
-  thumbnail_url       String
-  status              String                @default("draft")
-  upvotes_count       Int                   @default(0)
-  comments_count      Int                   @default(0)
-  view_count          BigInt                @default(0)
-  created_at          DateTime              @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String   @db.Uuid
+  name           String
+  slug           String   @unique
+  url            String
+  category_id    String   @db.Uuid
+  tagline        String
+  description    String
+  features       String?
+  thumbnail_url  String
+  status         String   @default("draft")
+  upvotes_count  Int      @default(0)
+  comments_count Int      @default(0)
+  view_count     BigInt   @default(0)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+
+  product_plans       product_plans[]
   comments            comments[]
   product_tags        product_tags[]
   product_tech_stacks product_tech_stacks[]
@@ -580,6 +581,21 @@ model products {
   screenshots         screenshots[]
   upvotes             upvotes[]
 
+  @@schema("public")
+}
+
+model product_plans {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  product_id String   @db.Uuid
+  plan_name  String
+  price      Decimal
+  features   String[] @default([])
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  products products @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([product_id])
   @@schema("public")
 }
 
