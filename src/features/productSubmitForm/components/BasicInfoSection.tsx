@@ -8,6 +8,8 @@ import {
   PRODUCT_CATEGORIES,
   PRODUCT_TAGLINE_MAX_LENGTH,
   PRODUCT_NAME_MAX_LENGTH,
+  PRODUCT_TAGS_MAX_COUNT,
+  PRODUCT_TAGS_MAX_LENGTH,
 } from "../constants";
 
 const BasicInfoSection = () => {
@@ -49,18 +51,18 @@ const BasicInfoSection = () => {
     }
     const currentTags = getValues("productTags") ?? [];
 
-    if (currentTags.length >= 5) {
+    if (currentTags.length >= PRODUCT_TAGS_MAX_COUNT) {
       setError("productTags", {
         type: "manual",
-        message: "タグは最大5つまでです。",
+        message: `タグは最大${PRODUCT_TAGS_MAX_COUNT}つまでです。`,
       });
       return;
     }
 
-    if (tag.length > 20) {
+    if (tag.length > PRODUCT_TAGS_MAX_LENGTH) {
       setError("productTags", {
         type: "manual",
-        message: "タグは20文字以内で入力してください。",
+        message: `タグは${PRODUCT_TAGS_MAX_LENGTH}文字以内で入力してください。`,
       });
       return;
     }
@@ -187,7 +189,7 @@ const BasicInfoSection = () => {
               <span className="text-primary">*</span>
             </div>
             <p className="text-xs text-muted-foreground">
-              最大5つ。Enterで追加
+              {`最大${PRODUCT_TAGS_MAX_COUNT}つ。Enterで追加`}
             </p>
           </div>
         </label>

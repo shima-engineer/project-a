@@ -1,6 +1,118 @@
+"use client";
+
 import ProductUpvoteButtonPreview from "./ProductUpvoteButtonPreview";
+import { useFormContext, useWatch } from "react-hook-form";
+import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+
+type ProductScreenshotURL = {
+  id: string;
+  url: string;
+};
 
 const ProductDetailPreview = () => {
+  const { control } = useFormContext<ProductSubmitFormValues>();
+
+  const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
+    null,
+  );
+  const [productScreenshotURLs, setProductScreenshotURLs] = useState<
+    ProductScreenshotURL[]
+  >([]);
+
+  const productThumbnailURLRef = useRef<string | null>(null);
+  const productScreenshotURLsRef = useRef<ProductScreenshotURL[]>([]);
+
+  const productThumbnail = useWatch({
+    control,
+    name: "productThumbnail",
+  });
+
+  const productCategory = useWatch({
+    control,
+    name: "productCategory",
+  });
+
+  const productName = useWatch({
+    control,
+    name: "productName",
+  });
+
+  const productTagline = useWatch({
+    control,
+    name: "productTagline",
+  });
+
+  const productTags =
+    useWatch({
+      control,
+      name: "productTags",
+    }) ?? [];
+
+  const productScreenshots = useWatch({
+    control,
+    name: "productScreenshots",
+  });
+
+  const productDescription = useWatch({
+    control,
+    name: "productDescription",
+  });
+
+  const productFeatures = useWatch({
+    control,
+    name: "productFeatures",
+  });
+
+  const productTechnologies =
+    useWatch({
+      control,
+      name: "productTechnologies",
+    }) ?? [];
+
+  const productPlans = useWatch({
+    control,
+    name: "productPlans",
+  });
+
+  useEffect(() => {
+    const objectUrl = productThumbnail
+      ? URL.createObjectURL(productThumbnail)
+      : null;
+
+    if (productThumbnailURLRef.current !== objectUrl) {
+      productThumbnailURLRef.current = objectUrl;
+      setProductThumbnailURL(objectUrl);
+    }
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [productThumbnail]);
+
+  useEffect(() => {
+    const screenshots = productScreenshots ?? [];
+
+    const objectUrls = screenshots.map((screenshot) => ({
+      id: crypto.randomUUID(),
+      url: URL.createObjectURL(screenshot),
+    }));
+
+    if (productScreenshotURLsRef.current !== objectUrls) {
+      productScreenshotURLsRef.current = objectUrls;
+      setProductScreenshotURLs(objectUrls);
+    }
+
+    return () => {
+      objectUrls.forEach((screenshot) => {
+        URL.revokeObjectURL(screenshot.url);
+      });
+    };
+  }, [productScreenshots]);
+
   return (
     <>
       <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">
@@ -10,17 +122,47 @@ const ProductDetailPreview = () => {
         <div className="flex items-center justify-between gap-3 sm:gap-4 mb-7">
           <div className="cursor-pointer">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="size-16 rounded-xl ring-1 ring-border bg-secondary overflow-hidden grid place-items-center text-xs text-muted-foreground">
-                <span className="text-xs">画像</span>
-              </div>
-              <div>
+              {productThumbnailURL ? (
+                <div className="size-16 rounded-xl ring-1 ring-border overflow-hidden bg-secondary grid place-items-center text-muted-foreground">
+                  <Image
+                    src={productThumbnailURL}
+                    alt=""
+                    width={64}
+                    height={64}
+                    className="size-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="size-16 shrink-0 rounded-xl ring-1 ring-border overflow-hidden bg-secondary grid place-items-center text-muted-foreground">
+                  <span className="text-xs">画像</span>
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
                 <span className="text-[11px] text-muted-foreground">
-                  AI ツール
+                  {productCategory || "カテゴリー"}
                 </span>
                 <h3 className="text-lg font-bold leading-tight">
-                  プロダクト名
+                  {productName || "プロダクト名"}
                 </h3>
-                <p className="text-sm text-muted-foreground">タグライン</p>
+                <p className="text-sm text-muted-foreground">
+                  {productTagline || "タグラインがここに表示されます"}
+                </p>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
+                  {productTags.length > 0 ? (
+                    productTags.map((tag) => (
+                      <span
+                        className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
+                        key={tag}
+                      >
+                        {tag}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                      タグ
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -44,18 +186,103 @@ const ProductDetailPreview = () => {
               <path d="M10 14 21 3" />
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
             </svg>
-            <span>訪問</span>
+            <span>Webサイトを訪問</span>
           </button>
           <button className="h-8 rounded-md border border-border px-3 text-xs">
             保存
           </button>
         </div>
-        <p className="text-[13px] text-foreground/80 line-clamp-4 whitespace-pre-line">
-          説明文がここに表示されます。プロダクトが解決する問題、独自の特徴をユーザーに伝えましょう。
-        </p>
-        <div className="mt-4 pt-4 border-t border-border flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">価格</span>
-          <span className="font-medium">Freemium</span>
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          {productScreenshotURLs.length > 0 ? (
+            productScreenshotURLs.map((screenshot) => (
+              <div
+                key={screenshot.id}
+                className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center"
+              >
+                <Image
+                  src={screenshot.url}
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ))
+          ) : (
+            <>
+              <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
+                <span className="text-[10px] text-muted-foreground">SS</span>
+              </div>
+              <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
+                <span className="text-[10px] text-muted-foreground">SS</span>
+              </div>
+              <div className="aspect-video rounded-lg ring-1 ring-border overflow-hidden bg-secondary grid place-items-center">
+                <span className="text-[10px] text-muted-foreground">SS</span>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="mb-4">
+          <h4 className="text-base font-bold mb-2">概要</h4>
+          <p className="text-[13px] text-foreground/80 line-clamp-4 whitespace-pre-line">
+            {productDescription ||
+              "説明文がここに表示されます。プロダクトが解決する問題、独自の特徴をユーザーに伝えましょう。"}
+          </p>
+        </div>
+        <div className="mb-4">
+          <h4 className="text-base font-bold mb-2">主な機能</h4>
+          <p className="text-[13px] text-foreground/80 line-clamp-4 whitespace-pre-line">
+            {productFeatures || "主な機能がここに表示されます"}
+          </p>
+        </div>
+        <div className="mb-4">
+          <h4 className="text-base font-bold mb-2">技術スタック</h4>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
+            {productTechnologies.length > 0 ? (
+              productTechnologies.map((tag) => (
+                <span
+                  className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
+                  key={tag}
+                >
+                  {tag}
+                </span>
+              ))
+            ) : (
+              <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                技術スタック
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="rounded-xl border border-border p-4 flex items-center gap-3 mb-4">
+          <div className="size-11 rounded-full bg-secondary ring-2 ring-border grid place-items-center text-[10px] text-muted-foreground">
+            YOU
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] text-muted-foreground">メイカー</div>
+            <div className="text-sm font-semibold">あなた</div>
+          </div>
+          <button className="h-8 rounded-md border border-border px-3 text-xs font-medium">
+            フォロー
+          </button>
+        </div>
+
+        <div className="rounded-xl border border-border p-4 bg-card">
+          <div className="text-xs font-semibold mb-2.5">プロダクト情報</div>
+          <dl className="text-xs space-y-2">
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">価格</dt>
+              <dd className="font-medium">{productPlans || "料金プラン"}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">カテゴリー</dt>
+              <dd className="font-medium">{productCategory || "カテゴリー"}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">アップボート</dt>
+              <dd className="font-medium tabular-nums">1</dd>
+            </div>
+          </dl>
         </div>
       </div>
     </>
