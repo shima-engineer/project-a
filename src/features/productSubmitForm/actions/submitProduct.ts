@@ -4,7 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
 import { ProductSubmitFormValues } from "../schema";
-import { convertProductSubmitFormToData } from "../utils/convertProductSubmitFormToData";
 
 export const submitProduct = async (data: ProductSubmitFormValues) => {
   const supabase = await createClient();
@@ -18,11 +17,9 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     throw new Error("ログインが必要です。");
   }
 
-  const submitData = convertProductSubmitFormToData(data);
-
   const category = await prisma.categories.findUnique({
     where: {
-      name: submitData.category,
+      name: data.productCategory,
     },
   });
 
@@ -32,24 +29,24 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
 
   const slug = crypto.randomUUID();
 
-  const thumbnailPath = `${user.id}/${crypto.randomUUID()}-${submitData.thumbnail.name}`;
+  const thumbnailPath = `${user.id}/${crypto.randomUUID()}-${data.productThumbnail.name}`;
 
   const { error: thumbnailUploadError } = await supabase.storage
     .from("product-images")
-    .upload(thumbnailPath, submitData.thumbnail, {
-      contentType: submitData.thumbnail.type,
+    .upload(thumbnailPath, data.productThumbnail, {
+      contentType: data.productThumbnail.type,
       upsert: false,
     });
-
-  const {
-    data: { publicUrl: thumbnailUrl },
-  } = supabase.storage.from("product-images").getPublicUrl(thumbnailPath);
 
   if (thumbnailUploadError) {
     throw new Error("サムネイル画像のアップロードに失敗しました。");
   }
 
-  const screenshotPaths = submitData.screenshots.map((screenshot) => {
+  const {
+    data: { publicUrl: thumbnailUrl },
+  } = supabase.storage.from("product-images").getPublicUrl(thumbnailPath);
+
+  const screenshotPaths = (data.productScreenshots ?? []).map((screenshot) => {
     const extension = screenshot.name.split(".").pop();
 
     return {
@@ -82,19 +79,19 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
   const product = await prisma.products.create({
     data: {
       user_id: user.id,
-      name: submitData.name,
+      name: data.productName,
       slug,
-      url: submitData.url,
+      url: data.productWebsite,
       category_id: category.id,
-      tagline: submitData.tagline,
-      description: submitData.description,
-      features: submitData.features,
+      tagline: data.productTagline,
+      description: data.productDescription,
+      features: data.productFeatures,
       thumbnail_url: thumbnailUrl,
-      pricing_type: submitData.plan,
+      pricing_type: data.productPlans,
     },
   });
 
-  for (const tagName of submitData.tags) {
+  for (const tagName of data.productTags) {
     const tag = await prisma.tags.upsert({
       where: {
         name: tagName,
