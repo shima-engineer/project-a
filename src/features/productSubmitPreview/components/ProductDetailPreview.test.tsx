@@ -62,7 +62,9 @@ describe("ProductDetailPreview", () => {
 
     expect(screen.getByText("タグ")).toBeInTheDocument();
 
-    expect(screen.getAllByText("未設定")).toHaveLength(2);
+    expect(screen.getByText("料金プラン")).toBeInTheDocument();
+    
+    expect(screen.getAllByText("カテゴリー")).toHaveLength(3);
   });
 
   it("フォームの入力値をプレビューに表示する", () => {
