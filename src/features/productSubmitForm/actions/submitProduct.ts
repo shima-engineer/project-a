@@ -94,6 +94,26 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     },
   });
 
+  for (const tagName of submitData.tags) {
+    const tag = await prisma.tags.upsert({
+      where: {
+        name: tagName,
+      },
+      update: {},
+      create: {
+        name: tagName,
+        slug: crypto.randomUUID(),
+      },
+    });
+
+    await prisma.product_tags.create({
+      data: {
+        product_id: product.id,
+        tag_id: tag.id,
+      },
+    });
+  }
+
   await prisma.screenshots.createMany({
     data: screenshotUrls.map((imageUrl, index) => ({
       product_id: product.id,
