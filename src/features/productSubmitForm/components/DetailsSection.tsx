@@ -3,6 +3,7 @@ import {
   PRICING_PLANS,
   PRODUCT_DESCRIPTION_MAX_LENGTH,
   PRODUCT_FEATURES_MAX_LENGTH,
+  PRODUCT_TECHNOLOGIES_MAX_COUNT,
   PRODUCT_TECHNOLOGY_MAX_LENGTH,
 } from "../constants";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -148,7 +149,7 @@ const DetailsSection = () => {
                 <span className="text-primary">*</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                最大5つ。Enterで追加
+                {`最大${PRODUCT_TECHNOLOGIES_MAX_COUNT}つ。Enterで追加`}
               </p>
             </div>
           </label>
