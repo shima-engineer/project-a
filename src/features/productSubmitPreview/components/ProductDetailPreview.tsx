@@ -10,12 +10,23 @@ type ProductScreenshotURL = {
   id: string;
   url: string;
 };
+
 const ProductDetailPreview = () => {
   const { control } = useFormContext<ProductSubmitFormValues>();
+  const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
+    null,
+  );
   const [productScreenshotURLs, setProductScreenshotURLs] = useState<
     ProductScreenshotURL[]
   >([]);
+
+  const productThumbnailURLRef = useRef<string | null>(null);
   const productScreenshotURLsRef = useRef<ProductScreenshotURL[]>([]);
+
+  const productThumbnail = useWatch({
+    control,
+    name: "productThumbnail",
+  });
 
   const productName = useWatch({
     control,
@@ -84,6 +95,23 @@ const ProductDetailPreview = () => {
     };
   }, [productScreenshots]);
 
+  useEffect(() => {
+    const objectUrl = productThumbnail
+      ? URL.createObjectURL(productThumbnail)
+      : null;
+
+    if (productThumbnailURLRef.current !== objectUrl) {
+      productThumbnailURLRef.current = objectUrl;
+      setProductThumbnailURL(objectUrl);
+    }
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [productThumbnail]);
+
   return (
     <>
       <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">
@@ -93,9 +121,21 @@ const ProductDetailPreview = () => {
         <div className="flex items-center justify-between gap-3 sm:gap-4 mb-7">
           <div className="cursor-pointer">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="size-16 rounded-xl ring-1 ring-border bg-secondary overflow-hidden grid place-items-center text-xs text-muted-foreground">
-                <span className="text-xs">画像</span>
-              </div>
+              {productThumbnailURL ? (
+                <div className="size-16 rounded-xl ring-1 ring-border overflow-hidden bg-secondary grid place-items-center text-muted-foreground">
+                  <Image
+                    src={productThumbnailURL}
+                    alt=""
+                    width={64}
+                    height={64}
+                    className="size-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="size-16 shrink-0 rounded-xl ring-1 ring-border overflow-hidden bg-secondary grid place-items-center text-muted-foreground">
+                  <span className="text-xs">画像</span>
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <span className="text-[11px] text-muted-foreground">
                   AI ツール
