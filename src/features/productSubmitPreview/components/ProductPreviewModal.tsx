@@ -22,7 +22,7 @@ const ProductPreviewModal = ({
         open={isProductPreviewModalOpen}
         onOpenChange={(open) => !open && handleProductPreviewModalClose()}
       >
-        <DrawerContent>
+        <DrawerContent className="max-h-[90vh] flex flex-col overflow-hidden">
           <DrawerHeader className="p-0">
             <DrawerTitle className="text-left px-5 py-3 border-b border-border">
               <p className="text-sm font-semibold">TODO#14投稿後のプレビュー</p>
@@ -31,7 +31,7 @@ const ProductPreviewModal = ({
               </p>
             </DrawerTitle>
           </DrawerHeader>
-          <div className="px-5 py-6 space-y-6">
+          <div className="overflow-y-auto px-5 py-6 space-y-6">
             <ProductPreviewContent />
           </div>
         </DrawerContent>

@@ -138,7 +138,7 @@ const ProductDetailPreview = () => {
               )}
               <div className="flex-1 min-w-0">
                 <span className="text-[11px] text-muted-foreground">
-                  AI ツール
+                {productCategory || "未設定"}
                 </span>
                 <h3 className="text-lg font-bold leading-tight">
                   {productName || "プロダクト名"}

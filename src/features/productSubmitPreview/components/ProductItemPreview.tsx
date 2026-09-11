@@ -76,7 +76,7 @@ const ProductItemPreview = () => {
                   <span className="text-xs">画像</span>
                 </div>
               )}
-              <div>
+              <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-[15px] group-hover/list:text-primary duration-200 transition-colors">
                   {productName || "プロダクト名"}
                 </h3>
