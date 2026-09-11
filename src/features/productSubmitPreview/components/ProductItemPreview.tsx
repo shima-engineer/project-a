@@ -9,6 +9,16 @@ import { ProductSubmitFormValues } from "@/features/productSubmitForm/schema";
 const ProductItemPreview = () => {
   const { control } = useFormContext<ProductSubmitFormValues>();
 
+  const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
+    null,
+  );
+  const productThumbnailURLRef = useRef<string | null>(null);
+
+  const productThumbnail = useWatch({
+    control,
+    name: "productThumbnail",
+  });
+
   const productName = useWatch({
     control,
     name: "productName",
@@ -24,16 +34,6 @@ const ProductItemPreview = () => {
       control,
       name: "productTags",
     }) ?? [];
-
-  const productThumbnail = useWatch({
-    control,
-    name: "productThumbnail",
-  });
-
-  const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
-    null,
-  );
-  const productThumbnailURLRef = useRef<string | null>(null);
 
   useEffect(() => {
     const objectUrl = productThumbnail
