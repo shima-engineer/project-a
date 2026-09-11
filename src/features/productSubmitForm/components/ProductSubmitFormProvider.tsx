@@ -1,11 +1,12 @@
 "use client";
+
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ProductSubmitFormInput,
   productSubmitFormSchema,
   ProductSubmitFormValues,
-} from "./schema";
+} from "../schema";
 
 const ProductSubmitFormProvider = ({
   children,

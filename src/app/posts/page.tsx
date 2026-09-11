@@ -1,7 +1,7 @@
 import ProductSubmitForm from "@/features/productSubmitForm/components/ProductSubmitForm";
 import ProductPreviewContent from "@/features/productSubmitPreview/components/ProductPreviewContent";
 import ProductSubmitPreview from "@/features/productSubmitPreview/components/ProductSubmitPreview";
-import ProductSubmitFormProvider from "@/features/productSubmitForm/ProductSubmitFormProvider";
+import ProductSubmitFormProvider from "@/features/productSubmitForm/components/ProductSubmitFormProvider";
 
 const page = () => {
   return (
