@@ -111,6 +111,26 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     });
   }
 
+  for (const technology of data.productTechnologies) {
+    const techStack = await prisma.tech_stacks.upsert({
+      where: {
+        name: technology,
+      },
+      update: {},
+      create: {
+        name: technology,
+        slug: crypto.randomUUID(),
+      },
+    });
+
+    await prisma.product_tech_stacks.create({
+      data: {
+        product_id: product.id,
+        stack_id: techStack.id,
+      },
+    });
+  }
+
   await prisma.screenshots.createMany({
     data: screenshotUrls.map((imageUrl, index) => ({
       product_id: product.id,
@@ -120,4 +140,9 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
   });
 
   console.log(product);
+
+  return {
+    success: true,
+    productId: product.id,
+  };
 };

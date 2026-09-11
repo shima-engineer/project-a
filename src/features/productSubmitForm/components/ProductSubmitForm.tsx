@@ -13,8 +13,8 @@ const ProductSubmitForm = () => {
   const methods = useFormContext<ProductSubmitFormValues>();
 
   const onSubmit = async (data: ProductSubmitFormValues) => {
-    // await submitProduct(data);
-    console.log(data);
+    const result = await submitProduct(data);
+    console.log(result);
   };
 
   return (
