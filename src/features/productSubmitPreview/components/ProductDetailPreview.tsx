@@ -28,6 +28,11 @@ const ProductDetailPreview = () => {
     name: "productThumbnail",
   });
 
+  const productCategory = useWatch({
+    control,
+    name: "productCategory",
+  });
+
   const productName = useWatch({
     control,
     name: "productName",
@@ -36,16 +41,6 @@ const ProductDetailPreview = () => {
   const productTagline = useWatch({
     control,
     name: "productTagline",
-  });
-
-  const productDescription = useWatch({
-    control,
-    name: "productDescription",
-  });
-
-  const productFeatures = useWatch({
-    control,
-    name: "productFeatures",
   });
 
   const productTags =
@@ -59,6 +54,16 @@ const ProductDetailPreview = () => {
     name: "productScreenshots",
   });
 
+  const productDescription = useWatch({
+    control,
+    name: "productDescription",
+  });
+
+  const productFeatures = useWatch({
+    control,
+    name: "productFeatures",
+  });
+
   const productTechnologies =
     useWatch({
       control,
@@ -70,10 +75,22 @@ const ProductDetailPreview = () => {
     name: "productPlans",
   });
 
-  const productCategory = useWatch({
-    control,
-    name: "productCategory",
-  });
+  useEffect(() => {
+    const objectUrl = productThumbnail
+      ? URL.createObjectURL(productThumbnail)
+      : null;
+
+    if (productThumbnailURLRef.current !== objectUrl) {
+      productThumbnailURLRef.current = objectUrl;
+      setProductThumbnailURL(objectUrl);
+    }
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [productThumbnail]);
 
   useEffect(() => {
     const screenshots = productScreenshots ?? [];
@@ -94,23 +111,6 @@ const ProductDetailPreview = () => {
       });
     };
   }, [productScreenshots]);
-
-  useEffect(() => {
-    const objectUrl = productThumbnail
-      ? URL.createObjectURL(productThumbnail)
-      : null;
-
-    if (productThumbnailURLRef.current !== objectUrl) {
-      productThumbnailURLRef.current = objectUrl;
-      setProductThumbnailURL(objectUrl);
-    }
-
-    return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
-  }, [productThumbnail]);
 
   return (
     <>
@@ -138,7 +138,7 @@ const ProductDetailPreview = () => {
               )}
               <div className="flex-1 min-w-0">
                 <span className="text-[11px] text-muted-foreground">
-                {productCategory || "未設定"}
+                  {productCategory || "未設定"}
                 </span>
                 <h3 className="text-lg font-bold leading-tight">
                   {productName || "プロダクト名"}
