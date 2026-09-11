@@ -13,7 +13,7 @@ type ProductScreenshotURL = {
 
 const ProductDetailPreview = () => {
   const { control } = useFormContext<ProductSubmitFormValues>();
-  
+
   const [productThumbnailURL, setProductThumbnailURL] = useState<string | null>(
     null,
   );
@@ -139,7 +139,7 @@ const ProductDetailPreview = () => {
               )}
               <div className="flex-1 min-w-0">
                 <span className="text-[11px] text-muted-foreground">
-                  {productCategory || "未設定"}
+                  {productCategory || "カテゴリー"}
                 </span>
                 <h3 className="text-lg font-bold leading-tight">
                   {productName || "プロダクト名"}
@@ -272,11 +272,11 @@ const ProductDetailPreview = () => {
           <dl className="text-xs space-y-2">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">価格</dt>
-              <dd className="font-medium">{productPlans || "未設定"}</dd>
+              <dd className="font-medium">{productPlans || "料金プラン"}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">カテゴリー</dt>
-              <dd className="font-medium">{productCategory || "未設定"}</dd>
+              <dd className="font-medium">{productCategory || "カテゴリー"}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">アップボート</dt>
