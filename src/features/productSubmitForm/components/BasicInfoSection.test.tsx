@@ -14,6 +14,8 @@ import {
 import {
   PRODUCT_NAME_MAX_LENGTH,
   PRODUCT_TAGLINE_MAX_LENGTH,
+  PRODUCT_TAGS_MAX_LENGTH,
+  PRODUCT_TAGS_MAX_COUNT,
 } from "../constants";
 
 // TODO13:仮のテストコード。後で修正したい
@@ -33,7 +35,7 @@ const renderBasicInfoSection = () => {
         productTags: [],
         productDescription: "",
         productFeatures: "",
-        productTechnology: "",
+        productTechnologies: [],
         productPlans: "",
       },
     });
@@ -212,7 +214,9 @@ describe("BasicInfoSection", () => {
       await user.type(input, `${"a".repeat(21)}{Enter}`);
 
       expect(
-        await screen.findByText("タグは20文字以内で入力してください。"),
+        await screen.findByText(
+          `タグは${PRODUCT_TAGS_MAX_LENGTH}文字以内で入力してください。`,
+        ),
       ).toBeInTheDocument();
     });
 
@@ -231,7 +235,9 @@ describe("BasicInfoSection", () => {
       await user.type(input, "Zod{Enter}");
 
       expect(
-        await screen.findByText("タグは最大5つまでです。"),
+        await screen.findByText(
+          `タグは最大${PRODUCT_TAGS_MAX_COUNT}つまでです。`,
+        ),
       ).toBeInTheDocument();
 
       expect(screen.queryByText("Zod")).not.toBeInTheDocument();
