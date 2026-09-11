@@ -70,7 +70,7 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
       throw new Error("スクリーンショットのアップロードに失敗しました。");
     }
   }
-  
+
   const screenshotUrls = screenshotPaths.map(({ path }) => {
     const {
       data: { publicUrl },
@@ -90,9 +90,16 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
       description: submitData.description,
       features: submitData.features,
       thumbnail_url: thumbnailUrl,
-      screenshot_urls: screenshotUrls,
       pricing_type: submitData.plan,
     },
+  });
+
+  await prisma.screenshots.createMany({
+    data: screenshotUrls.map((imageUrl, index) => ({
+      product_id: product.id,
+      image_url: imageUrl,
+      sort_order: index,
+    })),
   });
 
   console.log(product);
