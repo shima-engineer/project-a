@@ -5,7 +5,6 @@ import { prisma } from "@/lib/prisma";
 
 import { ProductSubmitFormValues } from "../schema";
 import { convertProductSubmitFormToData } from "../utils/convertProductSubmitFormToData";
-import { generateProductSlug } from "../utils/generateProductSlug";
 
 export const submitProduct = async (data: ProductSubmitFormValues) => {
   const supabase = await createClient();
@@ -31,12 +30,39 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     throw new Error("カテゴリーが見つかりません。");
   }
 
-  const slug = generateProductSlug(submitData.name);
+  const slug = crypto.randomUUID();
 
-  console.log({
-    userId: user.id,
-    categoryId: category.id,
-    slug,
-    submitData,
+  const thumbnailPath = `${user.id}/${crypto.randomUUID()}-${submitData.thumbnail.name}`;
+
+  const { error: thumbnailUploadError } = await supabase.storage
+    .from("product-images")
+    .upload(thumbnailPath, submitData.thumbnail, {
+      contentType: submitData.thumbnail.type,
+      upsert: false,
+    });
+
+  const {
+    data: { publicUrl: thumbnailUrl },
+  } = supabase.storage.from("product-images").getPublicUrl(thumbnailPath);
+
+  if (thumbnailUploadError) {
+    throw new Error("サムネイル画像のアップロードに失敗しました。");
+  }
+
+  const product = await prisma.products.create({
+    data: {
+      user_id: user.id,
+      name: submitData.name,
+      slug,
+      url: submitData.url,
+      category_id: category.id,
+      tagline: submitData.tagline,
+      description: submitData.description,
+      features: submitData.features,
+      thumbnail_url: thumbnailUrl,
+      pricing_type: submitData.pricingType,
+    },
   });
+
+  console.log(product);
 };
