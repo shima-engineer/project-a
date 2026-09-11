@@ -55,18 +55,18 @@ const DetailsSection = () => {
     }
     const currentTechnologies = getValues("productTechnologies") ?? [];
 
-    if (currentTechnologies.length >= 5) {
+    if (currentTechnologies.length >= PRODUCT_TECHNOLOGIES_MAX_COUNT) {
       setError("productTechnologies", {
         type: "manual",
-        message: "技術スタックは最大5つまでです。",
+        message: `技術スタックは最大${PRODUCT_TECHNOLOGIES_MAX_COUNT}つまでです。`,
       });
       return;
     }
 
-    if (tag.length > 20) {
+    if (tag.length > PRODUCT_TECHNOLOGY_MAX_LENGTH) {
       setError("productTechnologies", {
         type: "manual",
-        message: "技術スタックは20文字以内で入力してください。",
+        message: `技術スタックは${PRODUCT_TECHNOLOGY_MAX_LENGTH}文字以内で入力してください。`,
       });
       return;
     }
