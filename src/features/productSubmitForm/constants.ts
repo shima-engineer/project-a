@@ -14,11 +14,17 @@ export const PRODUCT_CATEGORIES = [
   "マーケティング",
 ] as const;
 
+export const PRODUCT_TAGS_MAX_LENGTH = 10;
+
+export const PRODUCT_TAGS_MAX_COUNT = 5;
+
 export const PRODUCT_DESCRIPTION_MAX_LENGTH = 120;
 
-export const PRODUCT_FEATURES_MAX_LENGTH = 40;
+export const PRODUCT_FEATURES_MAX_LENGTH = 10;
 
 export const PRODUCT_TECHNOLOGY_MAX_LENGTH = 40;
+
+export const PRODUCT_TECHNOLOGIES_MAX_COUNT = 5;
 
 export const PRICING_PLANS = [
   { value: "Free", label: "Free" },
