@@ -92,8 +92,16 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
       description: data.productDescription,
       features: data.productFeatures,
       thumbnail_url: thumbnailUrl,
-      pricing_type: data.productPlans,
     },
+  });
+
+  await prisma.product_plans.createMany({
+    data: data.productPlans.map((plan) => ({
+      product_id: product.id,
+      plan_name: plan.planName,
+      price: plan.price,
+      features: plan.features,
+    })),
   });
 
   for (const tagName of data.productTags) {
