@@ -138,31 +138,15 @@ const ProductDetailPreview = () => {
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <span className="text-[11px] text-muted-foreground">
-                  {productCategory || "カテゴリー"}
-                </span>
                 <h3 className="text-lg font-bold leading-tight">
                   {productName || "プロダクト名"}
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   {productTagline || "タグラインがここに表示されます"}
                 </p>
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
-                  {productTags.length > 0 ? (
-                    productTags.map((tag) => (
-                      <span
-                        className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
-                        key={tag}
-                      >
-                        {tag}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
-                      タグ
-                    </span>
-                  )}
-                </div>
+                <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                  {productCategory || "カテゴリー"}
+                </span>
               </div>
             </div>
           </div>
@@ -272,7 +256,9 @@ const ProductDetailPreview = () => {
           <dl className="text-xs space-y-2">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">価格</dt>
-              <dd className="font-medium">{productPricingType || "料金プラン"}</dd>
+              <dd className="font-medium">
+                {productPricingType || "料金プラン"}
+              </dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">カテゴリー</dt>
