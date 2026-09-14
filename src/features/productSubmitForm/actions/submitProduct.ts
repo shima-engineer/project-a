@@ -62,7 +62,7 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
 
   for (const screenshot of screenshotPaths) {
     const { error } = await supabase.storage
-      .from("product-images")
+      .from("screenshots")
       .upload(screenshot.path, screenshot.file, {
         contentType: screenshot.file.type,
         upsert: false,
@@ -76,7 +76,7 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
   const screenshotUrls = screenshotPaths.map(({ path }) => {
     const {
       data: { publicUrl },
-    } = supabase.storage.from("product-images").getPublicUrl(path);
+    } = supabase.storage.from("screenshots").getPublicUrl(path);
 
     return publicUrl;
   });
