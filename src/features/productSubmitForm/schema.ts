@@ -46,20 +46,12 @@ export const productSubmitFormSchema = z.object({
         })
         .min(1, { message: "プロダクトURLを入力してください。" }),
     ),
-  productCategory: z
-    .union([z.literal(""), z.enum(PRODUCT_CATEGORIES)])
-    .transform((value, ctx) => {
-      if (value === "") {
-        ctx.addIssue({
-          code: "custom",
-          message: "カテゴリーを選択してください。",
-        });
-
-        return z.NEVER;
-      }
-
-      return value;
+  productCategory: z.pipe(
+    z.union([z.literal(""), z.enum(PRODUCT_CATEGORIES)]),
+    z.enum(PRODUCT_CATEGORIES, {
+      error: "カテゴリーを選択してください。",
     }),
+  ),
   productTags: z
     .array(
       z
@@ -102,20 +94,12 @@ export const productSubmitFormSchema = z.object({
     .max(PRODUCT_TECHNOLOGIES_MAX_COUNT, {
       message: `技術スタックは最大${PRODUCT_TECHNOLOGIES_MAX_COUNT}つまでです。`,
     }),
-  productPricingType: z
-    .union([z.literal(""), z.enum(PRICING_PLAN_VALUES)])
-    .transform((value, ctx) => {
-      if (value === "") {
-        ctx.addIssue({
-          code: "custom",
-          message: "料金プランを選択してください。",
-        });
-
-        return z.NEVER;
-      }
-
-      return value;
+  productPricingType: z.pipe(
+    z.union([z.literal(""), z.enum(PRICING_PLAN_VALUES)]),
+    z.enum(PRICING_PLAN_VALUES, {
+      error: "料金タイプを選択してください。",
     }),
+  ),
   productThumbnail: z
     .file({
       error: "プロダクトのサムネイル画像をアップロードしてください。",
