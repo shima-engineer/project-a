@@ -12,10 +12,13 @@ import SubmitActionBar from "./SubmitActionBar";
 
 const ProductSubmitForm = () => {
   const methods = useFormContext<ProductSubmitFormValues>();
+  const { reset } = methods;
 
   const onSubmit = async (data: ProductSubmitFormValues) => {
     try {
       await submitProduct(data);
+
+      reset();
 
       toast.success("プロダクトを投稿しました");
     } catch {
