@@ -144,8 +144,6 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     })),
   });
 
-  console.log(product);
-
   return {
     success: true,
     productId: product.id,

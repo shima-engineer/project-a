@@ -2,6 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { submitProduct } from "../actions/submitProduct";
+import { toast } from "sonner";
 import BasicInfoSection from "./BasicInfoSection";
 import { ProductSubmitFormValues } from "../schema";
 import DetailsSection from "./DetailsSection";
@@ -13,8 +14,13 @@ const ProductSubmitForm = () => {
   const methods = useFormContext<ProductSubmitFormValues>();
 
   const onSubmit = async (data: ProductSubmitFormValues) => {
-    const result = await submitProduct(data);
-    console.log(result);
+    try {
+      await submitProduct(data);
+
+      toast.success("プロダクトを投稿しました");
+    } catch {
+      toast.error("投稿に失敗しました");
+    }
   };
 
   return (
