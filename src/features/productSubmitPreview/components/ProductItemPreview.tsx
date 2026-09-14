@@ -29,11 +29,10 @@ const ProductItemPreview = () => {
     name: "productTagline",
   });
 
-  const productTags =
-    useWatch({
-      control,
-      name: "productTags",
-    }) ?? [];
+  const productCategory = useWatch({
+    control,
+    name: "productCategory",
+  });
 
   useEffect(() => {
     const objectUrl = productThumbnail
@@ -93,20 +92,10 @@ const ProductItemPreview = () => {
                     />
                     <span>0</span>
                   </div>
-                  {productTags.length > 0 ? (
-                    productTags.map((tag) => (
-                      <span
-                        className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium"
-                        key={tag}
-                      >
-                        {tag}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
-                      タグ
-                    </span>
-                  )}
+
+                  <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                    {productCategory || "カテゴリー"}
+                  </span>
                 </div>
               </div>
             </div>
