@@ -5,7 +5,19 @@ import { prisma } from "@/lib/prisma";
 
 import { ProductSubmitFormValues } from "../schema";
 
-export const submitProduct = async (data: ProductSubmitFormValues) => {
+type SubmitProductResult =
+  | {
+      success: true;
+      productId: string;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+export const submitProduct = async (
+  data: ProductSubmitFormValues,
+): Promise<SubmitProductResult> => {
   try {
     const supabase = await createClient();
 
@@ -15,9 +27,11 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     } = await supabase.auth.getUser();
 
     if (error || !user) {
-      throw new Error("ログインが必要です。");
+      return {
+        success: false,
+        message: "ログインが必要です。",
+      };
     }
-
     const category = await prisma.categories.findUnique({
       where: {
         name: data.productCategory,
@@ -25,7 +39,10 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     });
 
     if (!category) {
-      throw new Error("カテゴリーが見つかりません。");
+      return {
+        success: false,
+        message: "カテゴリーが見つかりません。",
+      };
     }
 
     const slug = crypto.randomUUID();
@@ -45,7 +62,10 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
     if (thumbnailUploadError) {
       console.error("サムネイルアップロードエラー:", thumbnailUploadError);
 
-      throw new Error("サムネイル画像のアップロードに失敗しました。");
+      return {
+        success: false,
+        message: "サムネイル画像のアップロードに失敗しました。",
+      };
     }
 
     const {
@@ -72,7 +92,12 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
         });
 
       if (error) {
-        throw new Error("スクリーンショットのアップロードに失敗しました。");
+        console.error("スクリーンショットアップロードエラー:", error);
+
+        return {
+          success: false,
+          message: "スクリーンショットのアップロードに失敗しました。",
+        };
       }
     }
 
@@ -152,7 +177,8 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
       productId: product.id,
     };
   } catch (error) {
-    console.error("プロダクト投稿エラー:", error);
+    console.error("予期しないプロダクト投稿エラー:", error);
+
     return {
       success: false,
       message: "プロダクトの投稿に失敗しました。",
