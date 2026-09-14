@@ -16,7 +16,7 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
   if (error || !user) {
     throw new Error("ログインが必要です。");
   }
-  
+
   const category = await prisma.categories.findUnique({
     where: {
       name: data.productCategory,
@@ -29,22 +29,27 @@ export const submitProduct = async (data: ProductSubmitFormValues) => {
 
   const slug = crypto.randomUUID();
 
-  const thumbnailPath = `${user.id}/${crypto.randomUUID()}-${data.productThumbnail.name}`;
+  const thumbnailExtension = data.productThumbnail.name.split(".").pop();
+  console.log("thumbnailExtension:", thumbnailExtension);
+
+  const thumbnailPath = `${user.id}/${crypto.randomUUID()}.${thumbnailExtension}`;
 
   const { error: thumbnailUploadError } = await supabase.storage
-    .from("product-images")
+    .from("thumbnails")
     .upload(thumbnailPath, data.productThumbnail, {
       contentType: data.productThumbnail.type,
       upsert: false,
     });
 
   if (thumbnailUploadError) {
+    console.error("サムネイルアップロードエラー:", thumbnailUploadError);
+
     throw new Error("サムネイル画像のアップロードに失敗しました。");
   }
 
   const {
     data: { publicUrl: thumbnailUrl },
-  } = supabase.storage.from("product-images").getPublicUrl(thumbnailPath);
+  } = supabase.storage.from("thumbnails").getPublicUrl(thumbnailPath);
 
   const screenshotPaths = (data.productScreenshots ?? []).map((screenshot) => {
     const extension = screenshot.name.split(".").pop();
