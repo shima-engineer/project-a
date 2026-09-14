@@ -18,7 +18,7 @@ const renderProductDetailPreview = (
         productTags: [],
         productScreenshots: [],
         productTechnologies: [],
-        productPlans: undefined,
+        productPricingType: undefined,
         productCategory: undefined,
         ...defaultValues,
       },
@@ -75,7 +75,7 @@ describe("ProductDetailPreview", () => {
       productFeatures: "投稿・投票・コメント",
       productTags: ["開発", "Web"],
       productTechnologies: ["Next.js", "Supabase"],
-      productPlans: "Free",
+      productPricingType: "Free",
       productCategory: "Developer Tools",
     });
 

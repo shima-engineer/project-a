@@ -71,9 +71,9 @@ const ProductDetailPreview = () => {
       name: "productTechnologies",
     }) ?? [];
 
-  const productPlans = useWatch({
+  const productPricingType = useWatch({
     control,
-    name: "productPlans",
+    name: "productPricingType",
   });
 
   useEffect(() => {
@@ -272,7 +272,7 @@ const ProductDetailPreview = () => {
           <dl className="text-xs space-y-2">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">価格</dt>
-              <dd className="font-medium">{productPlans || "料金プラン"}</dd>
+              <dd className="font-medium">{productPricingType || "料金プラン"}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">カテゴリー</dt>

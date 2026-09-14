@@ -102,7 +102,7 @@ export const productSubmitFormSchema = z.object({
     .max(PRODUCT_TECHNOLOGIES_MAX_COUNT, {
       message: `技術スタックは最大${PRODUCT_TECHNOLOGIES_MAX_COUNT}つまでです。`,
     }),
-  productPlans: z
+  productPricingType: z
     .union([z.literal(""), z.enum(PRICING_PLAN_VALUES)])
     .transform((value, ctx) => {
       if (value === "") {

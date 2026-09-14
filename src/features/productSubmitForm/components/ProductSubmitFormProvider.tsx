@@ -28,7 +28,7 @@ const ProductSubmitFormProvider = ({
       productDescription: "",
       productFeatures: "",
       productTechnologies: [],
-      productPlans: "",
+      productPricingType: "",
       productThumbnail: undefined,
       productScreenshots: [],
     },

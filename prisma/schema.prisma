@@ -24,31 +24,30 @@ model audit_log_entries {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model custom_oauth_providers {
-  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  provider_type           String
-  identifier              String    @unique
-  name                    String
-  client_id               String
-  client_secret           String
-  acceptable_client_ids   String[]  @default([])
-  scopes                  String[]  @default([])
-  pkce_enabled            Boolean   @default(true)
-  attribute_mapping       Json      @default("{}")
-  authorization_params    Json      @default("{}")
-  enabled                 Boolean   @default(true)
-  email_optional          Boolean   @default(false)
-  issuer                  String?
-  discovery_url           String?
-  skip_nonce_check        Boolean   @default(false)
-  cached_discovery        Json?
-  discovery_cached_at     DateTime? @db.Timestamptz(6)
-  authorization_url       String?
-  token_url               String?
-  userinfo_url            String?
-  jwks_uri                String?
-  created_at              DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at              DateTime  @default(now()) @db.Timestamptz(6)
-  custom_claims_allowlist String[]  @default([])
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider_type         String
+  identifier            String    @unique
+  name                  String
+  client_id             String
+  client_secret         String
+  acceptable_client_ids String[]  @default([])
+  scopes                String[]  @default([])
+  pkce_enabled          Boolean   @default(true)
+  attribute_mapping     Json      @default("{}")
+  authorization_params  Json      @default("{}")
+  enabled               Boolean   @default(true)
+  email_optional        Boolean   @default(false)
+  issuer                String?
+  discovery_url         String?
+  skip_nonce_check      Boolean   @default(false)
+  cached_discovery      Json?
+  discovery_cached_at   DateTime? @db.Timestamptz(6)
+  authorization_url     String?
+  token_url             String?
+  userinfo_url          String?
+  jwks_uri              String?
+  created_at            DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
 
   @@index([created_at])
   @@index([enabled])
@@ -556,24 +555,25 @@ model product_tech_stacks {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model products {
-  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id             String                @db.Uuid
-  name                String
-  slug                String                @unique
-  url                 String
-  category_id         String                @db.Uuid
-  tagline             String
-  description         String
-  features            String?
-  thumbnail_url       String
-  status              String                @default("draft")
-  upvotes_count       Int                   @default(0)
-  comments_count      Int                   @default(0)
-  view_count          BigInt                @default(0)
-  created_at          DateTime              @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String   @db.Uuid
+  name           String
+  slug           String   @unique
+  url            String
+  category_id    String   @db.Uuid
+  tagline        String
+  description    String
+  features       String?
+  thumbnail_url  String
+  pricing_type   String
+  status         String   @default("draft")
+  upvotes_count  Int      @default(0)
+  comments_count Int      @default(0)
+  view_count     BigInt   @default(0)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+
   comments            comments[]
-  product_plans       product_plans[]
   product_tags        product_tags[]
   product_tech_stacks product_tech_stacks[]
   categories          categories            @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -657,21 +657,6 @@ model public_users {
   users       auth_users @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("users")
-  @@schema("public")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model product_plans {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  product_id String   @db.Uuid
-  plan_name  String
-  price      Decimal
-  features   String[] @default([])
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
-  products   products @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([product_id])
   @@schema("public")
 }
 

@@ -36,7 +36,6 @@ const renderBasicInfoSection = () => {
         productDescription: "",
         productFeatures: "",
         productTechnologies: [],
-        productPlans: "",
       },
     });
 

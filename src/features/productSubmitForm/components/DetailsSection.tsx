@@ -37,9 +37,9 @@ const DetailsSection = () => {
       name: "productTechnologies",
     }) ?? [];
 
-  const productPlans = useWatch({
+  const productPricingType = useWatch({
     control,
-    name: "productPlans",
+    name: "productPricingType",
   });
 
   const exchangeTextToTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -199,7 +199,7 @@ const DetailsSection = () => {
         rounded-lg border px-3 py-1.5 text-sm transition-colors
         border-border hover:border-foreground/30 cursor-pointer
         ${
-          productPlans === plan.value
+          productPricingType === plan.value
             ? "border-primary bg-primary/10 text-primary"
             : ""
         }
@@ -209,13 +209,13 @@ const DetailsSection = () => {
                 type="radio"
                 value={plan.value}
                 className="sr-only"
-                {...register("productPlans")}
+                {...register("productPricingType")}
               />
               {plan.label}
             </label>
           ))}
         </div>
-        <ErrorMessage errorMessage={errors.productPlans?.message || ""} />
+        <ErrorMessage errorMessage={errors.productPricingType?.message || ""} />
       </div>
     </>
   );
