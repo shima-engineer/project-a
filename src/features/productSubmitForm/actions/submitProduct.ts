@@ -6,146 +6,156 @@ import { prisma } from "@/lib/prisma";
 import { ProductSubmitFormValues } from "../schema";
 
 export const submitProduct = async (data: ProductSubmitFormValues) => {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
-  if (error || !user) {
-    throw new Error("ログインが必要です。");
-  }
+    if (error || !user) {
+      throw new Error("ログインが必要です。");
+    }
 
-  const category = await prisma.categories.findUnique({
-    where: {
-      name: data.productCategory,
-    },
-  });
-
-  if (!category) {
-    throw new Error("カテゴリーが見つかりません。");
-  }
-
-  const slug = crypto.randomUUID();
-
-  const thumbnailExtension = data.productThumbnail.name.split(".").pop();
-  console.log("thumbnailExtension:", thumbnailExtension);
-
-  const thumbnailPath = `${user.id}/${crypto.randomUUID()}.${thumbnailExtension}`;
-
-  const { error: thumbnailUploadError } = await supabase.storage
-    .from("thumbnails")
-    .upload(thumbnailPath, data.productThumbnail, {
-      contentType: data.productThumbnail.type,
-      upsert: false,
+    const category = await prisma.categories.findUnique({
+      where: {
+        name: data.productCategory,
+      },
     });
 
-  if (thumbnailUploadError) {
-    console.error("サムネイルアップロードエラー:", thumbnailUploadError);
+    if (!category) {
+      throw new Error("カテゴリーが見つかりません。");
+    }
 
-    throw new Error("サムネイル画像のアップロードに失敗しました。");
-  }
+    const slug = crypto.randomUUID();
 
-  const {
-    data: { publicUrl: thumbnailUrl },
-  } = supabase.storage.from("thumbnails").getPublicUrl(thumbnailPath);
+    const thumbnailExtension = data.productThumbnail.name.split(".").pop();
+    console.log("thumbnailExtension:", thumbnailExtension);
 
-  const screenshotPaths = (data.productScreenshots ?? []).map((screenshot) => {
-    const extension = screenshot.name.split(".").pop();
+    const thumbnailPath = `${user.id}/${crypto.randomUUID()}.${thumbnailExtension}`;
 
-    return {
-      file: screenshot,
-      path: `${user.id}/screenshots/${crypto.randomUUID()}.${extension}`,
-    };
-  });
-
-  for (const screenshot of screenshotPaths) {
-    const { error } = await supabase.storage
-      .from("screenshots")
-      .upload(screenshot.path, screenshot.file, {
-        contentType: screenshot.file.type,
+    const { error: thumbnailUploadError } = await supabase.storage
+      .from("thumbnails")
+      .upload(thumbnailPath, data.productThumbnail, {
+        contentType: data.productThumbnail.type,
         upsert: false,
       });
 
-    if (error) {
-      throw new Error("スクリーンショットのアップロードに失敗しました。");
+    if (thumbnailUploadError) {
+      console.error("サムネイルアップロードエラー:", thumbnailUploadError);
+
+      throw new Error("サムネイル画像のアップロードに失敗しました。");
     }
-  }
 
-  const screenshotUrls = screenshotPaths.map(({ path }) => {
     const {
-      data: { publicUrl },
-    } = supabase.storage.from("screenshots").getPublicUrl(path);
+      data: { publicUrl: thumbnailUrl },
+    } = supabase.storage.from("thumbnails").getPublicUrl(thumbnailPath);
 
-    return publicUrl;
-  });
+    const screenshotPaths = (data.productScreenshots ?? []).map(
+      (screenshot) => {
+        const extension = screenshot.name.split(".").pop();
 
-  const product = await prisma.products.create({
-    data: {
-      user_id: user.id,
-      name: data.productName,
-      slug,
-      url: data.productWebsite,
-      category_id: category.id,
-      tagline: data.productTagline,
-      description: data.productDescription,
-      features: data.productFeatures,
-      thumbnail_url: thumbnailUrl,
-      pricing_type: data.productPricingType,
-    },
-  });
-
-  for (const tagName of data.productTags) {
-    const tag = await prisma.tags.upsert({
-      where: {
-        name: tagName,
+        return {
+          file: screenshot,
+          path: `${user.id}/screenshots/${crypto.randomUUID()}.${extension}`,
+        };
       },
-      update: {},
-      create: {
-        name: tagName,
-        slug: crypto.randomUUID(),
-      },
+    );
+
+    for (const screenshot of screenshotPaths) {
+      const { error } = await supabase.storage
+        .from("screenshots")
+        .upload(screenshot.path, screenshot.file, {
+          contentType: screenshot.file.type,
+          upsert: false,
+        });
+
+      if (error) {
+        throw new Error("スクリーンショットのアップロードに失敗しました。");
+      }
+    }
+
+    const screenshotUrls = screenshotPaths.map(({ path }) => {
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("screenshots").getPublicUrl(path);
+
+      return publicUrl;
     });
 
-    await prisma.product_tags.create({
+    const product = await prisma.products.create({
       data: {
+        user_id: user.id,
+        name: data.productName,
+        slug,
+        url: data.productWebsite,
+        category_id: category.id,
+        tagline: data.productTagline,
+        description: data.productDescription,
+        features: data.productFeatures,
+        thumbnail_url: thumbnailUrl,
+        pricing_type: data.productPricingType,
+      },
+    });
+
+    for (const tagName of data.productTags) {
+      const tag = await prisma.tags.upsert({
+        where: {
+          name: tagName,
+        },
+        update: {},
+        create: {
+          name: tagName,
+          slug: crypto.randomUUID(),
+        },
+      });
+
+      await prisma.product_tags.create({
+        data: {
+          product_id: product.id,
+          tag_id: tag.id,
+        },
+      });
+    }
+
+    for (const technology of data.productTechnologies) {
+      const techStack = await prisma.tech_stacks.upsert({
+        where: {
+          name: technology,
+        },
+        update: {},
+        create: {
+          name: technology,
+          slug: crypto.randomUUID(),
+        },
+      });
+
+      await prisma.product_tech_stacks.create({
+        data: {
+          product_id: product.id,
+          stack_id: techStack.id,
+        },
+      });
+    }
+
+    await prisma.screenshots.createMany({
+      data: screenshotUrls.map((imageUrl, index) => ({
         product_id: product.id,
-        tag_id: tag.id,
-      },
+        image_url: imageUrl,
+        sort_order: index,
+      })),
     });
+
+    return {
+      success: true,
+      productId: product.id,
+    };
+  } catch (error) {
+    console.error("プロダクト投稿エラー:", error);
+    return {
+      success: false,
+      message: "プロダクトの投稿に失敗しました。",
+    };
   }
-
-  for (const technology of data.productTechnologies) {
-    const techStack = await prisma.tech_stacks.upsert({
-      where: {
-        name: technology,
-      },
-      update: {},
-      create: {
-        name: technology,
-        slug: crypto.randomUUID(),
-      },
-    });
-
-    await prisma.product_tech_stacks.create({
-      data: {
-        product_id: product.id,
-        stack_id: techStack.id,
-      },
-    });
-  }
-
-  await prisma.screenshots.createMany({
-    data: screenshotUrls.map((imageUrl, index) => ({
-      product_id: product.id,
-      image_url: imageUrl,
-      sort_order: index,
-    })),
-  });
-
-  return {
-    success: true,
-    productId: product.id,
-  };
 };

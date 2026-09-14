@@ -16,13 +16,18 @@ const ProductSubmitForm = () => {
 
   const onSubmit = async (data: ProductSubmitFormValues) => {
     try {
-      await submitProduct(data);
+      const result = await submitProduct(data);
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
 
       reset();
 
       toast.success("プロダクトを投稿しました");
     } catch {
-      toast.error("投稿に失敗しました");
+      toast.error("通信に失敗しました。もう一度お試しください。");
     }
   };
 
