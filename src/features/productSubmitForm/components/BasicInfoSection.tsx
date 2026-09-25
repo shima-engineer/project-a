@@ -173,6 +173,7 @@ const BasicInfoSection = () => {
           className="min-h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring mb-2"
           {...register("productCategory")}
         >
+          <option value="">カテゴリーを選択してください</option>
           {PRODUCT_CATEGORIES.map((category) => (
             <option key={category} value={category}>
               {category || "カテゴリーを選択してください"}

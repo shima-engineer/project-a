@@ -46,6 +46,9 @@ export const productSubmitFormSchema = z.object({
         })
         .min(1, { message: "プロダクトURLを入力してください。" }),
     ),
+  // React Hook FormのdefaultValueでは未選択状態を""で表現するため、
+  // 入力型では""を許可する。
+  // ただし送信後の値には""を残したくないため、pipeで有効なカテゴリーのみに絞る。
   productCategory: z.pipe(
     z.union([z.literal(""), z.enum(PRODUCT_CATEGORIES)]),
     z.enum(PRODUCT_CATEGORIES, {
