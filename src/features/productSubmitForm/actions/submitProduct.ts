@@ -32,6 +32,9 @@ export const submitProduct = async (
         message: "ログインが必要です。",
       };
     }
+
+    const slug = crypto.randomUUID();
+
     const category = await prisma.categories.findUnique({
       where: {
         name: data.productCategory,
@@ -45,10 +48,7 @@ export const submitProduct = async (
       };
     }
 
-    const slug = crypto.randomUUID();
-
     const thumbnailExtension = data.productThumbnail.name.split(".").pop();
-    console.log("thumbnailExtension:", thumbnailExtension);
 
     const thumbnailPath = `${user.id}/${crypto.randomUUID()}.${thumbnailExtension}`;
 
@@ -112,15 +112,15 @@ export const submitProduct = async (
     const product = await prisma.products.create({
       data: {
         user_id: user.id,
-        name: data.productName,
         slug,
+        name: data.productName,
+        tagline: data.productTagline,
         url: data.productWebsite,
         category_id: category.id,
-        tagline: data.productTagline,
         description: data.productDescription,
         features: data.productFeatures,
-        thumbnail_url: thumbnailUrl,
         pricing_type: data.productPricingType,
+        thumbnail_url: thumbnailUrl,
       },
     });
 
