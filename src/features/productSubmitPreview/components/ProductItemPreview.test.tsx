@@ -13,7 +13,6 @@ const renderProductItemPreview = (
       defaultValues: {
         productName: "",
         productTagline: "",
-        productTags: [],
         productThumbnail: undefined,
         ...defaultValues,
       },
@@ -38,23 +37,17 @@ describe("ProductItemPreview", () => {
     expect(
       screen.getByText("タグラインがここに表示されます"),
     ).toBeInTheDocument();
-
-    expect(screen.getByText("タグ")).toBeInTheDocument();
   });
 
   it("フォームの入力値をプレビューに表示する", () => {
     renderProductItemPreview({
       productName: "ProductJP",
       productTagline: "日本のプロダクトを発見",
-      productTags: ["開発", "Web"],
     });
 
     expect(screen.getByText("ProductJP")).toBeInTheDocument();
 
     expect(screen.getByText("日本のプロダクトを発見")).toBeInTheDocument();
-
-    expect(screen.getByText("開発")).toBeInTheDocument();
-    expect(screen.getByText("Web")).toBeInTheDocument();
   });
 
   it("サムネイルが設定されている場合はObject URLを生成する", async () => {
