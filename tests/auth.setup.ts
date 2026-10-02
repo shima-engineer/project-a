@@ -7,8 +7,6 @@ const authFile = "tests/.auth/user.json";
 
 const email = process.env.E2E_EMAIL;
 const password = process.env.E2E_PASSWORD;
-console.log("E2E_EMAIL:", email);
-console.log("E2E_PASSWORD:", password);
 
 if (!email || !password) {
   throw new Error("E2E_EMAIL and E2E_PASSWORD must be set");
