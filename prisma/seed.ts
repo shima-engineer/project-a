@@ -17,16 +17,36 @@ async function main() {
   await prisma.categories.createMany({
     data: [
       {
-        name: "AI",
+        name: "AIツール",
         slug: "ai",
+      },
+      {
+        name: "SaaS",
+        slug: "saas",
+      },
+      {
+        name: "Webアプリ",
+        slug: "web-app",
+      },
+      {
+        name: "ネイティブアプリ",
+        slug: "native-app",
       },
       {
         name: "Developer Tools",
         slug: "developer-tools",
       },
       {
-        name: "Productivity",
+        name: "生産性",
         slug: "productivity",
+      },
+      {
+        name: "デザイン",
+        slug: "design",
+      },
+      {
+        name: "マーケティング",
+        slug: "marketing",
       },
     ],
     skipDuplicates: true,
@@ -106,7 +126,7 @@ async function main() {
         description:
           "ブログ記事やSNS投稿を高速に作成できるAIライティングツール。",
         features: "記事生成、SEO補助、SNS投稿作成",
-       pricing_type: "Free",
+        pricing_type: "Free",
         thumbnail_url:
           "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
         status: "published",
@@ -202,50 +222,50 @@ async function main() {
     throw new Error("Seed products not found");
   }
 
-await prisma.comments.createMany({
-  data: [
-    {
-      user_id: AUTH_USER_IDS.kenta,
-      product_id: writeMate.id,
-      content: "日本語の文章生成がかなり自然でした。",
-    },
-    {
-      user_id: AUTH_USER_IDS.yamada,
-      product_id: writeMate.id,
-      content: "SEO記事の下書き作成に便利です。",
-    },
-    {
-      user_id: AUTH_USER_IDS.yamada,
-      product_id: focusFlow.id,
-      content: "ポモドーロタイマーが使いやすいです。",
-    },
-    {
-      user_id: AUTH_USER_IDS.yamada,
-      product_id: focusFlow.id,
-      content: "集中時間の分析機能が面白い。",
-    },
-    {
-      user_id: AUTH_USER_IDS.hanako,
-      product_id: promptBox.id,
-      content: "プロンプト管理がかなり楽になりました。",
-    },
-    {
-      user_id: AUTH_USER_IDS.yamada,
-      product_id: promptBox.id,
-      content: "カテゴリ分け機能が欲しいです。",
-    },
-    {
-      user_id: AUTH_USER_IDS.hanako,
-      product_id: apiMonitor.id,
-      content: "API監視の通知が分かりやすいです。",
-    },
-    {
-      user_id: AUTH_USER_IDS.yamada,
-      product_id: habitBoard.id,
-      content: "習慣化のモチベーション維持に役立っています。",
-    },
-  ],
-});
+  await prisma.comments.createMany({
+    data: [
+      {
+        user_id: AUTH_USER_IDS.kenta,
+        product_id: writeMate.id,
+        content: "日本語の文章生成がかなり自然でした。",
+      },
+      {
+        user_id: AUTH_USER_IDS.yamada,
+        product_id: writeMate.id,
+        content: "SEO記事の下書き作成に便利です。",
+      },
+      {
+        user_id: AUTH_USER_IDS.yamada,
+        product_id: focusFlow.id,
+        content: "ポモドーロタイマーが使いやすいです。",
+      },
+      {
+        user_id: AUTH_USER_IDS.yamada,
+        product_id: focusFlow.id,
+        content: "集中時間の分析機能が面白い。",
+      },
+      {
+        user_id: AUTH_USER_IDS.hanako,
+        product_id: promptBox.id,
+        content: "プロンプト管理がかなり楽になりました。",
+      },
+      {
+        user_id: AUTH_USER_IDS.yamada,
+        product_id: promptBox.id,
+        content: "カテゴリ分け機能が欲しいです。",
+      },
+      {
+        user_id: AUTH_USER_IDS.hanako,
+        product_id: apiMonitor.id,
+        content: "API監視の通知が分かりやすいです。",
+      },
+      {
+        user_id: AUTH_USER_IDS.yamada,
+        product_id: habitBoard.id,
+        content: "習慣化のモチベーション維持に役立っています。",
+      },
+    ],
+  });
 
   // await Promise.all([
   //   prisma.products.update({
