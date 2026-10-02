@@ -196,17 +196,14 @@ export const submitProduct = async (
       }
 
       // スクリーンショット削除
-      const screenshotPathsToDelete = screenshotPaths.map(({ path }) => path);
+      const { error: screenshotDeleteError } = await supabase.storage
+        .from("screenshots")
+        .remove(screenshotPaths.map(({ path }) => path));
 
-      if (screenshotPathsToDelete.length > 0) {
-        const { error: screenshotDeleteError } = await supabase.storage
-          .from("screenshots")
-          .remove(screenshotPathsToDelete);
-
-        if (screenshotDeleteError) {
-          console.error("スクリーンショット削除エラー:", screenshotDeleteError);
-        }
+      if (screenshotDeleteError) {
+        console.error("スクリーンショット削除エラー:", screenshotDeleteError);
       }
+
       return {
         success: false,
         message: "プロダクトの投稿に失敗しました。",
