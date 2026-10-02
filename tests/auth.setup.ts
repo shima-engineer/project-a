@@ -23,6 +23,7 @@ setup("authenticate", async ({ page }) => {
   await page.getByRole("button", { name: "ログイン" }).click();
 
   await expect(page.getByText("ログインに成功しました。")).toBeVisible();
+  
   await page.context().storageState({
     path: authFile,
   });
