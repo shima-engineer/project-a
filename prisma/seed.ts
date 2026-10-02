@@ -106,7 +106,7 @@ async function main() {
         description:
           "ブログ記事やSNS投稿を高速に作成できるAIライティングツール。",
         features: "記事生成、SEO補助、SNS投稿作成",
-        pricing: "Freemium",
+       pricing_type: "Free",
         thumbnail_url:
           "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
         status: "published",
@@ -124,7 +124,7 @@ async function main() {
         tagline: "ポモドーロ集中タイマー",
         description: "集中時間を可視化し習慣化を支援する生産性向上アプリ。",
         features: "ポモドーロ、統計、目標管理",
-        pricing: "Free",
+        pricing_type: "Free",
         thumbnail_url:
           "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
         status: "published",
@@ -142,7 +142,7 @@ async function main() {
         tagline: "API監視を3分で開始",
         description: "エンドポイント監視と障害通知を簡単に構築できるサービス。",
         features: "死活監視、Slack通知、分析",
-        pricing: "$9/month",
+        pricing_type: "Paid",
         thumbnail_url:
           "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
         status: "published",
@@ -160,7 +160,7 @@ async function main() {
         tagline: "AIプロンプト管理ツール",
         description: "プロンプトの保存・共有・検索ができるサービス。",
         features: "タグ管理、検索、共有",
-        pricing: "Freemium",
+        pricing_type: "Freemium",
         thumbnail_url:
           "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
         status: "published",
@@ -178,7 +178,7 @@ async function main() {
         tagline: "習慣化をゲーム化するアプリ",
         description: "毎日の習慣をポイント化して継続を支援。",
         features: "習慣管理、ランキング、分析",
-        pricing: "Free",
+        pricing_type: "Free",
         thumbnail_url:
           "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b",
         status: "published",
