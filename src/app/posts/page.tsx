@@ -2,10 +2,12 @@ import ProductSubmitForm from "@/features/productSubmitForm/components/ProductSu
 import ProductPreviewContent from "@/features/productSubmitPreview/components/ProductPreviewContent";
 import ProductSubmitPreview from "@/features/productSubmitPreview/components/ProductSubmitPreview";
 import ProductSubmitFormProvider from "@/features/productSubmitForm/components/ProductSubmitFormProvider";
+import ProductSubmitLoading from "@/features/productSubmitForm/components/ProductSubmitLoading";
 
 const page = () => {
   return (
     <ProductSubmitFormProvider>
+      <ProductSubmitLoading />
       <main className="flex-1 grid md:grid-cols-2 max-w-400 mx-auto w-full">
         <div className="px-4 sm:px-8 md:px-12 py-8 md:py-10 w-full mx-auto">
           <div className="mb-8">

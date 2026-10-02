@@ -15,10 +15,9 @@ const renderProductDetailPreview = (
         productTagline: "",
         productDescription: "",
         productFeatures: "",
-        productTags: [],
         productScreenshots: [],
         productTechnologies: [],
-        productPlans: undefined,
+        productPricingType: undefined,
         productCategory: undefined,
         ...defaultValues,
       },
@@ -60,8 +59,6 @@ describe("ProductDetailPreview", () => {
       }),
     ).toBeInTheDocument();
 
-    expect(screen.getByText("タグ")).toBeInTheDocument();
-
     expect(screen.getByText("料金プラン")).toBeInTheDocument();
 
     expect(screen.getAllByText("カテゴリー")).toHaveLength(3);
@@ -73,9 +70,8 @@ describe("ProductDetailPreview", () => {
       productTagline: "日本のプロダクトを発見",
       productDescription: "プロダクトを投稿できるサービスです。",
       productFeatures: "投稿・投票・コメント",
-      productTags: ["開発", "Web"],
       productTechnologies: ["Next.js", "Supabase"],
-      productPlans: "Free",
+      productPricingType: "Free",
       productCategory: "Developer Tools",
     });
 
@@ -89,10 +85,8 @@ describe("ProductDetailPreview", () => {
 
     expect(screen.getByText("投稿・投票・コメント")).toBeInTheDocument();
 
-    expect(screen.getByText("開発")).toBeInTheDocument();
-    expect(screen.getByText("Web")).toBeInTheDocument();
-
     expect(screen.getByText("Next.js")).toBeInTheDocument();
+
     expect(screen.getByText("Supabase")).toBeInTheDocument();
 
     expect(screen.getByText("Free")).toBeInTheDocument();
@@ -141,6 +135,7 @@ describe("ProductDetailPreview", () => {
 
     await waitFor(() => {
       expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot1);
+
       expect(URL.createObjectURL).toHaveBeenCalledWith(screenshot2);
     });
   });

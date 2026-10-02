@@ -1,7 +1,9 @@
 "use client";
+
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { useState } from "react";
+import { useWatch } from "react-hook-form";
 import { MAX_SCREENSHOT_COUNT } from "../constants";
 import { useFormContext } from "react-hook-form";
 import ProductThumbnailModal from "./ProductThumbnailModal";
@@ -9,23 +11,29 @@ import ErrorMessage from "./ErrorMessage";
 import { ProductSubmitFormValues } from "../schema";
 import ProductScreenshotModal from "./ProductScreenshotModal";
 
-type ProductScreenshot = {
-  id: string;
-  file: File;
-};
+// useWatchがundefinedの間も同じ空配列を参照し、不要な再レンダーやuseMemoの依存変更を防ぐ
+const EMPTY_SCREENSHOTS: File[] = [];
 
 const MediaSection = () => {
   const {
+    control,
     formState: { errors },
     setValue,
   } = useFormContext<ProductSubmitFormValues>();
 
-  const [productThumbnail, setProductThumbnail] = useState<File | null>(null);
+  const productThumbnail = useWatch({
+    control,
+    name: "productThumbnail",
+  });
+
+  const productScreenshots =
+    useWatch({
+      control,
+      name: "productScreenshots",
+    }) ?? EMPTY_SCREENSHOTS;
+
   const [productThumbnailDragOver, setProductThumbnailDragOver] =
     useState(false);
-  const [productScreenshots, setProductScreenshots] = useState<
-    ProductScreenshot[]
-  >([]);
   const [productScreenshotDragOver, setProductScreenshotDragOver] =
     useState(false);
   const [isProductThumbnailModalOpen, setIsProductThumbnailModalOpen] =
@@ -43,11 +51,7 @@ const MediaSection = () => {
   }, [productThumbnail]);
 
   const productScreenshotsURLs = useMemo(() => {
-    if (productScreenshots.length === 0) return [];
-
-    return productScreenshots.map((screenshot) =>
-      URL.createObjectURL(screenshot.file),
-    );
+    return productScreenshots.map((file) => URL.createObjectURL(file));
   }, [productScreenshots]);
 
   useEffect(() => {
@@ -64,11 +68,12 @@ const MediaSection = () => {
 
     if (!file) return;
 
-    setProductThumbnail(file);
     setValue("productThumbnail", file, {
       shouldValidate: true,
       shouldDirty: true,
     });
+
+    e.target.value = "";
   };
 
   const handleThumbnailDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -87,7 +92,6 @@ const MediaSection = () => {
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
 
-    setProductThumbnail(file);
     setValue("productThumbnail", file, {
       shouldValidate: true,
       shouldDirty: true,
@@ -112,23 +116,12 @@ const MediaSection = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const newScreenshot: ProductScreenshot = {
-      id: crypto.randomUUID(),
-      file,
-    };
+    setValue("productScreenshots", [...productScreenshots, file], {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
 
-    const updatedScreenshots = [...productScreenshots, newScreenshot];
-
-    setProductScreenshots(updatedScreenshots);
-
-    setValue(
-      "productScreenshots",
-      updatedScreenshots.map((screenshot) => screenshot.file),
-      {
-        shouldValidate: true,
-        shouldDirty: true,
-      },
-    );
+    e.target.value = "";
   };
 
   const handleScreenshotDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -148,22 +141,10 @@ const MediaSection = () => {
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
 
-    const newScreenshot: ProductScreenshot = {
-      id: crypto.randomUUID(),
-      file,
-    };
-    const updatedScreenshots = [...productScreenshots, newScreenshot];
-
-    setProductScreenshots(updatedScreenshots);
-
-    setValue(
-      "productScreenshots",
-      updatedScreenshots.map((screenshot) => screenshot.file),
-      {
-        shouldValidate: true,
-        shouldDirty: true,
-      },
-    );
+    setValue("productScreenshots", [...productScreenshots, file], {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
   };
 
   const onProductScreenshotModalClose = () => {
@@ -178,15 +159,10 @@ const MediaSection = () => {
 
   const handleScreenshotDelete = (index: number) => {
     const updatedScreenshots = productScreenshots.filter((_, i) => i !== index);
-    setProductScreenshots(updatedScreenshots);
-    setValue(
-      "productScreenshots",
-      updatedScreenshots.map((screenshot) => screenshot.file),
-      {
-        shouldValidate: true,
-        shouldDirty: true,
-      },
-    );
+    setValue("productScreenshots", updatedScreenshots, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     setSelectedScreenshotIndex(null);
   };
 
@@ -269,7 +245,10 @@ const MediaSection = () => {
           {productScreenshots.length > 0 &&
             productScreenshots.map((screenshot, index) => {
               return (
-                <div key={`${screenshot.id}`} className="relative group">
+                <div
+                  key={`${screenshot.name}-${screenshot.lastModified}-${index}`}
+                  className="relative group"
+                >
                   <Image
                     src={productScreenshotsURLs[index]}
                     alt="Product Screenshot"

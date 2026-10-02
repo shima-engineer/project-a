@@ -11,7 +11,17 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "anhczlcfohajiljuopqh.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "16mb",
+    },
   },
 };
 

@@ -3,7 +3,6 @@ export const PRODUCT_NAME_MAX_LENGTH = 40;
 export const PRODUCT_TAGLINE_MAX_LENGTH = 60;
 
 export const PRODUCT_CATEGORIES = [
-  "",
   "AIツール",
   "SaaS",
   "Webアプリ",
