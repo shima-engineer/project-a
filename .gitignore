@@ -49,5 +49,3 @@ next-env.d.ts
 /playwright/.cache/
 /playwright/.auth/
 /tests/.auth/
-
-テスト
