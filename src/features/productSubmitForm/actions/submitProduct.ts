@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
-
 import { ProductSubmitFormValues } from "../schema";
 
 type SubmitProductResult =
