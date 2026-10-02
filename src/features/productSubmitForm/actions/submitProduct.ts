@@ -93,6 +93,10 @@ export const submitProduct = async (
 
       if (error) {
         console.error("スクリーンショットアップロードエラー:", error);
+        await supabase.storage.from("thumbnails").remove([thumbnailPath]);
+        await supabase.storage
+          .from("screenshots")
+          .remove(screenshotPaths.map(({ path }) => path));
 
         return {
           success: false,
@@ -109,73 +113,105 @@ export const submitProduct = async (
       return publicUrl;
     });
 
-    const product = await prisma.products.create({
-      data: {
-        user_id: user.id,
-        slug,
-        name: data.productName,
-        tagline: data.productTagline,
-        url: data.productWebsite,
-        category_id: category.id,
-        description: data.productDescription,
-        features: data.productFeatures,
-        pricing_type: data.productPricingType,
-        thumbnail_url: thumbnailUrl,
-      },
-    });
+    try {
+      const allProduct = await prisma.$transaction(async (tx) => {
+        const product = await tx.products.create({
+          data: {
+            user_id: user.id,
+            slug,
+            name: data.productName,
+            tagline: data.productTagline,
+            url: data.productWebsite,
+            category_id: category.id,
+            description: data.productDescription,
+            features: data.productFeatures,
+            pricing_type: data.productPricingType,
+            thumbnail_url: thumbnailUrl,
+          },
+        });
 
-    for (const tagName of data.productTags) {
-      const tag = await prisma.tags.upsert({
-        where: {
-          name: tagName,
-        },
-        update: {},
-        create: {
-          name: tagName,
-          slug: crypto.randomUUID(),
-        },
-      });
+        for (const tagName of data.productTags) {
+          const tag = await tx.tags.upsert({
+            where: {
+              name: tagName,
+            },
+            update: {},
+            create: {
+              name: tagName,
+              slug: crypto.randomUUID(),
+            },
+          });
 
-      await prisma.product_tags.create({
-        data: {
-          product_id: product.id,
-          tag_id: tag.id,
-        },
+          await tx.product_tags.create({
+            data: {
+              product_id: product.id,
+              tag_id: tag.id,
+            },
+          });
+        }
+
+        for (const technology of data.productTechnologies) {
+          const techStack = await tx.tech_stacks.upsert({
+            where: {
+              name: technology,
+            },
+            update: {},
+            create: {
+              name: technology,
+              slug: crypto.randomUUID(),
+            },
+          });
+
+          await tx.product_tech_stacks.create({
+            data: {
+              product_id: product.id,
+              stack_id: techStack.id,
+            },
+          });
+        }
+
+        await tx.screenshots.createMany({
+          data: screenshotUrls.map((imageUrl, index) => ({
+            product_id: product.id,
+            image_url: imageUrl,
+            sort_order: index,
+          })),
+        });
+
+        return product;
       });
+      return {
+        success: true,
+        productId: allProduct.id,
+      };
+    } catch (error) {
+      console.error("トランザクションエラー:", error);
+      // サムネイル削除
+      const { error: thumbnailDeleteError } = await supabase.storage
+        .from("thumbnails")
+        .remove([thumbnailPath]);
+
+      if (thumbnailDeleteError) {
+        console.error("サムネイル削除エラー:", thumbnailDeleteError);
+      }
+
+      // スクリーンショット削除
+      const screenshotPathsToDelete = screenshotPaths.map(({ path }) => path);
+
+      if (screenshotPathsToDelete.length > 0) {
+        const { error: screenshotDeleteError } = await supabase.storage
+          .from("screenshots")
+          .remove(screenshotPathsToDelete);
+
+        if (screenshotDeleteError) {
+          console.error("スクリーンショット削除エラー:", screenshotDeleteError);
+        }
+      }
+      return {
+        success: false,
+        message: "プロダクトの投稿に失敗しました。",
+      };
     }
-
-    for (const technology of data.productTechnologies) {
-      const techStack = await prisma.tech_stacks.upsert({
-        where: {
-          name: technology,
-        },
-        update: {},
-        create: {
-          name: technology,
-          slug: crypto.randomUUID(),
-        },
-      });
-
-      await prisma.product_tech_stacks.create({
-        data: {
-          product_id: product.id,
-          stack_id: techStack.id,
-        },
-      });
-    }
-
-    await prisma.screenshots.createMany({
-      data: screenshotUrls.map((imageUrl, index) => ({
-        product_id: product.id,
-        image_url: imageUrl,
-        sort_order: index,
-      })),
-    });
-
-    return {
-      success: true,
-      productId: product.id,
-    };
   } catch (error) {
     console.error("予期しないプロダクト投稿エラー:", error);
 
