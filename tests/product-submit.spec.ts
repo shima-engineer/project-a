@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("test", async ({ page }) => {
+test("必須項目を入力してプロダクトを投稿できる", async ({ page }) => {
   await page.goto("http://localhost:3000/posts");
   await page.getByRole("textbox", { name: "プロダクト名 *" }).click();
   await page
