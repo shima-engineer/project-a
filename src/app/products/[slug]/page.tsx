@@ -1,4 +1,5 @@
 import ProductDetailHeader from "@/features/productDetail/components/ProductDetailHeader";
+import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
 import ProductDetailOverView from "@/features/productDetail/components/ProductDetailOverView";
 import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
@@ -12,7 +13,12 @@ const page = () => {
   return (
     <main className="sm:px-6  px-4 py-8  lg:flex">
       <div>
-        <ProductDetailHeader />
+        <div className="mb-10">
+          <ProductDetailHeader />
+        </div>
+        <div className="mb-10">
+          <ProductDetailActionBar />
+        </div>
         <ProductDetailOverView />
         <ProductDetailProductInfo />
         <ProductDetailScreenshots />
