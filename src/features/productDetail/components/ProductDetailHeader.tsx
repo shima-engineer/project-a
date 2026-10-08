@@ -1,4 +1,3 @@
-
 const ProductDetailHeader = () => {
   return (
     <div>ProductDetailHeader</div>
