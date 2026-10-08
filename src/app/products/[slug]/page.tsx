@@ -10,8 +10,8 @@ import ProductDetailCommentPost from "@/features/productDetail/components/Produc
 
 const page = () => {
   return (
-    <>
-      <div className="md:flex">
+    <main className="sm:px-6  px-4 py-8  lg:flex">
+      <div>
         <ProductDetailHeader />
         <ProductDetailOverView />
         <ProductDetailProductInfo />
@@ -22,7 +22,7 @@ const page = () => {
         <ProductDetailCommentPost />
       </div>
       <ProductDetailDeveloperInfo />
-    </>
+    </main>
   );
 };
 
