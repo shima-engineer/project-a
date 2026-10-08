@@ -2,7 +2,7 @@ import { ChevronUp } from "lucide-react";
 
 const ProductDetailHeader = () => {
   return (
-    <div className="sm:flex justify-between">
+    <section className="sm:flex justify-between">
       {/* TODO#22:Imageタグに置き換える。 */}
       <div className="sm:flex gap-5">
         <div className="size-20 sm:size-24 rounded-2xl ring-1 ring-border mb-5"></div>
@@ -39,7 +39,7 @@ const ProductDetailHeader = () => {
           1,248
         </span>
       </button>
-    </div>
+    </section>
   );
 };
 

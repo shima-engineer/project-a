@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ProductDetailActionBar = () => {
   return (
-    <div className="flex gap-2">
+    <section className="flex gap-2">
       {/* TODO#17:実際のリンクに置き換える */}
       <Link
         href="/"
@@ -20,7 +20,7 @@ const ProductDetailActionBar = () => {
         <Share2 className="w-4 h-4"/>
         <span>共有</span>
       </button>
-    </div>
+    </section>
   );
 };
 
