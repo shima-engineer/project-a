@@ -29,7 +29,9 @@ const page = () => {
         <div className="mb-10">
           <ProductDetailTechnologies />
         </div>
-        <ProductDetailProductInfo />
+        <div className="mb-10">
+          <ProductDetailProductInfo />
+        </div>
         <ProductDetailComments />
         <ProductDetailCommentList />
         <ProductDetailCommentPost />
