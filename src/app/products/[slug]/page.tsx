@@ -19,6 +19,7 @@ const page = () => {
         <div className="mb-10">
           <ProductDetailActionBar />
         </div>
+        {/* TODO#18:スクリーンショット0の時にmbを外す */}
         <div className="mb-10">
           <ProductDetailScreenshots />
         </div>
