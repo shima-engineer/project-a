@@ -1,7 +1,11 @@
+import ProductDetailCommentItem from "./ProductDetailCommentItem";
+
 const ProductDetailCommentList = () => {
   return (
-    <div>ProductDetailCommentList</div>
-  )
-}
+    <div>
+      <ProductDetailCommentItem />
+    </div>
+  );
+};
 
-export default ProductDetailCommentList
+export default ProductDetailCommentList;

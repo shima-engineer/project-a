@@ -6,8 +6,6 @@ import ProductDetailScreenshots from "@/features/productDetail/components/Produc
 import ProductDetailTechnologies from "@/features/productDetail/components/ProductDetailTechnologies";
 import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
-import ProductDetailCommentList from "@/features/productDetail/components/ProductDetailCommentList";
-import ProductDetailCommentPost from "@/features/productDetail/components/ProductDetailCommentPost";
 
 const page = () => {
   return (
@@ -33,8 +31,6 @@ const page = () => {
           <ProductDetailProductInfo />
         </div>
         <ProductDetailComments />
-        <ProductDetailCommentList />
-        <ProductDetailCommentPost />
       </div>
       <ProductDetailDeveloperInfo />
     </main>

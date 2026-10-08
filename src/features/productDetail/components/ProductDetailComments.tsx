@@ -1,7 +1,13 @@
+import ProductDetailCommentList from "./ProductDetailCommentList";
+import ProductDetailCommentForm from "./ProductDetailCommentForm";
+
 const ProductDetailComments = () => {
   return (
-    <div>ProductDetailComments</div>
-  )
-}
+    <div>
+      <ProductDetailCommentForm />
+      <ProductDetailCommentList />
+    </div>
+  );
+};
 
-export default ProductDetailComments
+export default ProductDetailComments;
