@@ -19,9 +19,11 @@ const page = () => {
         <div className="mb-10">
           <ProductDetailActionBar />
         </div>
+        <div className="mb-10">
+          <ProductDetailScreenshots />
+        </div>
         <ProductDetailOverView />
         <ProductDetailProductInfo />
-        <ProductDetailScreenshots />
         <ProductDetailTechnologies />
         <ProductDetailComments />
         <ProductDetailCommentList />
