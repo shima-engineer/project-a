@@ -26,8 +26,10 @@ const page = () => {
         <div className="mb-10">
           <ProductDetailOverView />
         </div>
+        <div className="mb-10">
+          <ProductDetailTechnologies />
+        </div>
         <ProductDetailProductInfo />
-        <ProductDetailTechnologies />
         <ProductDetailComments />
         <ProductDetailCommentList />
         <ProductDetailCommentPost />
