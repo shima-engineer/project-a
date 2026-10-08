@@ -11,9 +11,9 @@ const ProductDetailHeader = () => {
             <span>#1</span>
             <span>AI ツール</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
             Shibuya AI
-          </h2>
+          </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-5">
             日本語特化のAIライティングアシスタント
           </p>
