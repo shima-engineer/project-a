@@ -6,7 +6,6 @@ import ProductDetailScreenshots from "@/features/productDetail/components/Produc
 import ProductDetailTechnologies from "@/features/productDetail/components/ProductDetailTechnologies";
 import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
-import ProductDetailTechnologiesSkelton from "@/features/skelton/ProductDetailTechnologiesSkelton";
 
 const page = () => {
   return (
@@ -27,7 +26,6 @@ const page = () => {
         </div>
         <div className="mb-10">
           <ProductDetailTechnologies />
-          <ProductDetailTechnologiesSkelton />
         </div>
         <div className="mb-10">
           <ProductDetailProductInfo />
