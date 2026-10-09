@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProductDetailOverViewSkelton() {
+export function ProductDetailOverviewSkelton() {
   return (
     <>
       <h2 className="text-xl font-bold mb-3">概要</h2>
@@ -12,4 +12,4 @@ export function ProductDetailOverViewSkelton() {
   );
 }
 
-export default ProductDetailOverViewSkelton;
+export default ProductDetailOverviewSkelton;
