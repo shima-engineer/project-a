@@ -1,5 +1,6 @@
 import ProductDetailHeader from "@/features/productDetail/components/ProductDetailHeader";
 import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
+import ProductDetailActionBarSkelton from "@/features/skelton/ProductDetailActionBarSkelton";
 import ProductDetailOverView from "@/features/productDetail/components/ProductDetailOverView";
 import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
@@ -16,6 +17,7 @@ const page = () => {
         </div>
         <div className="mb-10">
           <ProductDetailActionBar />
+          <ProductDetailActionBarSkelton />
         </div>
         {/* TODO#18:スクリーンショット0の時にmbを外す */}
         <div className="mb-10">
