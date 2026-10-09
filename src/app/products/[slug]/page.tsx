@@ -9,7 +9,7 @@ import ProductDetailComments from "@/features/productDetail/components/ProductDe
 
 const page = () => {
   return (
-    <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10 lg:grid-cols-[1fr_320px]">
+    <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
           <ProductDetailHeader />
