@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProductDetailHeaderSkelton() {
+export function ProductDetailHeaderSkeleton() {
   return (
     <div className="flex items-center gap-4">
       <Skeleton className="size-20 sm:size-24 rounded-2xl ring-1 ring-border mb-5" />
@@ -19,4 +19,4 @@ export function ProductDetailHeaderSkelton() {
   );
 }
 
-export default ProductDetailHeaderSkelton;
+export default ProductDetailHeaderSkeleton;

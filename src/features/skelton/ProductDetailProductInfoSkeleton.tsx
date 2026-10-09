@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProductDetailProductInfoSkelton() {
+export function ProductDetailProductInfoSkeleton() {
   return (
     <div className="flex items-center gap-4 rounded-2xl border p-4">
       <Skeleton className="size-14 shrink-0 rounded-full" />
@@ -16,4 +16,4 @@ export function ProductDetailProductInfoSkelton() {
   );
 }
 
-export default ProductDetailProductInfoSkelton;
+export default ProductDetailProductInfoSkeleton;

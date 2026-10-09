@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProductDetailCommentsSkelton() {
+export function ProductDetailCommentsSkeleton() {
   return (
     <section className="space-y-5">
       <h2 className="text-xl font-bold">コメント</h2>
@@ -43,4 +43,4 @@ export function ProductDetailCommentsSkelton() {
   );
 }
 
-export default ProductDetailCommentsSkelton;
+export default ProductDetailCommentsSkeleton;

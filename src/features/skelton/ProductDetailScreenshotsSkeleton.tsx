@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProductDetailScreenshotsSkelton() {
+export function ProductDetailScreenshotsSkeleton() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       <Skeleton className="aspect-video rounded-xl ring-1 ring-border overflow-hidden" />
@@ -13,4 +13,4 @@ export function ProductDetailScreenshotsSkelton() {
   );
 }
 
-export default ProductDetailScreenshotsSkelton;
+export default ProductDetailScreenshotsSkeleton;
