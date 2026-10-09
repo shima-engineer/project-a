@@ -1,6 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-
 export function ProductDetailActionBarSkelton() {
   return (
     <div className="flex gap-3">
