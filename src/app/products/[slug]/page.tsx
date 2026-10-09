@@ -8,6 +8,10 @@ import ProductDetailDeveloperInfo from "@/features/productDetail/components/Prod
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
 
 const page = () => {
+  {
+    /* TODO#22:suspenseでスケルトンを表示することを検討
+      うまくいかなければloading.tsxを使用する */
+  }
   return (
     <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
