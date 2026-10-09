@@ -7,7 +7,7 @@ const ProductDetailHeader = () => {
       <div className="sm:flex gap-5">
         <div className="size-20 sm:size-24 rounded-2xl ring-1 ring-border mb-5"></div>
         <div>
-          <div className="flex text-xs text-muted-foreground mb-1 ">
+          <div className="flex gap-2 text-xs text-muted-foreground mb-1 ">
             <span>#1</span>
             <span>AI ツール</span>
           </div>
