@@ -5,7 +5,6 @@ import ProductDetailProductInfo from "@/features/productDetail/components/Produc
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
 import ProductDetailTechnologies from "@/features/productDetail/components/ProductDetailTechnologies";
 import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
-import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
 
 const page = () => {
   return (
