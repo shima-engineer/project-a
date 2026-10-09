@@ -2,16 +2,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProductDetailProductInfoSkeleton() {
   return (
-    <div className="flex items-center gap-4 rounded-2xl border p-4">
-      <Skeleton className="size-14 shrink-0 rounded-full" />
-
-      <div className="flex-1 space-y-2">
-        <Skeleton className="h-3 w-14" />
-        <Skeleton className="h-4 w-24" />
-        <Skeleton className="h-3 w-20" />
+    <div className="lg:sticky lg:top-24 lg:self-start p-4 border rounded-lg lg:w-80">
+      <h3 className="text-sm font-semibold mb-3">プロダクト情報</h3>
+      <div className="space-y-4">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
       </div>
-
-      <Skeleton className="h-9 w-20 rounded-md" />
     </div>
   );
 }

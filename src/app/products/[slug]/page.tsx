@@ -32,13 +32,13 @@ const page = () => {
           <ProductDetailTechnologies />
         </div>
         <div className="mb-10">
-          <ProductDetailProductInfo />
+          <ProductDetailDeveloperInfo />
         </div>
         <div className="mb-10">
           <ProductDetailComments />
         </div>
       </div>
-      <ProductDetailDeveloperInfo />
+      <ProductDetailProductInfo />
     </main>
   );
 };
