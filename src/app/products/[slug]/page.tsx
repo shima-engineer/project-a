@@ -1,11 +1,11 @@
 import ProductDetailHeader from "@/features/productDetail/components/ProductDetailHeader";
 import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
-import ProductDetailOverView from "@/features/productDetail/components/ProductDetailOverView";
-import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
+import ProductDetailOverview from "@/features/productDetail/components/ProductDetailOverView";
 import ProductDetailTechnologies from "@/features/productDetail/components/ProductDetailTechnologies";
-import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
+import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
+import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
 
 const page = () => {
   {
@@ -26,7 +26,7 @@ const page = () => {
           <ProductDetailScreenshots />
         </div>
         <div className="mb-10">
-          <ProductDetailOverView />
+          <ProductDetailOverview />
         </div>
         <div className="mb-10">
           <ProductDetailTechnologies />

@@ -1,4 +1,4 @@
-const ProductDetailOverView = () => {
+const ProductDetailOverview = () => {
   return (
     <div>
       <h2 className="text-xl font-bold mb-3">概要</h2>
@@ -15,4 +15,4 @@ const ProductDetailOverView = () => {
   );
 };
 
-export default ProductDetailOverView;
+export default ProductDetailOverview;
