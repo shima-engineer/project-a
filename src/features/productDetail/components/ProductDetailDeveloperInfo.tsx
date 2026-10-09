@@ -1,6 +1,6 @@
 const ProductDetailDeveloperInfo = () => {
   return (
-    <div className="p-4 border rounded-lg">
+    <aside className="lg:sticky lg:top-24 lg:self-start p-4 border rounded-lg lg:w-80">
       <h3 className="text-sm font-semibold mb-3">プロダクト情報</h3>
       <dl className="text-sm space-y-3">
         <div className="flex justify-between">
@@ -16,7 +16,7 @@ const ProductDetailDeveloperInfo = () => {
           <dd className="font-medium">1,248</dd>
         </div>
       </dl>
-    </div>
+    </aside>
   );
 };
 
