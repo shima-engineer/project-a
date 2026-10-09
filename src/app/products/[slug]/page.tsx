@@ -1,9 +1,46 @@
-import React from 'react'
+import ProductDetailHeader from "@/features/productDetail/components/ProductDetailHeader";
+import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
+import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
+import ProductDetailOverview from "@/features/productDetail/components/ProductDetailOverview";
+import ProductDetailTechnologies from "@/features/productDetail/components/ProductDetailTechnologies";
+import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
+import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
+import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
 
 const page = () => {
+  {
+    /* TODO#22:suspenseでスケルトンを表示することを検討
+      うまくいかなければloading.tsxを使用する */
+  }
   return (
-    <div>page</div>
-  )
-}
+    <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
+      <div>
+        <div className="mb-10">
+          <ProductDetailHeader />
+        </div>
+        <div className="mb-10">
+          <ProductDetailActionBar />
+        </div>
+        {/* TODO#18:スクリーンショット0の時にmbを外す */}
+        <div className="mb-10">
+          <ProductDetailScreenshots />
+        </div>
+        <div className="mb-10">
+          <ProductDetailOverview />
+        </div>
+        <div className="mb-10">
+          <ProductDetailTechnologies />
+        </div>
+        <div className="mb-10">
+          <ProductDetailDeveloperInfo />
+        </div>
+        <div className="mb-10">
+          <ProductDetailComments />
+        </div>
+      </div>
+      <ProductDetailProductInfo />
+    </main>
+  );
+};
 
-export default page
+export default page;
