@@ -30,7 +30,9 @@ const page = () => {
         <div className="mb-10">
           <ProductDetailProductInfo />
         </div>
-        <ProductDetailComments />
+        <div className="mb-10">
+          <ProductDetailComments />
+        </div>
       </div>
       <ProductDetailDeveloperInfo />
     </main>
