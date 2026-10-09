@@ -33,6 +33,7 @@ const ProductDetailHeader = () => {
           </div>
         </div>
       </div>
+      {/* TODO#22:本人の場合は押せなくするか削除 */}
       <button className="group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-16 h-16 text-lg hover:-translate-y-0.5 cursor-pointer bg-background border-border hover:border-upvote hover:text-upvote hover:shadow-upvote">
         <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
         <span className="font-bold tabular-nums leading-none mt-0.5">
