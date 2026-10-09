@@ -6,6 +6,7 @@ const ProductDetailCommentForm = () => {
       <form className="flex-1">
         <div className="rounded-xl border border-input bg-card transition-all focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10">
           <textarea
+            aria-label="コメント"
             className="block w-full h-20 resize-none bg-transparent px-4 pt-3 pb-2 text-sm placeholder:text-muted-foreground focus:outline-none"
             placeholder="コメントを入力してください"
           ></textarea>
