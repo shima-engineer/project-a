@@ -1,9 +1,9 @@
 import { ChevronUp } from "lucide-react";
 import { getProductCategory } from "../queries/getProductCategory";
 
-const ProductDetailHeader = async({ productDetials }: { productDetials: any }) => {
-  const category = await getProductCategory(productDetials.category_id);
-  
+const ProductDetailHeader = async({ productDetail }: { productDetail: any }) => {
+  const category = await getProductCategory(productDetail.category_id);
+
   return (
     <section className="sm:flex justify-between">
       {/* TODO#22:Imageタグに置き換える。 */}
@@ -15,10 +15,10 @@ const ProductDetailHeader = async({ productDetials }: { productDetials: any }) =
             <span>{category?.name}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
-            {productDetials.name}
+            {productDetail.name}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-5">
-            {productDetials.description}
+            {productDetail.description}
           </p>
           <div className="flex flex-wrap gap-1.5 mb-5">
             <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium">
