@@ -2,7 +2,7 @@ import { ChevronUp } from "lucide-react";
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import type { ProductDetails } from "../queries/getProductDetails";
-import { getProductRank } from "../queries/getProductRank";
+import { getProductRankBySlug } from "../queries/getProductRank";
 
 const ProductDetailHeader = async ({
   productDetails,
@@ -13,7 +13,10 @@ const ProductDetailHeader = async ({
 }) => {
   if (!productDetails) return null;
 
-  const rank = await getProductRank(productDetails.slug, period ?? "daily");
+  const rank = await getProductRankBySlug(
+    productDetails.slug,
+    period ?? "daily",
+  );
 
   return (
     <section className="sm:flex justify-between">

@@ -19,15 +19,32 @@ export async function getProductsByPeriod(
   period: "daily" | "weekly" | "monthly",
 ) {
   const range = getPeriodRange(period);
-  return prisma.products.findMany({
+
+  const products = await prisma.products.findMany({
     where: {
       created_at: range,
     },
     include: {
       categories: true,
     },
-    orderBy: {
-      upvotes_count: "desc",
-    },
+    orderBy: [{ upvotes_count: "desc" }, { created_at: "asc" }, { id: "asc" }],
+  });
+
+  let rank = 0;
+
+  return products.map((product, index) => {
+    if (
+      index === 0 ||
+      product.upvotes_count !== products[index - 1].upvotes_count
+    ) {
+      rank = index + 1;
+    }
+
+    return {
+      ...product,
+      rank,
+    };
   });
 }
+
+export type ProductsByPeriod = Awaited<ReturnType<typeof getProductsByPeriod>>;

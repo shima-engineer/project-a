@@ -1,7 +1,7 @@
 import { getPeriodRange } from "@/app/utils/getPeriodRange";
 import { prisma } from "@/lib/prisma";
 
-export async function getProductRank(
+export async function getProductRankBySlug(
   slug: string,
   period: "daily" | "weekly" | "monthly",
 ) {
@@ -14,10 +14,7 @@ export async function getProductRank(
   const range = getPeriodRange(period);
 
   // 対象期間に投稿されていなければ順位なし
-  if (
-    product.created_at < range.gte ||
-    product.created_at > range.lte
-  ) {
+  if (product.created_at < range.gte || product.created_at > range.lte) {
     return null;
   }
 

@@ -1,24 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import UpvoteButton from "../../upvote/components/UpvoteButton";
-import { Prisma } from "@/generated/prisma/client";
+import type { ProductsByPeriod } from "@/features/product/queries/getProduct";
 import type { User } from "@supabase/supabase-js";
 
-type ProductWithCategory = Prisma.productsGetPayload<{
-  include: {
-    categories: true;
-  };
-}>;
-
 interface RankItemProps {
-  product: ProductWithCategory;
+  product: ProductsByPeriod[number];
   index: number;
   votedProductIds: Set<string>;
   user: User | null;
   id: "daily" | "weekly" | "monthly";
 }
 
-const RankItem = ({ product, index, votedProductIds, user, id }: RankItemProps) => {
+const RankItem = async ({
+  product,
+  votedProductIds,
+  user,
+  id,
+}: RankItemProps) => {
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
@@ -28,7 +27,7 @@ const RankItem = ({ product, index, votedProductIds, user, id }: RankItemProps) 
       >
         <div className="flex items-center gap-3 sm:gap-4">
           <p className="hidden sm:flex  shrink-0 items-center justify-center text-sm font-semibold text-muted-foreground tabular-nums group-hover/list:text-primary transition-colors">
-            {index + 1}
+            {product.rank}
           </p>
           <Image
             src={product.thumbnail_url || "/user-icon.png"} // TODO: デフォルトアイコンが決まったら差し替える
