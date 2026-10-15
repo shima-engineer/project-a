@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
+import { getPeriodRange } from "@/app/utils/getPeriodRange";
 dayjs.extend(isoWeek);
 
 export async function getProducts() {
@@ -17,24 +18,10 @@ export async function getProducts() {
 export async function getProductsByPeriod(
   period: "daily" | "weekly" | "monthly",
 ) {
-  const ranges = {
-    daily: {
-      gte: dayjs().startOf("day").toDate(),
-      lte: dayjs().endOf("day").toDate(),
-    },
-    weekly: {
-      gte: dayjs().startOf("isoWeek").toDate(),
-      lte: dayjs().endOf("isoWeek").toDate(),
-    },
-    monthly: {
-      gte: dayjs().startOf("month").toDate(),
-      lte: dayjs().endOf("month").toDate(),
-    },
-  };
-
+  const range = getPeriodRange(period);
   return prisma.products.findMany({
     where: {
-      created_at: ranges[period],
+      created_at: range,
     },
     include: {
       categories: true,
