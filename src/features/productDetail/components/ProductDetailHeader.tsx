@@ -40,23 +40,25 @@ const ProductDetailHeader = async ({
         <div>
           <div className="flex gap-2 text-xs text-muted-foreground mb-1 ">
             <span>#{rank ?? "-"}</span>
-            <span>{productDetails.categories.name}</span>
+            <span>{productDetails.categories.name ?? ""}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
-            {productDetails.name}
+            {productDetails.name ?? ""}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-5">
-            {productDetails.description}
+            {productDetails.description ?? ""}
           </p>
           <div className="flex flex-wrap gap-1.5 mb-5">
-            {productDetails.product_tags.map(({ tags }) => (
-              <span
-                key={tags.id}
-                className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium"
-              >
-                {tags.name}
-              </span>
-            ))}
+            {productDetails.product_tags.length > 0
+              ? productDetails.product_tags.map(({ tags }) => (
+                  <span
+                    key={tags.id}
+                    className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium"
+                  >
+                    {tags.name}
+                  </span>
+                ))
+              : null}
           </div>
         </div>
       </div>
