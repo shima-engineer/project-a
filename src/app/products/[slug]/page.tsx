@@ -16,7 +16,7 @@ const page = async ({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: "daily" | "weekly" | "monthly" }>;
 }) => {
   {
     /* TODO#22:suspenseでスケルトンを表示することを検討
