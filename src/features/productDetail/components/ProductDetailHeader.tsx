@@ -1,6 +1,6 @@
 import { ChevronUp } from "lucide-react";
 
-const ProductDetailHeader = () => {
+const ProductDetailHeader = ({ productDetials }: { productDetials: any }) => {
   return (
     <section className="sm:flex justify-between">
       {/* TODO#22:Imageタグに置き換える。 */}
@@ -9,13 +9,13 @@ const ProductDetailHeader = () => {
         <div>
           <div className="flex gap-2 text-xs text-muted-foreground mb-1 ">
             <span>#1</span>
-            <span>AI ツール</span>
+            <span>AIツール</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
-            Shibuya AI
+            {productDetials.name}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-5">
-            日本語特化のAIライティングアシスタント
+            {productDetials.description}
           </p>
           <div className="flex flex-wrap gap-1.5 mb-5">
             <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium">

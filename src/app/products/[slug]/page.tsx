@@ -6,17 +6,27 @@ import ProductDetailTechnologies from "@/features/productDetail/components/Produ
 import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
 import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
+import { getProductDetails } from "@/features/productDetail/queries/getProductDetails";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
+import { getUserUpvotes } from "@/features/upvote/queries/getUserUpvotes";
 
-const page = () => {
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   {
     /* TODO#22:suspenseでスケルトンを表示することを検討
       うまくいかなければloading.tsxを使用する */
   }
+  const { slug } = await params;
+  const productDetials = await getProductDetails(slug);
+  console.log(productDetials);
+
+  const user = await getCurrentUser();
+  const upvotes = user ? await getUserUpvotes(user.id) : [];
+
   return (
     <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
-          <ProductDetailHeader />
+          <ProductDetailHeader productDetials={productDetials}/>
         </div>
         <div className="mb-10">
           <ProductDetailActionBar />
