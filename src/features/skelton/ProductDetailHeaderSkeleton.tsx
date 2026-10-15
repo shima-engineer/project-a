@@ -18,5 +18,3 @@ export function ProductDetailHeaderSkeleton() {
     </div>
   );
 }
-
-export default ProductDetailHeaderSkeleton;

@@ -15,5 +15,3 @@ export function ProductDetailDeveloperInfoSkeleton() {
     </div>
   );
 }
-
-export default ProductDetailDeveloperInfoSkeleton;
