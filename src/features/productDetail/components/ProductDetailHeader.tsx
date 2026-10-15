@@ -1,25 +1,43 @@
 import { ChevronUp } from "lucide-react";
-import { getProductCategory } from "../queries/getProductCategory";
+import Image from "next/image";
+import { ImageOff } from "lucide-react";
 import type { ProductDetails } from "../queries/getProductDetails";
+import { getProductRank } from "../queries/getProductRank";
 
 const ProductDetailHeader = async ({
   productDetails,
+  period,
 }: {
   productDetails: ProductDetails;
+  period?: "daily" | "weekly" | "monthly";
 }) => {
   if (!productDetails) return null;
-  
-  const category = await getProductCategory(productDetails.category_id);
+
+  const rank = await getProductRank(productDetails.slug, period ?? "daily");
 
   return (
     <section className="sm:flex justify-between">
-      {/* TODO#22:Imageタグに置き換える。 */}
       <div className="sm:flex gap-5">
-        <div className="size-20 sm:size-24 rounded-2xl ring-1 ring-border mb-5"></div>
+        {productDetails.thumbnail_url ? (
+          <Image
+            src={productDetails.thumbnail_url}
+            width={20}
+            height={20}
+            alt={productDetails.name}
+            className="size-20 sm:size-24 rounded-2xl ring-1 ring-border mb-5"
+          />
+        ) : (
+          <div className="size-20 sm:size-24 rounded-2xl ring-1 ring-border mb-5 bg-muted flex items-center justify-center">
+            <ImageOff
+              className="size-8 text-muted-foreground"
+              aria-hidden="true"
+            />
+          </div>
+        )}
         <div>
           <div className="flex gap-2 text-xs text-muted-foreground mb-1 ">
-            <span>#1</span>
-            <span>{category?.name}</span>
+            <span>#{rank ?? "-"}</span>
+            <span>{productDetails.categories.name}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
             {productDetails.name}
@@ -28,18 +46,14 @@ const ProductDetailHeader = async ({
             {productDetails.description}
           </p>
           <div className="flex flex-wrap gap-1.5 mb-5">
-            <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium">
-              AI
-            </span>
-            <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium">
-              Writing
-            </span>
-            <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium">
-              日本語
-            </span>
-            <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium">
-              Productivity
-            </span>
+            {productDetails.product_tags.map(({ tags }) => (
+              <span
+                key={tags.id}
+                className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium"
+              >
+                {tags.name}
+              </span>
+            ))}
           </div>
         </div>
       </div>

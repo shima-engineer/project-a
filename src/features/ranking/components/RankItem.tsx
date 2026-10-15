@@ -15,13 +15,14 @@ interface RankItemProps {
   index: number;
   votedProductIds: Set<string>;
   user: User | null;
+  id: "daily" | "weekly" | "monthly";
 }
 
-const RankItem = ({ product, index, votedProductIds, user }: RankItemProps) => {
+const RankItem = ({ product, index, votedProductIds, user, id }: RankItemProps) => {
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
-        href={`/products/${product.slug}`}
+        href={`/products/${product.slug}?id=${id}`}
         key={product.id}
         className="cursor-pointer"
       >

@@ -48,6 +48,7 @@ const RankList = async ({
           {products.map((product, index) => (
             <RankItem
               key={product.id}
+              id={id}
               product={product}
               index={index}
               votedProductIds={votedProductIds}

@@ -1,12 +1,17 @@
 import { prisma } from "@/lib/prisma";
-import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-dayjs.extend(isoWeek);
 
-export async function getProductDetails(slug: string) {
+export async function getProductBySlug(slug: string) {
   return prisma.products.findUnique({
-    where: { slug: slug },
+    where: { slug },
+    include: {
+      categories: true,
+      product_tags: {
+        include: {
+          tags: true,
+        },
+      },
+    },
   });
 }
 
-export type ProductDetails = Awaited<ReturnType<typeof getProductDetails>>;
+export type ProductDetails = Awaited<ReturnType<typeof getProductBySlug>>;
