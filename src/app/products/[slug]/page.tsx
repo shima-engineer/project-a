@@ -1,4 +1,5 @@
 import ProductDetailHeader from "@/features/productDetail/components/ProductDetailHeader";
+import { notFound } from "next/navigation";
 import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
 import ProductDetailOverview from "@/features/productDetail/components/ProductDetailOverview";
@@ -22,11 +23,13 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const user = await getCurrentUser();
   const upvotes = user ? await getUserUpvotes(user.id) : [];
 
+  if(!productDetials) return notFound();
+
   return (
     <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
-          <ProductDetailHeader productDetials={productDetials}/>
+          <ProductDetailHeader productDetails={productDetials}/>
         </div>
         <div className="mb-10">
           <ProductDetailActionBar />

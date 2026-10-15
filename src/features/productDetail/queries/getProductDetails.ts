@@ -8,3 +8,5 @@ export async function getProductDetails(slug: string) {
     where: { slug: slug },
   });
 }
+
+export type ProductDetails = Awaited<ReturnType<typeof getProductDetails>>;
