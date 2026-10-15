@@ -10,6 +10,8 @@ import ProductDetailDeveloperInfo from "@/features/productDetail/components/Prod
 import { getProductBySlug } from "@/features/productDetail/queries/getProductDetails";
 import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 import { getUserUpvotes } from "@/features/upvote/queries/getUserUpvotes";
+import { Suspense } from "react";
+import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
 
 const page = async ({
   params,
@@ -35,7 +37,9 @@ const page = async ({
     <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
-          <ProductDetailHeader productDetails={productDetails} period={id} />
+          <Suspense fallback={<ProductDetailHeaderSkeleton />}>
+            <ProductDetailHeader productDetails={productDetails} period={id} />
+          </Suspense>
         </div>
         <div className="mb-10">
           <ProductDetailActionBar />
