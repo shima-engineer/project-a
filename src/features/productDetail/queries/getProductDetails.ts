@@ -11,6 +11,11 @@ export async function getProductBySlug(slug: string) {
         },
       },
       screenshots: true,
+      product_tech_stacks: {
+        include: {
+          tech_stacks: true,
+        },
+      },
     },
   });
 }
