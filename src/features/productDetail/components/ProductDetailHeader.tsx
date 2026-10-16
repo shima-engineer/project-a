@@ -1,23 +1,28 @@
-import { ChevronUp } from "lucide-react";
+import UpvoteButton from "@/features/upvote/components/UpvoteButton";
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import type { ProductDetails } from "../queries/getProductDetails";
 import { getProductRankBySlug } from "../queries/getProductRank";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
+import { getUserUpvotes } from "@/features/upvote/queries/getUserUpvotes";
 
 const ProductDetailHeader = async ({
   productDetails,
-  period,
+  periodId,
 }: {
   productDetails: ProductDetails;
-  period?: "daily" | "weekly" | "monthly";
+  periodId?: "daily" | "weekly" | "monthly";
 }) => {
   if (!productDetails) return null;
 
   const rank = await getProductRankBySlug(
     productDetails.slug,
-    period ?? "daily",
+    periodId ?? "daily",
   );
-
+  const user = await getCurrentUser();
+  const upvotes = user ? await getUserUpvotes(user.id) : [];
+  const votedProductIds = new Set(upvotes.map((u) => u.product_id));
+  console.log(productDetails);
   return (
     <section className="sm:flex justify-between">
       <div className="sm:flex gap-5">
@@ -63,15 +68,12 @@ const ProductDetailHeader = async ({
         </div>
       </div>
       {/* TODO#22:本人の場合は押せなくするか削除 */}
-      <button
-        aria-label="アップボートする"
-        className="group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 active:scale-95 select-none w-16 h-16 text-lg hover:-translate-y-0.5 cursor-pointer bg-background border-border hover:border-upvote hover:text-upvote hover:shadow-upvote"
-      >
-        <ChevronUp className="size-4 transition-transform duration-200 group-hover/upvote:-translate-y-0.5" />
-        <span className="font-bold tabular-nums leading-none mt-0.5">
-          1,248
-        </span>
-      </button>
+      <UpvoteButton
+        id={productDetails.id}
+        upvotes_count={productDetails.upvotes_count}
+        votedProductIds={votedProductIds}
+        user={user}
+      />
     </section>
   );
 };

@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 export default async function Home() {
   const user = await getCurrentUser();
   const upvotes = user ? await getUserUpvotes(user.id) : [];
-  // 投票したプロダクトIDのセットを作成
+  // ログインしているユーザーが投票したプロダクトIDのセットを作成
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
 
   return (

@@ -13,9 +13,13 @@ interface UpvoteButtonProps {
 }
 
 const UpvoteButton = ({
+  /** 投票対象の製品ID */
   id,
+  /** 現在の投票数 */
   upvotes_count,
+  /** ログインしているユーザーが投票済みの製品IDの集合 */
   votedProductIds,
+  /** 現在のユーザー情報 */
   user,
 }: UpvoteButtonProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -67,7 +71,10 @@ const UpvoteButton = ({
           {optimisticState.count}
         </span>
       </button>
-      <AuthModal isAuthModalOpen={isAuthModalOpen} onAuthModalClose={onAuthModalClose} />
+      <AuthModal
+        isAuthModalOpen={isAuthModalOpen}
+        onAuthModalClose={onAuthModalClose}
+      />
     </>
   );
 };
