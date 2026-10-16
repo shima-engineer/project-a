@@ -8,22 +8,22 @@ import type { User } from "@supabase/supabase-js";
 type RankingPeriodId = (typeof RANK_TABS)[number]["id"];
 
 interface RankListProps {
-  id: RankingPeriodId;
+  periodId: RankingPeriodId;
   period: "今日" | "今週" | "今月";
   votedProductIds: Set<string>;
   user: User | null;
 }
 
 const RankList = async ({
-  id,
+  periodId,
   period,
   votedProductIds,
   user,
 }: RankListProps) => {
-  const products = await getProductsByPeriod(id);
+  const products = await getProductsByPeriod(periodId);
 
   return (
-    <section id={id}>
+    <section id={periodId}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-xl font-bold">
           <Image
@@ -34,7 +34,7 @@ const RankList = async ({
           />
           <h2>{period}のトップ</h2>
         </div>
-        {id === "daily" && (
+        {periodId === "daily" && (
           <time
             dateTime={dayjs().format("YYYY-MM-DD")}
             className="text-xs text-muted-foreground"
@@ -48,7 +48,7 @@ const RankList = async ({
           {products.map((product, index) => (
             <RankItem
               key={product.id}
-              id={id}
+              periodId={periodId}
               product={product}
               index={index}
               votedProductIds={votedProductIds}

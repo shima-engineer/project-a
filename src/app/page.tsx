@@ -20,7 +20,7 @@ export default async function Home() {
         <div>
           <div className="mb-10">
             <RankList
-              id="daily"
+              periodId="daily"
               period="今日"
               votedProductIds={votedProductIds}
               user={user}
@@ -28,14 +28,14 @@ export default async function Home() {
           </div>
           <div className="mb-10">
             <RankList
-              id="weekly"
+              periodId="weekly"
               period="今週"
               votedProductIds={votedProductIds}
               user={user}
             />
           </div>
           <RankList
-            id="monthly"
+            periodId="monthly"
             period="今月"
             votedProductIds={votedProductIds}
             user={user}

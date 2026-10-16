@@ -8,8 +8,6 @@ import ProductDetailProductInfo from "@/features/productDetail/components/Produc
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
 import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
 import { getProductBySlug } from "@/features/productDetail/queries/getProductDetails";
-import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
-import { getUserUpvotes } from "@/features/upvote/queries/getUserUpvotes";
 import { Suspense } from "react";
 import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
 
@@ -25,11 +23,8 @@ const page = async ({
       うまくいかなければloading.tsxを使用する */
   }
   const { slug } = await params;
-  const { id } = await searchParams;
+  const { periodId } = await searchParams;
   const productDetails = await getProductBySlug(slug);
-
-  const user = await getCurrentUser();
-  const upvotes = user ? await getUserUpvotes(user.id) : [];
 
   if (!productDetails) return notFound();
 
@@ -38,7 +33,7 @@ const page = async ({
       <div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailHeaderSkeleton />}>
-            <ProductDetailHeader productDetails={productDetails} period={id} />
+            <ProductDetailHeader productDetails={productDetails} periodId={periodId} />
           </Suspense>
         </div>
         <div className="mb-10">

@@ -9,19 +9,19 @@ interface RankItemProps {
   index: number;
   votedProductIds: Set<string>;
   user: User | null;
-  id: "daily" | "weekly" | "monthly";
+  periodId: "daily" | "weekly" | "monthly";
 }
 
 const RankItem = async ({
   product,
   votedProductIds,
   user,
-  id,
+  periodId,
 }: RankItemProps) => {
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
-        href={`/products/${product.slug}?id=${id}`}
+        href={`/products/${product.slug}?periodId=${periodId}`}
         key={product.id}
         className="cursor-pointer"
       >
