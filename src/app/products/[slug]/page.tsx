@@ -18,10 +18,6 @@ const page = async ({
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ [key: string]: "daily" | "weekly" | "monthly" }>;
 }) => {
-  {
-    /* TODO#22:suspenseでスケルトンを表示することを検討
-      うまくいかなければloading.tsxを使用する */
-  }
   const { slug } = await params;
   const { periodId } = await searchParams;
   const productDetails = await getProductBySlug(slug);
