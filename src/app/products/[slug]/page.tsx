@@ -33,7 +33,10 @@ const page = async ({
       <div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailHeaderSkeleton />}>
-            <ProductDetailHeader productDetails={productDetails} periodId={periodId} />
+            <ProductDetailHeader
+              productDetails={productDetails}
+              periodId={periodId}
+            />
           </Suspense>
         </div>
         <div className="mb-10">
