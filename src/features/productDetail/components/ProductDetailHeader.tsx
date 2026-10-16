@@ -73,7 +73,6 @@ const ProductDetailHeader = async ({
           </div>
         </div>
       </div>
-      {/* TODO#22:本人の場合は押せなくするか削除 */}
       <UpvoteButton
         id={productDetails.id}
         upvotes_count={productDetails.upvotes_count}
