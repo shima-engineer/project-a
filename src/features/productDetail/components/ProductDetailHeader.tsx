@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import type { ProductDetails } from "../queries/getProductDetails";
 import type { Period } from "@/types/period";
-import { getProductRankBySlug } from "../queries/getProductRank";
+import { getProductRank } from "../queries/getProductRank";
 import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 import { getUserUpvotes } from "@/features/upvote/queries/getUserUpvotes";
 
@@ -16,10 +16,7 @@ const ProductDetailHeader = async ({
 }) => {
   if (!productDetails) return null;
 
-  const rank = await getProductRankBySlug(
-    productDetails.slug,
-    periodId ?? "daily",
-  );
+  const rank = await getProductRank(productDetails.slug, periodId ?? "daily");
   const user = await getCurrentUser();
   // 現在のユーザーが投票した製品の情報を取得
   const upvotes = user ? await getUserUpvotes(user.id) : [];

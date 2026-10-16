@@ -2,7 +2,7 @@ import { getPeriodRange } from "@/utils/getPeriodRange";
 import { prisma } from "@/lib/prisma";
 import type { Period } from "@/types/period";
 
-export async function getProductRankBySlug(slug: string, period: Period) {
+export async function getProductRank(slug: string, period: Period) {
   const product = await prisma.products.findUnique({
     where: { slug },
   });
