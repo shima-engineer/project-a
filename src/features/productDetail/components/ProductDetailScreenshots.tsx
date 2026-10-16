@@ -26,7 +26,6 @@ const ProductDetailScreenshots = ({
     setIsProductScreenshotModalOpen(true);
   };
 
-  console.log(productDetails);
   return (
     <>
       <section className="grid grid-cols-2 sm:grid-cols-3 gap-3">
