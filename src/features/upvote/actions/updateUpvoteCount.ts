@@ -74,7 +74,7 @@ export async function updateUpvoteCount({ id }: { id: string }) {
 
     // ③ キャッシュ更新
     revalidatePath("/");
-    revalidatePath(`/posts/${product.slug}`);
+    revalidatePath(`/products/${product.slug}`);
 
     return { success: true, voted };
   } catch (error) {
