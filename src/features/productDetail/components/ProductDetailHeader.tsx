@@ -22,7 +22,10 @@ const ProductDetailHeader = async ({
   const user = await getCurrentUser();
   const upvotes = user ? await getUserUpvotes(user.id) : [];
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
-  console.log(productDetails);
+  // 現在のユーザーがこの製品の所有者かどうかを判定
+  // この情報をUpvoteButtonに渡すことで、所有者は投票できないようにする
+  const isOwner = user?.id === productDetails.user_id;
+  
   return (
     <section className="sm:flex justify-between">
       <div className="sm:flex gap-5">
@@ -73,6 +76,7 @@ const ProductDetailHeader = async ({
         upvotes_count={productDetails.upvotes_count}
         votedProductIds={votedProductIds}
         user={user}
+        isOwner={isOwner}
       />
     </section>
   );

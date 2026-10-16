@@ -18,6 +18,10 @@ const RankItem = async ({
   user,
   periodId,
 }: RankItemProps) => {
+  // 現在のユーザーがこの製品の所有者かどうかを判定
+  // この情報をUpvoteButtonに渡すことで、所有者は投票できないようにする
+  const isOwner = user?.id === product.user_id;
+
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link
@@ -60,6 +64,7 @@ const RankItem = async ({
         upvotes_count={product.upvotes_count}
         votedProductIds={votedProductIds}
         user={user}
+        isOwner={isOwner}
       />
     </li>
   );
