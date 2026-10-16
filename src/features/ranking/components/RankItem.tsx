@@ -7,7 +7,6 @@ import type { Period } from "@/types/period";
 
 interface RankItemProps {
   product: ProductsByPeriod[number];
-  index: number;
   votedProductIds: Set<string>;
   user: User | null;
   periodId: Period;

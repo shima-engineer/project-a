@@ -45,12 +45,11 @@ const RankList = async ({
       </div>
       <div className="divide-y divide-border rounded-2xl border border-border p-2 mb-3">
         <ul>
-          {products.map((product, index) => (
+          {products.map((product) => (
             <RankItem
               key={product.id}
               periodId={periodId}
               product={product}
-              index={index}
               votedProductIds={votedProductIds}
               user={user}
             />
