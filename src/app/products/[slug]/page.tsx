@@ -44,12 +44,13 @@ const page = async ({
           </Suspense>
         </div>
         <div className="mb-10">
-          <ProductDetailActionBar productDetails={productDetails}/>
+          <ProductDetailActionBar productDetails={productDetails} />
         </div>
-        {/* TODO#18:スクリーンショット0の時にmbを外す */}
-        <div className="mb-10">
-          <ProductDetailScreenshots />
-        </div>
+        {productDetails?.screenshots.length > 0 && (
+          <div className="mb-10">
+            <ProductDetailScreenshots productDetails={productDetails} />
+          </div>
+        )}
         <div className="mb-10">
           <ProductDetailOverview />
         </div>
