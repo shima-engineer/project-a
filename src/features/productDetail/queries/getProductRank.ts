@@ -1,4 +1,4 @@
-import { getPeriodRange } from "@/app/utils/getPeriodRange";
+import { getPeriodRange } from "@/utils/getPeriodRange";
 import { prisma } from "@/lib/prisma";
 
 export async function getProductRankBySlug(

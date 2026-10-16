@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
-import { getPeriodRange } from "@/app/utils/getPeriodRange";
+import { getPeriodRange } from "@/utils/getPeriodRange";
 dayjs.extend(isoWeek);
 
 export async function getProducts() {
