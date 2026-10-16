@@ -11,5 +11,3 @@ export function ProductDetailOverviewSkeleton() {
     </>
   );
 }
-
-export default ProductDetailOverviewSkeleton;

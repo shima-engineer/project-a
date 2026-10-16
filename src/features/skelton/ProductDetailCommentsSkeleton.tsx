@@ -42,5 +42,3 @@ export function ProductDetailCommentsSkeleton() {
     </section>
   );
 }
-
-export default ProductDetailCommentsSkeleton;

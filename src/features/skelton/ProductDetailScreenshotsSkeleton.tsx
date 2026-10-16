@@ -12,5 +12,3 @@ export function ProductDetailScreenshotsSkeleton() {
     </div>
   );
 }
-
-export default ProductDetailScreenshotsSkeleton;

@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
+import { getPeriodRange } from "@/utils/getPeriodRange";
+import { Period } from "@/types/period";
+
 dayjs.extend(isoWeek);
 
 export async function getProducts() {
@@ -14,33 +17,34 @@ export async function getProducts() {
   });
 }
 
-export async function getProductsByPeriod(
-  period: "daily" | "weekly" | "monthly",
-) {
-  const ranges = {
-    daily: {
-      gte: dayjs().startOf("day").toDate(),
-      lte: dayjs().endOf("day").toDate(),
-    },
-    weekly: {
-      gte: dayjs().startOf("isoWeek").toDate(),
-      lte: dayjs().endOf("isoWeek").toDate(),
-    },
-    monthly: {
-      gte: dayjs().startOf("month").toDate(),
-      lte: dayjs().endOf("month").toDate(),
-    },
-  };
+export async function getProductsByPeriod(period: Period) {
+  const range = getPeriodRange(period);
 
-  return prisma.products.findMany({
+  const products = await prisma.products.findMany({
     where: {
-      created_at: ranges[period],
+      created_at: range,
     },
     include: {
       categories: true,
     },
-    orderBy: {
-      upvotes_count: "desc",
-    },
+    orderBy: [{ upvotes_count: "desc" }, { created_at: "asc" }, { id: "asc" }],
+  });
+
+  let rank = 0;
+
+  return products.map((product, index) => {
+    if (
+      index === 0 ||
+      product.upvotes_count !== products[index - 1].upvotes_count
+    ) {
+      rank = index + 1;
+    }
+
+    return {
+      ...product,
+      rank,
+    };
   });
 }
+
+export type ProductsByPeriod = Awaited<ReturnType<typeof getProductsByPeriod>>;

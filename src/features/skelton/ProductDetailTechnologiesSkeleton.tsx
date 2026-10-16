@@ -13,5 +13,3 @@ export function ProductDetailTechnologiesSkeleton() {
     </>
   );
 }
-
-export default ProductDetailTechnologiesSkeleton;

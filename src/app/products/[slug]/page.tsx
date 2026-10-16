@@ -1,4 +1,5 @@
 import ProductDetailHeader from "@/features/productDetail/components/ProductDetailHeader";
+import { notFound } from "next/navigation";
 import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
 import ProductDetailOverview from "@/features/productDetail/components/ProductDetailOverview";
@@ -6,17 +7,41 @@ import ProductDetailTechnologies from "@/features/productDetail/components/Produ
 import ProductDetailProductInfo from "@/features/productDetail/components/ProductDetailProductInfo";
 import ProductDetailComments from "@/features/productDetail/components/ProductDetailComments";
 import ProductDetailDeveloperInfo from "@/features/productDetail/components/ProductDetailDeveloperInfo";
+import { getProductBySlug } from "@/features/productDetail/queries/getProductDetails";
+import { Suspense } from "react";
+import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
+import { Period } from "@/types/period";
 
-const page = () => {
-  {
-    /* TODO#22:suspenseでスケルトンを表示することを検討
-      うまくいかなければloading.tsxを使用する */
-  }
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: Period }>;
+}) => {
+  const { slug } = await params;
+  const { periodId: rawPeriodId } = await searchParams;
+  // periodIdがdaily, weekly, monthlyのいずれかでない場合はdailyに設定
+  const periodId =
+    rawPeriodId === "daily" ||
+    rawPeriodId === "weekly" ||
+    rawPeriodId === "monthly"
+      ? rawPeriodId
+      : "daily";
+  const productDetails = await getProductBySlug(slug);
+
+  if (!productDetails) return notFound();
+
   return (
     <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
-          <ProductDetailHeader />
+          <Suspense fallback={<ProductDetailHeaderSkeleton />}>
+            <ProductDetailHeader
+              productDetails={productDetails}
+              periodId={periodId}
+            />
+          </Suspense>
         </div>
         <div className="mb-10">
           <ProductDetailActionBar />

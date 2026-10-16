@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 export default async function Home() {
   const user = await getCurrentUser();
   const upvotes = user ? await getUserUpvotes(user.id) : [];
-  // 投票したプロダクトIDのセットを作成
+  // ログインしているユーザーが投票したプロダクトIDのセットを作成
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
 
   return (
@@ -20,7 +20,7 @@ export default async function Home() {
         <div>
           <div className="mb-10">
             <RankList
-              id="daily"
+              periodId="daily"
               period="今日"
               votedProductIds={votedProductIds}
               user={user}
@@ -28,14 +28,14 @@ export default async function Home() {
           </div>
           <div className="mb-10">
             <RankList
-              id="weekly"
+              periodId="weekly"
               period="今週"
               votedProductIds={votedProductIds}
               user={user}
             />
           </div>
           <RankList
-            id="monthly"
+            periodId="monthly"
             period="今月"
             votedProductIds={votedProductIds}
             user={user}
