@@ -58,7 +58,7 @@ const page = async ({
         )}
         <div className="mb-10">
           <Suspense fallback={<ProductDetailOverviewSkeleton />}>
-            <ProductDetailOverview />
+            <ProductDetailOverview productDetails={productDetails} />
           </Suspense>
         </div>
         <div className="mb-10">
