@@ -79,6 +79,8 @@ const UpvoteButton = ({
     <>
       <button
         disabled={isPending || isOwner}
+        aria-label="アップボートする"
+        aria-pressed={optimisticState.voted}
         onClick={user ? handleUpvoteClick : handleLoginClick}
         className={cn(
           "group/upvote shrink-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-200 select-none w-14 h-14 text-sm",
