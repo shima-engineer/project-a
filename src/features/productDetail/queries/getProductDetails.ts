@@ -10,6 +10,7 @@ export async function getProductBySlug(slug: string) {
           tags: true,
         },
       },
+      screenshots: true,
     },
   });
 }
