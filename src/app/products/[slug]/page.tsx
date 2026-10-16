@@ -20,7 +20,14 @@ const page = async ({
   searchParams: Promise<{ [key: string]: Period }>;
 }) => {
   const { slug } = await params;
-  const { periodId } = await searchParams;
+  const { periodId: rawPeriodId } = await searchParams;
+  // periodIdがdaily, weekly, monthlyのいずれかでない場合はdailyに設定
+  const periodId =
+    rawPeriodId === "daily" ||
+    rawPeriodId === "weekly" ||
+    rawPeriodId === "monthly"
+      ? rawPeriodId
+      : "daily";
   const productDetails = await getProductBySlug(slug);
 
   if (!productDetails) return notFound();
