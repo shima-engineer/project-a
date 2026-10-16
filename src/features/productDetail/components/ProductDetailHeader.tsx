@@ -2,6 +2,7 @@ import UpvoteButton from "@/features/upvote/components/UpvoteButton";
 import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import type { ProductDetails } from "../queries/getProductDetails";
+import type { Period } from "@/types/period";
 import { getProductRankBySlug } from "../queries/getProductRank";
 import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 import { getUserUpvotes } from "@/features/upvote/queries/getUserUpvotes";
@@ -11,7 +12,7 @@ const ProductDetailHeader = async ({
   periodId,
 }: {
   productDetails: ProductDetails;
-  periodId?: "daily" | "weekly" | "monthly";
+  periodId?: Period;
 }) => {
   if (!productDetails) return null;
 
@@ -25,7 +26,7 @@ const ProductDetailHeader = async ({
   // 現在のユーザーがこの製品の所有者かどうかを判定
   // この情報をUpvoteButtonに渡すことで、所有者は投票できないようにする
   const isOwner = user?.id === productDetails.user_id;
-  
+
   return (
     <section className="sm:flex justify-between">
       <div className="sm:flex gap-5">

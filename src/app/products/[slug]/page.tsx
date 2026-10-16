@@ -10,13 +10,14 @@ import ProductDetailDeveloperInfo from "@/features/productDetail/components/Prod
 import { getProductBySlug } from "@/features/productDetail/queries/getProductDetails";
 import { Suspense } from "react";
 import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
+import { Period } from "@/types/period";
 
 const page = async ({
   params,
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: "daily" | "weekly" | "monthly" }>;
+  searchParams: Promise<{ [key: string]: Period }>;
 }) => {
   const { slug } = await params;
   const { periodId } = await searchParams;

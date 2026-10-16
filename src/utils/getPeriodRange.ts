@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
+import type { Period } from "@/types/period";
 
-export function getPeriodRange(period: "daily" | "weekly" | "monthly") {
+export function getPeriodRange(period: Period) {
   const ranges = {
     daily: {
       gte: dayjs().startOf("day").toDate(),

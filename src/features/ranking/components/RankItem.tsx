@@ -3,13 +3,14 @@ import Image from "next/image";
 import UpvoteButton from "../../upvote/components/UpvoteButton";
 import type { ProductsByPeriod } from "@/features/product/queries/getProduct";
 import type { User } from "@supabase/supabase-js";
+import type { Period } from "@/types/period";
 
 interface RankItemProps {
   product: ProductsByPeriod[number];
   index: number;
   votedProductIds: Set<string>;
   user: User | null;
-  periodId: "daily" | "weekly" | "monthly";
+  periodId: Period;
 }
 
 const RankItem = async ({
