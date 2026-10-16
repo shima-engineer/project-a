@@ -21,7 +21,9 @@ const ProductDetailHeader = async ({
     periodId ?? "daily",
   );
   const user = await getCurrentUser();
+  // 現在のユーザーが投票した製品の情報を取得
   const upvotes = user ? await getUserUpvotes(user.id) : [];
+  // 投票済みの製品IDのセットを作成
   const votedProductIds = new Set(upvotes.map((u) => u.product_id));
   // 現在のユーザーがこの製品の所有者かどうかを判定
   // この情報をUpvoteButtonに渡すことで、所有者は投票できないようにする
