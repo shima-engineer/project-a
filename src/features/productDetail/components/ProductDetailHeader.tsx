@@ -54,7 +54,7 @@ const ProductDetailHeader = async ({
             {productDetails.name ?? ""}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-5">
-            {productDetails.description ?? ""}
+            {productDetails.tagline ?? ""}
           </p>
           <div className="flex flex-wrap gap-1.5 mb-5">
             {productDetails.product_tags.length > 0
