@@ -1,5 +1,8 @@
 import dayjs from "dayjs";
 import type { Period } from "@/types/period";
+import isoWeek from "dayjs/plugin/isoWeek";
+
+dayjs.extend(isoWeek);
 
 export function getPeriodRange(period: Period) {
   const ranges = {
