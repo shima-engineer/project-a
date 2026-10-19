@@ -5,6 +5,7 @@ import type { CommentFormValues } from "../schema/schema";
 import { commentFormSchema } from "../schema/schema";
 import { z } from "zod";
 import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
+import { revalidatePath } from "next/cache";
 
 export const submitComment = async (
   data: CommentFormValues,
@@ -50,6 +51,8 @@ export const submitComment = async (
         updated_at: new Date(),
       },
     });
+
+    revalidatePath(`/products/${productId}`);
 
     return {
       success: true,
