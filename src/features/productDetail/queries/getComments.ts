@@ -6,6 +6,9 @@ export async function getComments(id: string) {
     include: {
       users: true,
     },
+    orderBy: {
+      created_at: "desc",
+    },
   });
 }
 
