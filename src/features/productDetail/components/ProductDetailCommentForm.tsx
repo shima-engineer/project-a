@@ -22,7 +22,10 @@ const ProductDetailCommentForm = async ({
           className="size-9 shrink-0 rounded-full ring-1 ring-border bg-card"
         />
       )}
-      <ProductDetailCommentFormInput productId={productId} />
+      <ProductDetailCommentFormInput
+        productId={productId}
+        currentUser={currentUser}
+      />
     </div>
   );
 };
