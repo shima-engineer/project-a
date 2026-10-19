@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProductDetailCommentFormInput from "./ProductDetailCommentFormInput";
+import type { Users } from "@/features/auth/queries/getCurrentUser";
 
 const ProductDetailCommentForm = async ({
   productId,
@@ -7,7 +8,7 @@ const ProductDetailCommentForm = async ({
   avatarUrl,
 }: {
   productId: string;
-  currentUser: any;
+  currentUser: Users;
   avatarUrl?: string;
 }) => {
   return (

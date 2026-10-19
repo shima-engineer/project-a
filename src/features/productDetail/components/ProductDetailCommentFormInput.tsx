@@ -1,5 +1,7 @@
 "use client";
 
+import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { commentFormSchema } from "../schema/schema";
@@ -11,13 +13,12 @@ import submitComment from "../actions/submitComment";
 const ProductDetailCommentFormInput = ({
   productId,
 }: {
-  currentUserId: string;
   productId: string;
 }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<CommentFormValues>({
     resolver: zodResolver(commentFormSchema),
@@ -70,12 +71,14 @@ const ProductDetailCommentFormInput = ({
             丁寧で建設的なフィードバックを心がけましょう
           </span>
           {/* TODO#20:送信ロジックを追加する */}
-          <button
+          <Button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md text-xs h-8 px-4"
+            disabled={isSubmitting}
+            className={`${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
           >
-            投稿
-          </button>
+            {isSubmitting && <Spinner className="size-4" />}
+            {isSubmitting ? "投稿中..." : "投稿する"}
+          </Button>
         </div>
       </div>
       <ErrorMessage errorMessage={errors.comment?.message || ""} />
