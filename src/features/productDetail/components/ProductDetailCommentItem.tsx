@@ -3,14 +3,16 @@ import { Comments } from "../queries/getComments";
 
 const ProductDetailCommentItem = ({
   comment,
+  avatarUrl,
 }: {
   comment: Comments[number];
+  avatarUrl?: string;
 }) => {
   return (
     <div className="flex gap-4">
-      {comment.users.avatar_url ? (
+      {avatarUrl ? (
         <Image
-          src={comment.users.avatar_url}
+          src={avatarUrl}
           alt="User avatar"
           width={36}
           height={36}
