@@ -4,6 +4,7 @@ import { getComments } from "../queries/getComments";
 
 const ProductDetailComments = async ({ productId }: { productId: string }) => {
   const comments = await getComments(productId);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">

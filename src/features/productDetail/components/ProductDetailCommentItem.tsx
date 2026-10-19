@@ -26,7 +26,6 @@ const ProductDetailCommentItem = ({
             {comment.created_at.toLocaleString("ja-JP") ?? ""}
           </time>
         </div>
-        {/* TODO#20:コメントを動的に取得する */}
         <p className="mt-1 text-[15px] leading-relaxed">{comment?.content}</p>
       </div>
     </div>
