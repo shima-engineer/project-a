@@ -7,7 +7,7 @@ const ProductDetailComments = async ({ productId }: { productId: string }) => {
   const comments = await getComments(productId);
   const currentUser = await getCurrentUser();
   const avatarUrl = currentUser?.user_metadata.avatar_url;
-
+console.log(comments)
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">
@@ -16,7 +16,7 @@ const ProductDetailComments = async ({ productId }: { productId: string }) => {
       <div className="mb-6">
         <ProductDetailCommentForm productId={productId} currentUser={currentUser} avatarUrl={avatarUrl} />
       </div>
-      <ProductDetailCommentList comments={comments} avatarUrl={avatarUrl} />
+      <ProductDetailCommentList comments={comments}  />
     </div>
   );
 };

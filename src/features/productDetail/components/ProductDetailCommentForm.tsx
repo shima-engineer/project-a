@@ -13,7 +13,7 @@ const ProductDetailCommentForm = async ({
 }) => {
   return (
     <div className="flex gap-4">
-      {avatarUrl ? (
+      {avatarUrl && (
         <Image
           src={avatarUrl}
           alt="User avatar"
@@ -21,14 +21,8 @@ const ProductDetailCommentForm = async ({
           height={36}
           className="size-9 shrink-0 rounded-full ring-1 ring-border bg-card"
         />
-      ) : (
-        <div className="size-9 shrink-0 rounded-full ring-1 ring-border bg-card"></div>
       )}
-      {currentUser && (
-        <ProductDetailCommentFormInput
-          productId={productId}
-        />
-      )}
+      <ProductDetailCommentFormInput productId={productId} />
     </div>
   );
 };

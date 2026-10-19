@@ -3,11 +3,11 @@ import { Comments } from "../queries/getComments";
 
 const ProductDetailCommentItem = ({
   comment,
-  avatarUrl,
 }: {
   comment: Comments[number];
-  avatarUrl?: string;
 }) => {
+  const avatarUrl = comment.users.avatar_url;
+
   return (
     <div className="flex gap-4">
       {avatarUrl ? (
