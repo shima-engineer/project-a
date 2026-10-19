@@ -8,11 +8,11 @@ const AUTH_USER_IDS = {
 };
 
 async function main() {
-  await prisma.upvotes.deleteMany();
-  await prisma.comments.deleteMany();
-  await prisma.products.deleteMany();
-  await prisma.categories.deleteMany();
-  await prisma.public_users.deleteMany();
+  // await prisma.upvotes.deleteMany();
+  // await prisma.comments.deleteMany();
+  // await prisma.products.deleteMany();
+  // await prisma.categories.deleteMany();
+  // await prisma.public_users.deleteMany();
 
   await prisma.categories.createMany({
     data: [
@@ -120,7 +120,7 @@ async function main() {
         user_id: yamada.id,
         category_id: aiCategory.id,
         name: "WriteMate",
-        slug: "writemate",
+        slug: "f40c6d1b-e307-45d1-bfd5-c318af1485a3",
         url: "https://writemate.dev",
         tagline: "日本語特化のAIライティングアシスタント",
         description:
@@ -131,7 +131,7 @@ async function main() {
           "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
         status: "published",
         upvotes_count: 23,
-        comments_count: 5,
+        comments_count: 2,
         view_count: 320,
       },
 
@@ -149,70 +149,17 @@ async function main() {
           "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
         status: "published",
         upvotes_count: 41,
-        comments_count: 8,
+        comments_count: 2,
         view_count: 570,
       },
 
-      {
-        user_id: kenta.id,
-        category_id: devCategory.id,
-        name: "API Monitor",
-        slug: "api-monitor",
-        url: "https://apimonitor.dev",
-        tagline: "API監視を3分で開始",
-        description: "エンドポイント監視と障害通知を簡単に構築できるサービス。",
-        features: "死活監視、Slack通知、分析",
-        pricing_type: "Paid",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-        status: "published",
-        upvotes_count: 18,
-        comments_count: 2,
-        view_count: 210,
-      },
-
-      {
-        user_id: yamada.id,
-        category_id: aiCategory.id,
-        name: "PromptBox",
-        slug: "promptbox",
-        url: "https://promptbox.ai",
-        tagline: "AIプロンプト管理ツール",
-        description: "プロンプトの保存・共有・検索ができるサービス。",
-        features: "タグ管理、検索、共有",
-        pricing_type: "Freemium",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-        status: "published",
-        upvotes_count: 12,
-        comments_count: 1,
-        view_count: 140,
-      },
-
-      {
-        user_id: hanako.id,
-        category_id: productivityCategory.id,
-        name: "HabitBoard",
-        slug: "habitboard",
-        url: "https://habitboard.app",
-        tagline: "習慣化をゲーム化するアプリ",
-        description: "毎日の習慣をポイント化して継続を支援。",
-        features: "習慣管理、ランキング、分析",
-        pricing_type: "Free",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b",
-        status: "published",
-        upvotes_count: 34,
-        comments_count: 4,
-        view_count: 460,
-      },
     ],
     skipDuplicates: true,
   });
 
   const products = await prisma.products.findMany();
 
-  const writeMate = products.find((p) => p.slug === "writemate");
+  const writeMate = products.find((p) => p.slug === "f40c6d1b-e307-45d1-bfd5-c318af1485a3");
   const focusFlow = products.find((p) => p.slug === "focusflow");
   const apiMonitor = products.find((p) => p.slug === "api-monitor");
   const promptBox = products.find((p) => p.slug === "promptbox");
@@ -263,6 +210,11 @@ async function main() {
         user_id: AUTH_USER_IDS.yamada,
         product_id: habitBoard.id,
         content: "習慣化のモチベーション維持に役立っています。",
+      },
+      {
+        user_id: "f3564ed0-9c9d-438f-a8d0-b5b7cd2c876d",
+        product_id: "7f6752e3-a4ce-44e4-9854-18db32ea1eaf",
+        content: "習慣化のモチベーション維持に役立っています!!!",
       },
     ],
   });
