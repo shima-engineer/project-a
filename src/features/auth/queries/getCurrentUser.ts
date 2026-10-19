@@ -9,3 +9,5 @@ export async function getCurrentUser() {
 
   return user;
 }
+
+export type Users = Awaited<ReturnType<typeof getCurrentUser>>;
