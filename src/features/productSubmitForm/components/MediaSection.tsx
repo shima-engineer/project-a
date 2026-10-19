@@ -7,7 +7,7 @@ import { useWatch } from "react-hook-form";
 import { MAX_SCREENSHOT_COUNT } from "../constants";
 import { useFormContext } from "react-hook-form";
 import ProductThumbnailModal from "./ProductThumbnailModal";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../../../app/components/elements/ErrorMessage";
 import { ProductSubmitFormValues } from "../schema";
 import ProductScreenshotModal from "./ProductScreenshotModal";
 
