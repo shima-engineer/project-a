@@ -3,6 +3,7 @@ import ProductDetailDeveloperInfo from "@/features/productDetail/components/Prod
 import { ProductDetailScreenshotsSkeleton } from "@/features/skelton/ProductDetailScreenshotsSkeleton";
 import { ProductDetailOverviewSkeleton } from "@/features/skelton/ProductDetailOverviewSkeleton";
 import { ProductDetailTechnologiesSkeleton } from "@/features/skelton/ProductDetailTechnologiesSkeleton";
+import { ProductDetailCommentsSkeleton } from "@/features/skelton/ProductDetailCommentsSkeleton";
 import { notFound } from "next/navigation";
 import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
@@ -70,7 +71,9 @@ const page = async ({
           <ProductDetailDeveloperInfo />
         </div>
         <div className="mb-10">
-          <ProductDetailComments productId={productDetails.id} />
+          <Suspense fallback={<ProductDetailCommentsSkeleton />}>
+            <ProductDetailComments productId={productDetails.id} />
+          </Suspense>
         </div>
       </div>
       <ProductDetailProductInfo />
