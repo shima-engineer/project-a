@@ -32,7 +32,6 @@ const ProductDetailCommentFormInput = ({
   });
 
   const onSubmit = async (data: CommentFormValues) => {
-    console.log(data);
     try {
       const result = await submitComment(data, productId);
 
