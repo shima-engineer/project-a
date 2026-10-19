@@ -1,9 +1,12 @@
 import ProductDetailCommentList from "./ProductDetailCommentList";
 import ProductDetailCommentForm from "./ProductDetailCommentForm";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 import { getComments } from "../queries/getComments";
 
 const ProductDetailComments = async ({ productId }: { productId: string }) => {
   const comments = await getComments(productId);
+  const currentUser = await getCurrentUser();
+  const avatarUrl = currentUser?.user_metadata.avatar_url;
 
   return (
     <div>
@@ -11,9 +14,9 @@ const ProductDetailComments = async ({ productId }: { productId: string }) => {
         コメント ({comments ? comments.length : 0})
       </h2>
       <div className="mb-6">
-        <ProductDetailCommentForm />
+        <ProductDetailCommentForm productId={productId} currentUser={currentUser} avatarUrl={avatarUrl} />
       </div>
-      <ProductDetailCommentList comments={comments} />
+      <ProductDetailCommentList comments={comments} avatarUrl={avatarUrl} />
     </div>
   );
 };

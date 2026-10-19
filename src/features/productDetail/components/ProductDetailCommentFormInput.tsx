@@ -4,23 +4,65 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { commentFormSchema } from "../schema/schema";
 import { CommentFormValues } from "../schema/schema";
+import ErrorMessage from "../../../app/components/elements/ErrorMessage";
+import { toast } from "sonner";
+import submitComment from "../actions/submitComment";
 
-const ProductDetailCommentFormInput = () => {
-  const { register, handleSubmit } = useForm<CommentFormValues>({
+const ProductDetailCommentFormInput = ({
+  productId,
+}: {
+  currentUserId: string;
+  productId: string;
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<CommentFormValues>({
     resolver: zodResolver(commentFormSchema),
   });
 
-  const onSubmit = (data: CommentFormValues) => {
+  const onSubmit = async (data: CommentFormValues) => {
     console.log(data);
+    try {
+      const result = await submitComment(data, productId);
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+
+      // フォームをリセット
+      reset();
+
+      toast.success("コメントを投稿しました");
+    } catch {
+      toast.error("通信に失敗しました。もう一度お試しください。");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // 日本語変換中は送信しない
+    if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) {
+      return;
+    }
+
+    // Enterで送信（Shift + Enterは改行）
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      e.currentTarget.form?.requestSubmit();
+    }
   };
 
   return (
     <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-xl border border-input bg-card transition-all focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10">
+      <div className="rounded-xl border border-input bg-card transition-all focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 mb-2">
         <textarea
           aria-label="コメント"
           className="block w-full h-20 resize-none bg-transparent px-4 pt-3 pb-2 text-sm placeholder:text-muted-foreground focus:outline-none"
           placeholder="コメントを入力してください"
+          onKeyDown={handleKeyDown}
           {...register("comment")}
         ></textarea>
         <div className="flex items-center justify-between gap-2 border-t border-border px-3 py-2">
@@ -28,11 +70,15 @@ const ProductDetailCommentFormInput = () => {
             丁寧で建設的なフィードバックを心がけましょう
           </span>
           {/* TODO#20:送信ロジックを追加する */}
-          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md text-xs h-8 px-4">
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md text-xs h-8 px-4"
+          >
             投稿
           </button>
         </div>
       </div>
+      <ErrorMessage errorMessage={errors.comment?.message || ""} />
     </form>
   );
 };
