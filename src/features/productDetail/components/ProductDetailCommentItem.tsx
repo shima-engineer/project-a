@@ -1,17 +1,33 @@
-const ProductDetailCommentItem = () => {
+import Image from "next/image";
+import { Comments } from "../queries/getComments";
+
+const ProductDetailCommentItem = ({
+  comment,
+}: {
+  comment: Comments[number];
+}) => {
   return (
     <div className="flex gap-4">
-      {/* TODO#20:Imageタグに置き換えて動的にsrcを設定する */}
-      <div className="size-9 shrink-0 rounded-full ring-1 ring-border bg-card"></div>
+      {comment.users.avatar_url ? (
+        <Image
+          src={comment.users.avatar_url}
+          alt="User avatar"
+          width={36}
+          height={36}
+          className="size-9 shrink-0 rounded-full ring-1 ring-border bg-card"
+        />
+      ) : (
+        <div className="size-9 shrink-0 rounded-full ring-1 ring-border bg-card"></div>
+      )}
       <div className="flex-1">
         <div className="flex gap-2 text-sm">
-          <p className="font-semibold">Kenta Aoki</p>
-          <time className="text-muted-foreground">2時間前</time>
+          <p className="font-semibold">{comment.users.name ?? "名無し"}</p>
+          <time className="text-muted-foreground">
+            {comment.created_at.toLocaleString("ja-JP") ?? ""}
+          </time>
         </div>
         {/* TODO#20:コメントを動的に取得する */}
-        <p className="mt-1 text-[15px] leading-relaxed">
-          これは本当に革新的ですね！日本語特化という点が他のツールとの大きな差別化要因になっています。ベータ版から使っていますが、毎週改善されていて素晴らしいです。
-        </p>
+        <p className="mt-1 text-[15px] leading-relaxed">{comment?.content}</p>
       </div>
     </div>
   );

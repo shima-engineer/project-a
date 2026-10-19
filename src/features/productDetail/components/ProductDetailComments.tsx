@@ -1,15 +1,18 @@
 import ProductDetailCommentList from "./ProductDetailCommentList";
 import ProductDetailCommentForm from "./ProductDetailCommentForm";
+import { getComments } from "../queries/getComments";
 
-const ProductDetailComments = () => {
+const ProductDetailComments = async ({ productId }: { productId: string }) => {
+  const comments = await getComments(productId);
   return (
     <div>
-      {/* TODO#20:コメント数を動的に取得する */}
-      <h2 className="text-xl font-bold mb-4">コメント (86)</h2>
+      <h2 className="text-xl font-bold mb-4">
+        コメント ({comments ? comments.length : 0})
+      </h2>
       <div className="mb-6">
         <ProductDetailCommentForm />
       </div>
-      <ProductDetailCommentList />
+      <ProductDetailCommentList comments={comments} />
     </div>
   );
 };

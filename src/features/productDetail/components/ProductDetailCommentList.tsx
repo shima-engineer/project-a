@@ -1,10 +1,13 @@
 import ProductDetailCommentItem from "./ProductDetailCommentItem";
+import { Comments } from "../queries/getComments";
 
-const ProductDetailCommentList = () => {
+const ProductDetailCommentList = ({ comments }: { comments: Comments }) => {
+  console.log(comments);
   return (
     <div>
-       {/* TODO#20:動的に取得 */}
-      <ProductDetailCommentItem />
+      {comments?.map((comment) => (
+        <ProductDetailCommentItem key={comment.id} comment={comment} />
+      ))}
     </div>
   );
 };

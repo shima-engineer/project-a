@@ -70,7 +70,7 @@ const page = async ({
           <ProductDetailDeveloperInfo />
         </div>
         <div className="mb-10">
-          <ProductDetailComments />
+          <ProductDetailComments productId={productDetails.id} />
         </div>
       </div>
       <ProductDetailProductInfo />
