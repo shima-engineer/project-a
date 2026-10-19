@@ -36,7 +36,7 @@ const page = async ({
   if (!productDetails) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
+    <main className="lg:mx-auto lg:max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailHeaderSkeleton />}>
@@ -63,7 +63,7 @@ const page = async ({
         </div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailTechnologiesSkeleton />}>
-            <ProductDetailTechnologies productDetails={productDetails}/>
+            <ProductDetailTechnologies productDetails={productDetails} />
           </Suspense>
         </div>
         <div className="mb-10">
