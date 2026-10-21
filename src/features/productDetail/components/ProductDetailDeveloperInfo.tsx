@@ -18,7 +18,7 @@ const ProductDetailDeveloperInfo = ({
             width={56}
             height={56}
             className="size-14 rounded-full ring-2 ring-border"
-          ></Image>
+          />
         ) : (
           <Avatar className="size-14 ring-2 ring-border">
             <AvatarImage
