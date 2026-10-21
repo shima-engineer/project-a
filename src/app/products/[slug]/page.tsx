@@ -14,6 +14,7 @@ import ProductDetailComments from "@/features/productDetail/components/ProductDe
 import { getProductBySlug } from "@/features/productDetail/queries/getProductDetails";
 import { Suspense } from "react";
 import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
+import { ProductDetailDeveloperInfoSkeleton } from "@/features/skelton/ProductDetailDeveloperInfoSkeleton";
 import { Period } from "@/types/period";
 
 const page = async ({
@@ -68,7 +69,9 @@ const page = async ({
           </Suspense>
         </div>
         <div className="mb-10">
-          <ProductDetailDeveloperInfo />
+          <Suspense fallback={<ProductDetailDeveloperInfoSkeleton />}>
+            <ProductDetailDeveloperInfo />
+          </Suspense>
         </div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailCommentsSkeleton />}>
