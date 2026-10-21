@@ -1,7 +1,7 @@
 import { test as setup, expect } from "@playwright/test";
 import dotenv from "dotenv";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env.test" });
 
 const authFile = "tests/.auth/user.json";
 
@@ -23,7 +23,7 @@ setup("authenticate", async ({ page }) => {
   await page.getByRole("button", { name: "ログイン" }).click();
 
   await expect(page.getByText("ログインに成功しました。")).toBeVisible();
-  
+
   await page.context().storageState({
     path: authFile,
   });
