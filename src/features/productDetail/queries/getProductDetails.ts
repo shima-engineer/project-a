@@ -16,6 +16,7 @@ export async function getProductBySlug(slug: string) {
           tech_stacks: true,
         },
       },
+      users: true
     },
   });
 }
