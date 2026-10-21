@@ -1,15 +1,37 @@
 import ProductDetailCommentList from "./ProductDetailCommentList";
 import ProductDetailCommentForm from "./ProductDetailCommentForm";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
+import { getComments, type Comments } from "../queries/getComments";
 
-const ProductDetailComments = () => {
+const ProductDetailComments = async ({ productId }: { productId: string }) => {
+  const currentUser = await getCurrentUser();
+  const avatarUrl = currentUser?.user_metadata.avatar_url;
+
+  let comments: Comments | null = null;
+
+  try {
+    comments = await getComments(productId);
+  } catch (error) {
+    console.error("コメント取得エラー:", error);
+  }
+
   return (
     <div>
-      {/* TODO#20:コメント数を動的に取得する */}
-      <h2 className="text-xl font-bold mb-4">コメント (86)</h2>
+      <h2 className="text-xl font-bold mb-4">
+        コメント {comments !== null && `(${comments.length})`}
+      </h2>
       <div className="mb-6">
-        <ProductDetailCommentForm />
+        <ProductDetailCommentForm
+          productId={productId}
+          currentUser={currentUser}
+          avatarUrl={avatarUrl}
+        />
       </div>
-      <ProductDetailCommentList />
+      {comments === null ? (
+        <p role="alert">コメントを取得できませんでした。</p>
+      ) : (
+        <ProductDetailCommentList comments={comments} />
+      )}
     </div>
   );
 };

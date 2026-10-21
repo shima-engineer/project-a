@@ -1,10 +1,13 @@
 import ProductDetailCommentItem from "./ProductDetailCommentItem";
+import { Comments } from "../queries/getComments";
 
-const ProductDetailCommentList = () => {
+const ProductDetailCommentList = ({ comments }: { comments: Comments }) => {
+
   return (
-    <div>
-       {/* TODO#20:動的に取得 */}
-      <ProductDetailCommentItem />
+    <div className="flex flex-col gap-4">
+      {comments?.map((comment) => (
+        <ProductDetailCommentItem key={comment.id} comment={comment} />
+      ))}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import ProductDetailDeveloperInfo from "@/features/productDetail/components/Prod
 import { ProductDetailScreenshotsSkeleton } from "@/features/skelton/ProductDetailScreenshotsSkeleton";
 import { ProductDetailOverviewSkeleton } from "@/features/skelton/ProductDetailOverviewSkeleton";
 import { ProductDetailTechnologiesSkeleton } from "@/features/skelton/ProductDetailTechnologiesSkeleton";
+import { ProductDetailCommentsSkeleton } from "@/features/skelton/ProductDetailCommentsSkeleton";
 import { notFound } from "next/navigation";
 import ProductDetailActionBar from "@/features/productDetail/components/ProductDetailActionBar";
 import ProductDetailScreenshots from "@/features/productDetail/components/ProductDetailScreenshots";
@@ -36,7 +37,7 @@ const page = async ({
   if (!productDetails) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
+    <main className="lg:mx-auto lg:max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
       <div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailHeaderSkeleton />}>
@@ -63,14 +64,16 @@ const page = async ({
         </div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailTechnologiesSkeleton />}>
-            <ProductDetailTechnologies productDetails={productDetails}/>
+            <ProductDetailTechnologies productDetails={productDetails} />
           </Suspense>
         </div>
         <div className="mb-10">
           <ProductDetailDeveloperInfo />
         </div>
         <div className="mb-10">
-          <ProductDetailComments />
+          <Suspense fallback={<ProductDetailCommentsSkeleton />}>
+            <ProductDetailComments productId={productDetails.id} />
+          </Suspense>
         </div>
       </div>
       <ProductDetailProductInfo />

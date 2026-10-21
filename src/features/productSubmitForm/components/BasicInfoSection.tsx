@@ -2,7 +2,7 @@
 import type React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { ProductSubmitFormValues } from "../schema";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../../../app/components/elements/ErrorMessage";
 import { X } from "lucide-react";
 import {
   PRODUCT_CATEGORIES,
