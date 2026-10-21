@@ -38,8 +38,8 @@ const page = async ({
   if (!productDetails) return notFound();
 
   return (
-    <main className="lg:mx-auto lg:max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
-      <div>
+    <main className="lg:mx-auto lg:max-w-7xl w-full sm:px-6 px-4 py-8 lg:flex lg:gap-10">
+      <div className="flex-1">
         <div className="mb-10">
           <Suspense fallback={<ProductDetailHeaderSkeleton />}>
             <ProductDetailHeader
