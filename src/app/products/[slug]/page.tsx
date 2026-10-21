@@ -14,6 +14,7 @@ import ProductDetailComments from "@/features/productDetail/components/ProductDe
 import { getProductBySlug } from "@/features/productDetail/queries/getProductDetails";
 import { Suspense } from "react";
 import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
+import { ProductDetailDeveloperInfoSkeleton } from "@/features/skelton/ProductDetailDeveloperInfoSkeleton";
 import { Period } from "@/types/period";
 
 const page = async ({
@@ -37,8 +38,8 @@ const page = async ({
   if (!productDetails) return notFound();
 
   return (
-    <main className="lg:mx-auto lg:max-w-7xl sm:px-6 px-4 py-8 lg:flex lg:gap-10">
-      <div>
+    <main className="lg:mx-auto lg:max-w-7xl w-full sm:px-6 px-4 py-8 lg:flex lg:gap-10">
+      <div className="flex-1">
         <div className="mb-10">
           <Suspense fallback={<ProductDetailHeaderSkeleton />}>
             <ProductDetailHeader
@@ -68,7 +69,9 @@ const page = async ({
           </Suspense>
         </div>
         <div className="mb-10">
-          <ProductDetailDeveloperInfo />
+          <Suspense fallback={<ProductDetailDeveloperInfoSkeleton />}>
+            <ProductDetailDeveloperInfo productDetails={productDetails} />
+          </Suspense>
         </div>
         <div className="mb-10">
           <Suspense fallback={<ProductDetailCommentsSkeleton />}>
