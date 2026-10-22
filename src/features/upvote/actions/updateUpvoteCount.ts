@@ -44,12 +44,7 @@ export async function updateUpvoteCount({ id }: { id: string }) {
           where: voteWhere,
         });
 
-        await tx.products.update({
-          where: { id },
-          data: {
-            upvotes_count: { decrement: 1 },
-          },
-        });
+        // decrement処理はDB側で行う
 
         return false;
       }
@@ -62,12 +57,7 @@ export async function updateUpvoteCount({ id }: { id: string }) {
         },
       });
 
-      await tx.products.update({
-        where: { id },
-        data: {
-          upvotes_count: { increment: 1 },
-        },
-      });
+      // decrement処理はDB側で行う
 
       return true;
     });
