@@ -15,6 +15,7 @@ import { getProductBySlug } from "@/features/productDetail/queries/getProductDet
 import { Suspense } from "react";
 import { ProductDetailHeaderSkeleton } from "@/features/skelton/ProductDetailHeaderSkeleton";
 import { ProductDetailDeveloperInfoSkeleton } from "@/features/skelton/ProductDetailDeveloperInfoSkeleton";
+import { ProductDetailProductInfoSkeleton } from "@/features/skelton/ProductDetailProductInfoSkeleton";
 import { Period } from "@/types/period";
 
 const page = async ({
@@ -79,7 +80,9 @@ const page = async ({
           </Suspense>
         </div>
       </div>
-      <ProductDetailProductInfo />
+      <Suspense fallback={<ProductDetailProductInfoSkeleton />}>
+        <ProductDetailProductInfo productDetails={productDetails}/>
+      </Suspense>
     </main>
   );
 };
