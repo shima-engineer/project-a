@@ -1,9 +1,13 @@
 import ProfileHeader from "@/features/profile/ProfileHeader";
+import ProfileProductList from "@/features/profile/ProfileProductList";
 
 const page = () => {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 sm:px-6 py-8 flex-1">
-      <ProfileHeader />
+      <div className="mb-4">
+        <ProfileHeader />
+      </div>
+      <ProfileProductList />
     </main>
   );
 };
