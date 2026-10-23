@@ -33,13 +33,14 @@ export default function ProfileIconDropdownMenu({
       <DropdownMenuSeparator />
 
       <DropdownMenuItem className="gap-3 hover:bg-gray-100  duration-200 cursor-pointer">
-        <Link className="w-full" href="/profile">
+        {/* TODO:#22 実際のユーザーIDに置き換える */}
+        <Link className="w-full" href="/users/a">
           マイプロフィール
         </Link>
       </DropdownMenuItem>
 
       <DropdownMenuSeparator />
-      
+
       <LogoutMenuItem />
     </DropdownMenuContent>
   );
