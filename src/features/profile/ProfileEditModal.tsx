@@ -77,8 +77,8 @@ const ProfileEditModal = ({
                 type="url"
               />
             </div>
-            <div className="flex gap-2 mb-4">
-              <div className="flex flex-col gap-2">
+            <div className="sm:flex sm:gap-2 mb-4">
+              <div className="flex flex-col gap-2 mb-4 sm:mb-0">
                 <label
                   htmlFor="github"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -92,7 +92,7 @@ const ProfileEditModal = ({
                   type="url"
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 mb-4 sm:mb-0">
                 <label
                   htmlFor="X"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
