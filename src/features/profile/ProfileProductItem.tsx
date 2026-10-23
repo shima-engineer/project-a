@@ -24,6 +24,7 @@ const ProfileProductItem = () => {
           </div>
         </div>
       </Link>
+      {/* TODO:63 実際のデータに置き換える */}
       <UpvoteButton
         id={"id"}
         upvotes_count={2}
