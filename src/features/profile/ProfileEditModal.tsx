@@ -110,7 +110,7 @@ const ProfileEditModal = ({
           </div>
           <div className="flex justify-end gap-2">
             <button
-              type="submit"
+              type="button"
               className="flex cursor-pointer items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
             >
               キャンセル
