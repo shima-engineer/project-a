@@ -1,13 +1,27 @@
-import { ImageOff, Globe, GitBranch } from "lucide-react";
+"use client";
+
+import { ImageOff, Globe } from "lucide-react";
 import ProfileEditButton from "./ProfileEditButton";
 import Link from "next/link";
+import ProfileEditModal from "./ProfileEditModal";
+import { useState } from "react";
 
 const ProfileHeader = () => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const onEditModalClose = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+  };
+
   return (
     <div className="">
       <div className="h-28 sm:h-40 rounded-2xl bg-linear-to-br from-hero-start to-hero-end "></div>
       <div className="flex flex-col mb-4 sm:flex-row sm:items-end md:justify-between gap-4 -mt-10 sm:-mt-14 px-2 sm:px-6">
-        <div className="md:flex md:items-end md:gap-4">
+        <div className="sm:flex sm:items-end sm:gap-4">
           {/* TODO:#22実際の画像に置き換える */}
           <ImageOff className="size-24 sm:size-32 rounded-2xl ring-4 ring-background bg-card shrink-0 mb-4 md:mb-0" />
           <div>
@@ -18,7 +32,7 @@ const ProfileHeader = () => {
             </p>
           </div>
         </div>
-        <ProfileEditButton />
+        <ProfileEditButton handleEditClick={handleEditClick} />
       </div>
       <p className="text-sm leading-relaxed max-w-2xl whitespace-pre-wrap">
         東京を拠点に活動するインディーハッカー。AI
@@ -79,6 +93,10 @@ const ProfileHeader = () => {
           <span>@kensato</span>
         </Link>
       </div>
+      <ProfileEditModal
+        isEditModalOpen={isEditModalOpen}
+        onEditModalClose={onEditModalClose}
+      />
     </div>
   );
 };
