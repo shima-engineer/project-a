@@ -4,8 +4,6 @@ import { notFound } from "next/navigation";
 import { getUserById } from "@/features/profile/queries/getUserById";
 import { z } from "zod";
 import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
-import { Suspense } from "react";
-import { ProfileHeaderSkeleton } from "@/features/profile/skeleton/ProfileHeaderSkeleton";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -30,9 +28,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 sm:px-6 py-8 flex-1">
       <div className="mb-8">
-        <Suspense fallback={<ProfileHeaderSkeleton />}>
-          <ProfileHeader profileUser={profileUser} isOwner={isOwner} />
-        </Suspense>
+        <ProfileHeader profileUser={profileUser} isOwner={isOwner} />
       </div>
       <ProfileProductList />
     </main>
