@@ -2,11 +2,11 @@
 
 import { ImageOff, Globe } from "lucide-react";
 import ProfileEditButton from "./ProfileEditButton";
-import Link from "next/link";
 import ProfileEditModal from "./ProfileEditModal";
 import { useState } from "react";
 import { ProfileUser } from "./queries/getUserById";
 import Image from "next/image";
+import { ProfileHeaderSkeleton } from "./skeleton/ProfileHeaderSkeleton";
 
 const ProfileHeader = ({ user }: { user: ProfileUser }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

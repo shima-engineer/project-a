@@ -3,29 +3,32 @@ import ProfileProductList from "@/features/profile/ProfileProductList";
 import { notFound } from "next/navigation";
 import { getUserById } from "@/features/profile/queries/getUserById";
 import { z } from "zod";
+import { Suspense } from "react";
+import { ProfileHeaderSkeleton } from "@/features/profile/skeleton/ProfileHeaderSkeleton";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
-    // UUID形式が不正なら404
+  // UUID形式が不正なら404
   if (!z.uuid().safeParse(id).success) {
     notFound();
   }
-  
+
   const user = await getUserById(id);
-  
+
   // ユーザーが存在しなければ404
   if (!user) {
     notFound();
   }
-  
-  console.log(user);
+
   return (
     <main className="mx-auto w-full max-w-4xl px-4 sm:px-6 py-8 flex-1">
       <div className="mb-8">
-        <ProfileHeader user={user} />
+        <Suspense fallback={<ProfileHeaderSkeleton />}>
+          <ProfileHeader user={user} />
+        </Suspense>
       </div>
-      <ProfileProductList id={id} />
+      <ProfileProductList />
     </main>
   );
 };
