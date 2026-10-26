@@ -133,10 +133,12 @@ const ProfileHeader = ({
           </a>
         )}
       </div>
-      <ProfileEditModal
-        isEditModalOpen={isEditModalOpen}
-        onEditModalClose={onEditModalClose}
-      />
+      {isOwner && (
+        <ProfileEditModal
+          isEditModalOpen={isEditModalOpen}
+          onEditModalClose={onEditModalClose}
+        />
+      )}
     </div>
   );
 };
