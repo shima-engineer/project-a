@@ -1,0 +1,14 @@
+import Link from "next/link";
+
+const NotFound = () => {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <h1 className="text-3xl font-bold">ユーザーが見つかりませんでした</h1>
+      <Link className="bg-primary text-white px-4 py-2 rounded" href="/">
+        ホームへ戻る
+      </Link>
+    </div>
+  );
+};
+
+export default NotFound;
