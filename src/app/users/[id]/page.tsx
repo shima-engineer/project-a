@@ -15,23 +15,23 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     notFound();
   }
 
-  const [user, currentUser] = await Promise.all([
+  const [profileUser, currentUser] = await Promise.all([
     getUserById(id),
     getCurrentUser(),
   ]);
 
   // ユーザーが存在しなければ404
-  if (!user) {
+  if (!profileUser) {
     notFound();
   }
 
-  const isOwner = currentUser?.id === user?.id;
+  const isOwner = currentUser?.id === profileUser?.id;
 
   return (
     <main className="mx-auto w-full max-w-4xl px-4 sm:px-6 py-8 flex-1">
       <div className="mb-8">
         <Suspense fallback={<ProfileHeaderSkeleton />}>
-          <ProfileHeader user={user} isOwner={isOwner} />
+          <ProfileHeader profileUser={profileUser} isOwner={isOwner} />
         </Suspense>
       </div>
       <ProfileProductList />

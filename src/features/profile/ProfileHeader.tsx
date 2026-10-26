@@ -8,10 +8,10 @@ import { ProfileUser } from "./queries/getUserById";
 import Image from "next/image";
 
 const ProfileHeader = ({
-  user,
+  profileUser,
   isOwner,
 }: {
-  user: ProfileUser;
+  profileUser: ProfileUser;
   isOwner: boolean;
 }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -24,16 +24,16 @@ const ProfileHeader = ({
     setIsEditModalOpen(true);
   };
 
-  const websiteName = user.website_url
-    ? new URL(user.website_url).hostname
+  const websiteName = profileUser.website_url
+    ? new URL(profileUser.website_url).hostname
     : null;
 
-  const githubName = user.github_url
-    ? new URL(user.github_url).pathname.split("/").filter(Boolean)[0]
+  const githubName = profileUser.github_url
+    ? new URL(profileUser.github_url).pathname.split("/").filter(Boolean)[0]
     : null;
 
-  const xName = user.x_url
-    ? new URL(user.x_url).pathname.split("/").filter(Boolean)[0]
+  const xName = profileUser.x_url
+    ? new URL(profileUser.x_url).pathname.split("/").filter(Boolean)[0]
     : null;
 
   return (
@@ -41,9 +41,9 @@ const ProfileHeader = ({
       <div className="h-28 sm:h-40 rounded-2xl bg-linear-to-br from-hero-start to-hero-end "></div>
       <div className="flex flex-col mb-4 sm:flex-row sm:items-end md:justify-between gap-4 -mt-10 sm:-mt-14 px-2 sm:px-6">
         <div className="sm:flex sm:items-end sm:gap-4">
-          {user?.avatar_url ? (
+          {profileUser?.avatar_url ? (
             <Image
-              src={user.avatar_url}
+              src={profileUser.avatar_url}
               alt="Profile Image"
               className="size-24 sm:size-32 rounded-2xl ring-4 ring-background bg-card shrink-0 mb-4 md:mb-0"
               width={128}
@@ -54,24 +54,24 @@ const ProfileHeader = ({
           )}
           <div>
             <h1 className="text-2xl font-bold truncate">
-              {user?.name ?? "名前未設定"}
+              {profileUser?.name ?? "名前未設定"}
             </h1>
             <p className="text-sm text-muted-foreground">
-              @{user?.id ?? "unknown"}
+              @{profileUser?.id ?? "unknown"}
             </p>
           </div>
         </div>
         {isOwner && <ProfileEditButton handleEditClick={handleEditClick} />}
       </div>
-      {user?.bio && (
+      {profileUser?.bio && (
         <p className="text-sm leading-relaxed max-w-2xl whitespace-pre-wrap">
-          {user.bio}
+          {profileUser.bio}
         </p>
       )}
       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
-        {user.website_url && (
+        {profileUser.website_url && (
           <a
-            href={user.website_url}
+            href={profileUser.website_url}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors break-all"
@@ -81,9 +81,9 @@ const ProfileHeader = ({
           </a>
         )}
 
-        {user.github_url && (
+        {profileUser.github_url && (
           <a
-            href={user.github_url}
+            href={profileUser.github_url}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors break-all"
@@ -107,9 +107,9 @@ const ProfileHeader = ({
           </a>
         )}
 
-        {user.x_url && (
+        {profileUser.x_url && (
           <a
-            href={user.x_url}
+            href={profileUser.x_url}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors break-all"
