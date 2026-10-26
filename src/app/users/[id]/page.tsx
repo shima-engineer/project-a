@@ -3,6 +3,7 @@ import ProfileProductList from "@/features/profile/ProfileProductList";
 import { notFound } from "next/navigation";
 import { getUserById } from "@/features/profile/queries/getUserById";
 import { z } from "zod";
+import { getCurrentUser } from "@/features/auth/queries/getCurrentUser";
 import { Suspense } from "react";
 import { ProfileHeaderSkeleton } from "@/features/profile/skeleton/ProfileHeaderSkeleton";
 
@@ -14,18 +15,23 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     notFound();
   }
 
-  const user = await getUserById(id);
+  const [user, currentUser] = await Promise.all([
+    getUserById(id),
+    getCurrentUser(),
+  ]);
 
   // ユーザーが存在しなければ404
   if (!user) {
     notFound();
   }
 
+  const isOwner = currentUser?.id === user?.id;
+
   return (
     <main className="mx-auto w-full max-w-4xl px-4 sm:px-6 py-8 flex-1">
       <div className="mb-8">
         <Suspense fallback={<ProfileHeaderSkeleton />}>
-          <ProfileHeader user={user} />
+          <ProfileHeader user={user} isOwner={isOwner} />
         </Suspense>
       </div>
       <ProfileProductList />
