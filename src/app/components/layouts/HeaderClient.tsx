@@ -1,4 +1,5 @@
 "use client";
+
 import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,6 +51,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
                 avatarUrl={avatarUrl}
                 name={user?.user_metadata?.name ?? ""}
                 email={user?.email ?? ""}
+                id={user?.id ?? ""}
               />
             </>
           ) : (

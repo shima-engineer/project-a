@@ -9,9 +9,10 @@ type UserAvatarMenuProps = {
   avatarUrl: string;
   name: string;
   email: string;
+  id: string;
 };
 
-const UserAvatarMenu = ({ avatarUrl, name, email }: UserAvatarMenuProps) => {
+const UserAvatarMenu = ({ avatarUrl, name, email, id }: UserAvatarMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,7 +27,7 @@ const UserAvatarMenu = ({ avatarUrl, name, email }: UserAvatarMenuProps) => {
         </button>
       </DropdownMenuTrigger>
 
-      <ProfileIconDropdownMenu name={name} email={email} />
+      <ProfileIconDropdownMenu name={name} email={email} id={id} />
     </DropdownMenu>
   );
 };

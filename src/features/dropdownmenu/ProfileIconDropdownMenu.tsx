@@ -6,18 +6,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { logout } from "../auth/actions/logout";
 import Link from "next/link";
 import LogoutMenuItem from "../auth/components/LogoutMenuItem ";
 
 interface ProfileIconDropdownMenuProps {
   name: string;
   email: string;
+  id: string;
 }
 
 export default function ProfileIconDropdownMenu({
   name,
   email,
+  id,
 }: ProfileIconDropdownMenuProps) {
   return (
     <DropdownMenuContent align="end" className="w-56">
@@ -33,8 +34,7 @@ export default function ProfileIconDropdownMenu({
       <DropdownMenuSeparator />
 
       <DropdownMenuItem className="gap-3 hover:bg-gray-100  duration-200 cursor-pointer">
-        {/* TODO:#22 実際のユーザーIDに置き換える */}
-        <Link className="w-full" href="/users/a">
+        <Link className="w-full" href={`/users/${id}`}>
           マイプロフィール
         </Link>
       </DropdownMenuItem>
