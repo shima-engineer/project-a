@@ -15,7 +15,6 @@ const ProfileProductItem = ({
   product: ProfileProducts[number];
   votedProductIds: Set<string>;
 }) => {
-  console.log(isOwner);
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
       <Link href={`/products/${product.id}`} className="flex-1 min-w-0">

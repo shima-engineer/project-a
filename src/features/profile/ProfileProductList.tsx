@@ -25,6 +25,11 @@ const ProfileProductList = async ({
           {products.length > 0 ? products.length : 0}件
         </p>
       </div>
+      {products.length === 0 && (
+        <p className="text-sm text-muted-foreground">
+          投稿プロダクトはありません
+        </p>
+      )}
       <ul className="md:grid md:grid-cols-2">
         {products.map((product) => (
           <ProfileProductItem
