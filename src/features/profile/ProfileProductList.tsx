@@ -1,20 +1,45 @@
+import { User } from "@supabase/supabase-js";
 import ProfileProductItem from "./ProfileProductItem";
+import { getProductsById } from "./queries/geProductsById";
+import { getUserUpvotes } from "../upvote/queries/getUserUpvotes";
 
-const ProfileProductList = () => {
-  // TODO:63実際のデータに置き換える
+const ProfileProductList = async ({
+  currentUser,
+  isOwner,
+  userId,
+}: {
+  currentUser: User | null;
+  isOwner: boolean;
+  userId: string;
+}) => {
+  const products = await getProductsById(userId);
+  const upvotes = currentUser ? await getUserUpvotes(currentUser.id) : [];
+  // ログインしているユーザーが投票したプロダクトIDのセットを作成
+  const votedProductIds = new Set(upvotes.map((u) => u.product_id));
+
   return (
     <section>
       <div className="flex items-baseline gap-2 mb-4">
         <h2 className="text-base font-semibold ">投稿プロダクト</h2>
         <p className="text-sm font-normal text-muted-foreground tabular-nums">
-          4件
+          {products.length}件
         </p>
       </div>
+      {products.length === 0 && (
+        <p className="text-sm text-muted-foreground">
+          投稿プロダクトはありません
+        </p>
+      )}
       <ul className="md:grid md:grid-cols-2">
-        <ProfileProductItem />
-        <ProfileProductItem />
-        <ProfileProductItem />
-        <ProfileProductItem />
+        {products.map((product) => (
+          <ProfileProductItem
+            key={product.id}
+            currentUser={currentUser}
+            isOwner={isOwner}
+            product={product}
+            votedProductIds={votedProductIds}
+          />
+        ))}
       </ul>
     </section>
   );
