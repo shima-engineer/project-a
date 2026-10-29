@@ -6,6 +6,9 @@ export async function getProductsById(id: string) {
     include: {
       categories: true,
     },
+    orderBy: {
+      created_at: "desc",
+    },
   });
 }
 
