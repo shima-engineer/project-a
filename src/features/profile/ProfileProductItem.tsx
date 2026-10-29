@@ -2,17 +2,24 @@ import Link from "next/link";
 import Image from "next/image";
 import UpvoteButton from "../upvote/components/UpvoteButton";
 
-const ProfileProductItem = () => {
+import type { ProfileProducts } from "./queries/geProductsById";
+const ProfileProductItem = ({
+  product,
+}: {
+  product: ProfileProducts[number];
+}) => {
   // TODO:63実際のデータに置き換える
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
-      <Link href="" className="flex-1 min-w-0">
+      <Link href={`/products/${product.id}`} className="flex-1 min-w-0">
         <div className="flex items-center gap-3 sm:gap-4">
           <div className="size-12 sm:size-14 rounded-xl ring-1 ring-border shrink-0"></div>
           <div className="min-w-0">
-            <h3 className="font-semibold text-[15px] truncate">Shibuya AI</h3>
+            <h3 className="font-semibold text-[15px] truncate">
+              {product.name}
+            </h3>
             <p className="text-sm text-muted-foreground mb-1.5 truncate">
-              日本語特化のAIライティングアシスタント日本語特化のAIライティングアシスタント
+              {product.description}
             </p>
             <div className="flex items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
@@ -26,8 +33,8 @@ const ProfileProductItem = () => {
       </Link>
       {/* TODO:63 実際のデータに置き換える */}
       <UpvoteButton
-        id={"id"}
-        upvotes_count={2}
+        id={product.id}
+        upvotes_count={product.upvotes_count}
         votedProductIds={new Set<string>()}
         user={null}
         isOwner={false}

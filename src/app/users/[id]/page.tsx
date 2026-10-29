@@ -30,7 +30,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       <div className="mb-8">
         <ProfileHeader profileUser={profileUser} isOwner={isOwner} />
       </div>
-      <ProfileProductList />
+      <ProfileProductList userId={id} />
     </main>
   );
 };
