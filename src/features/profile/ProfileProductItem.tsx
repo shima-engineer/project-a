@@ -16,7 +16,7 @@ const ProfileProductItem = ({
   votedProductIds: Set<string>;
 }) => {
   return (
-    <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list">
+    <li className="flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 group/list hover:bg-muted duration-200 transition-colors rounded-2xl">
       <Link href={`/products/${product.slug}`} className="flex-1 min-w-0">
         <div className="flex items-center gap-3 sm:gap-4">
           <Image
@@ -27,7 +27,7 @@ const ProfileProductItem = ({
             className="size-12 sm:size-14 rounded-xl ring-1 ring-border shrink-0"
           />
           <div className="min-w-0">
-            <h3 className="font-semibold text-[15px] truncate">
+            <h3 className="font-semibold text-[15px] truncate group-hover/list:text-primary duration-200 transition-colors">
               {product.name}
             </h3>
             <p className="text-sm text-muted-foreground mb-1.5 truncate">
