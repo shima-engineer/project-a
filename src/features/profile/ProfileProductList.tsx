@@ -22,7 +22,7 @@ const ProfileProductList = async ({
       <div className="flex items-baseline gap-2 mb-4">
         <h2 className="text-base font-semibold ">投稿プロダクト</h2>
         <p className="text-sm font-normal text-muted-foreground tabular-nums">
-          {products.length > 0 ? products.length : 0}件
+          {products.length}件
         </p>
       </div>
       {products.length === 0 && (
