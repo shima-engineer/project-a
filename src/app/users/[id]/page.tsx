@@ -23,6 +23,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     notFound();
   }
 
+  // 現在のログインユーザーがプロフィールの所有者かどうかを判定
   const isOwner = currentUser?.id === profileUser?.id;
 
   return (
