@@ -54,7 +54,7 @@ const ProfileHeader = ({
           )}
           <div>
             <h1 className="text-2xl font-bold truncate">
-              {profileUser?.name ?? "名前未設定"}
+              {profileUser?.username ?? "名前未設定"}
             </h1>
             <p className="text-sm text-muted-foreground">
               @{profileUser?.id ?? "unknown"}
