@@ -6,15 +6,33 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../../../components/ui/dialog";
+import { ProfileUser } from "./queries/getUserById";
 import ProfileAvatarUpload from "./ProfileAvatarUpload";
+import { ProfileEditFormValues } from "./schema/schema";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileEditFormSchema } from "./schema/schema";
 
 const ProfileEditModal = ({
   isEditModalOpen,
   onEditModalClose,
+  profileUser,
 }: {
   isEditModalOpen: boolean;
   onEditModalClose: () => void;
+  profileUser: ProfileUser;
 }) => {
+  const methods = useForm<ProfileEditFormValues>({
+    resolver: zodResolver(profileEditFormSchema),
+    defaultValues: {
+      name: profileUser.username ?? "",
+      bio: profileUser.bio ?? "",
+      website: profileUser.website_url ?? "",
+      githubURL: profileUser.github_url ?? "",
+      XURL: profileUser.x_url ?? "",
+    },
+  });
+
   return (
     <Dialog
       open={isEditModalOpen}
@@ -30,99 +48,105 @@ const ProfileEditModal = ({
           </DialogDescription>
         </div>
 
-        <form className="">
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-              <ProfileAvatarUpload />
-            </div>
-            <div className="flex flex-col gap-2 mb-4">
-              <label
-                htmlFor="displayName"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                表示名 *
-              </label>
-              <input
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                id="displayName"
-                required
-                placeholder="山田 太郎"
-              />
-            </div>
-            <div className="flex flex-col gap-2 mb-4">
-              <label
-                htmlFor="bio"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                自己紹介
-              </label>
-              <textarea
-                className="flex min-h-15 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                id="bio"
-                placeholder="自己紹介を入力してください"
-                rows={3}
-              />
-            </div>
-            <div className="flex flex-col gap-2 mb-4">
-              <label
-                htmlFor="website"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Webサイト
-              </label>
-              <input
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                id="website"
-                placeholder="https://example.com"
-                type="url"
-              />
-            </div>
-            <div className="sm:flex sm:gap-2 mb-4">
-              <div className="flex flex-col gap-2 mb-4 sm:mb-0">
+        <FormProvider {...methods}>
+          <form className="">
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <ProfileAvatarUpload />
+              </div>
+              <div className="flex flex-col gap-2 mb-4">
                 <label
-                  htmlFor="github"
+                  htmlFor="displayName"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  GitHub
+                  表示名 *
                 </label>
                 <input
+                  {...methods.register("name")}
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                  id="github"
-                  placeholder="https://github.com/username"
+                  id="displayName"
+                  required
+                  placeholder="山田 太郎"
+                />
+              </div>
+              <div className="flex flex-col gap-2 mb-4">
+                <label
+                  htmlFor="bio"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  自己紹介
+                </label>
+                <textarea
+                  {...methods.register("bio")}
+                  className="flex min-h-15 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                  id="bio"
+                  placeholder="自己紹介を入力してください"
+                  rows={3}
+                />
+              </div>
+              <div className="flex flex-col gap-2 mb-4">
+                <label
+                  htmlFor="website"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Webサイト
+                </label>
+                <input
+                  {...methods.register("website")}
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                  id="website"
+                  placeholder="https://example.com"
                   type="url"
                 />
               </div>
-              <div className="flex flex-col gap-2 mb-4 sm:mb-0">
-                <label
-                  htmlFor="X"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  X (Twitter)
-                </label>
-                <input
-                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                  id="X"
-                  placeholder="https://twitter.com/username"
-                  type="url"
-                />
+              <div className="sm:flex sm:gap-2 mb-4">
+                <div className="flex flex-col gap-2 mb-4 sm:mb-0">
+                  <label
+                    htmlFor="github"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    GitHub
+                  </label>
+                  <input
+                    {...methods.register("github")}
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                    id="github"
+                    placeholder="https://github.com/username"
+                    type="url"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4 sm:mb-0">
+                  <label
+                    htmlFor="X"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    X (Twitter)
+                  </label>
+                  <input
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                    id="X"
+                    placeholder="https://twitter.com/username"
+                    type="url"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              className="flex cursor-pointer items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
-            >
-              キャンセル
-            </button>
-            <button
-              type="submit"
-              className="flex cursor-pointer bg-primary text-primary-foreground items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
-            >
-              保存
-            </button>
-          </div>
-        </form>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                className="flex cursor-pointer items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
+              >
+                キャンセル
+              </button>
+              <button
+                type="submit"
+                className="flex cursor-pointer bg-primary text-primary-foreground items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
+              >
+                保存
+              </button>
+            </div>
+          </form>
+        </FormProvider>
       </DialogContent>
     </Dialog>
   );
