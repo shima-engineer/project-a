@@ -9,6 +9,7 @@ import {
 import { ProfileUser } from "./queries/getUserById";
 import ProfileAvatarUpload from "./ProfileAvatarUpload";
 import { ProfileEditFormValues } from "./schema/schema";
+import ErrorMessage from "@/app/components/elements/ErrorMessage";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileEditFormSchema } from "./schema/schema";
@@ -25,13 +26,22 @@ const ProfileEditModal = ({
   const methods = useForm<ProfileEditFormValues>({
     resolver: zodResolver(profileEditFormSchema),
     defaultValues: {
-      name: profileUser.username ?? "",
+      displayName: profileUser.username ?? "",
       bio: profileUser.bio ?? "",
       websiteURL: profileUser.website_url ?? "",
       githubURL: profileUser.github_url ?? "",
       XURL: profileUser.x_url ?? "",
     },
   });
+
+  const handleFormSubmit = (data: ProfileEditFormValues) => {
+    console.log(data);
+  };
+
+  const handleCancel = () => {
+    methods.reset();
+    onEditModalClose();
+  };
 
   return (
     <Dialog
@@ -49,10 +59,12 @@ const ProfileEditModal = ({
         </div>
 
         <FormProvider {...methods}>
-          <form className="">
+          <form className="" onSubmit={methods.handleSubmit(handleFormSubmit)}>
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <ProfileAvatarUpload initialAvatarURL={profileUser.avatar_url}/>
+                <ProfileAvatarUpload
+                  initialAvatarURL={profileUser.avatar_url}
+                />
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 <label
@@ -62,11 +74,16 @@ const ProfileEditModal = ({
                   表示名 *
                 </label>
                 <input
-                  {...methods.register("name")}
+                  {...methods.register("displayName")}
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                   id="displayName"
                   required
                   placeholder="山田 太郎"
+                />
+                <ErrorMessage
+                  errorMessage={
+                    methods.formState.errors.displayName?.message || ""
+                  }
                 />
               </div>
               <div className="flex flex-col gap-2 mb-4">
@@ -83,6 +100,9 @@ const ProfileEditModal = ({
                   placeholder="自己紹介を入力してください"
                   rows={3}
                 />
+                <ErrorMessage
+                  errorMessage={methods.formState.errors.bio?.message || ""}
+                />
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 <label
@@ -97,6 +117,11 @@ const ProfileEditModal = ({
                   id="websiteURL"
                   placeholder="https://example.com"
                   type="url"
+                />
+                <ErrorMessage
+                  errorMessage={
+                    methods.formState.errors.websiteURL?.message || ""
+                  }
                 />
               </div>
               <div className="sm:flex sm:gap-2 mb-4">
@@ -114,6 +139,11 @@ const ProfileEditModal = ({
                     placeholder="https://github.com/username"
                     type="url"
                   />
+                  <ErrorMessage
+                    errorMessage={
+                      methods.formState.errors.githubURL?.message || ""
+                    }
+                  />
                 </div>
                 <div className="flex flex-col gap-2 mb-4 sm:mb-0">
                   <label
@@ -129,12 +159,16 @@ const ProfileEditModal = ({
                     placeholder="https://twitter.com/username"
                     type="url"
                   />
+                  <ErrorMessage
+                    errorMessage={methods.formState.errors.XURL?.message || ""}
+                  />
                 </div>
               </div>
             </div>
             <div className="flex justify-end gap-2">
               <button
                 type="button"
+                onClick={handleCancel}
                 className="flex cursor-pointer items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
               >
                 キャンセル
