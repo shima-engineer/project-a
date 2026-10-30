@@ -27,7 +27,7 @@ const ProfileEditModal = ({
     defaultValues: {
       name: profileUser.username ?? "",
       bio: profileUser.bio ?? "",
-      website: profileUser.website_url ?? "",
+      websiteURL: profileUser.website_url ?? "",
       githubURL: profileUser.github_url ?? "",
       XURL: profileUser.x_url ?? "",
     },
@@ -52,7 +52,7 @@ const ProfileEditModal = ({
           <form className="">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <ProfileAvatarUpload />
+                <ProfileAvatarUpload initialAvatarURL={profileUser.avatar_url}/>
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 <label
@@ -92,9 +92,9 @@ const ProfileEditModal = ({
                   Webサイト
                 </label>
                 <input
-                  {...methods.register("website")}
+                  {...methods.register("websiteURL")}
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                  id="website"
+                  id="websiteURL"
                   placeholder="https://example.com"
                   type="url"
                 />
@@ -108,23 +108,24 @@ const ProfileEditModal = ({
                     GitHub
                   </label>
                   <input
-                    {...methods.register("github")}
+                    {...methods.register("githubURL")}
                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    id="github"
+                    id="githubURL"
                     placeholder="https://github.com/username"
                     type="url"
                   />
                 </div>
                 <div className="flex flex-col gap-2 mb-4 sm:mb-0">
                   <label
-                    htmlFor="X"
+                    htmlFor="twitterURL"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     X (Twitter)
                   </label>
                   <input
+                    {...methods.register("XURL")}
                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    id="X"
+                    id="twitterURL"
                     placeholder="https://twitter.com/username"
                     type="url"
                   />

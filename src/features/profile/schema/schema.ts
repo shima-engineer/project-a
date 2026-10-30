@@ -33,7 +33,7 @@ export const profileEditFormSchema = z.object({
       message: `${BIO_MAX_LENGTH}文字以内で入力してください。`,
     })
     .optional(),
-  website: z
+  websiteURL: z
     .string()
     .trim()
     .max(WEBSITE_MAX_LENGTH, {

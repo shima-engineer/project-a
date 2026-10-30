@@ -5,13 +5,17 @@ import { useWatch, useFormContext } from "react-hook-form";
 import type { ProfileEditFormValues } from "./schema/schema";
 import ErrorMessage from "@/app/components/elements/ErrorMessage";
 
-const ProfileAvatarUpload = () => {
+const ProfileAvatarUpload = ({
+  initialAvatarURL,
+}: {
+  initialAvatarURL: string | null;
+}) => {
   const {
     setValue,
     control,
     formState: { errors },
   } = useFormContext<ProfileEditFormValues>();
-
+  console.log(initialAvatarURL);
   const imageRef = useRef<HTMLImageElement>(null);
 
   const avatar = useWatch({
@@ -25,7 +29,11 @@ const ProfileAvatarUpload = () => {
     if (!image) return;
 
     if (!avatar) {
-      image.removeAttribute("src");
+      if (initialAvatarURL) {
+        image.src = initialAvatarURL;
+      } else {
+        image.removeAttribute("src");
+      }
       return;
     }
 
@@ -36,7 +44,7 @@ const ProfileAvatarUpload = () => {
       image.removeAttribute("src");
       URL.revokeObjectURL(url);
     };
-  }, [avatar]);
+  }, [avatar, initialAvatarURL]);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,11 +68,11 @@ const ProfileAvatarUpload = () => {
         width={64}
         height={64}
         className={`size-16 rounded-xl ring-1 ring-border bg-card object-cover ${
-          avatar ? "" : "hidden"
+          avatar || initialAvatarURL ? "" : "hidden"
         }`}
       />
 
-      {!avatar && (
+      {!avatar && !initialAvatarURL && (
         <div className="size-16 rounded-xl ring-1 ring-border bg-card" />
       )}
 
