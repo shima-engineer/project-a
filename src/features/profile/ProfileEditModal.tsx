@@ -13,6 +13,9 @@ import ErrorMessage from "@/app/components/elements/ErrorMessage";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileEditFormSchema } from "./schema/schema";
+import { toast } from "sonner";
+import { submitProfile } from "./actions/submitProfile";
+
 
 const ProfileEditModal = ({
   isEditModalOpen,
@@ -34,8 +37,21 @@ const ProfileEditModal = ({
     },
   });
 
-  const handleFormSubmit = (data: ProfileEditFormValues) => {
-    console.log(data);
+  const handleFormSubmit = async (data: ProfileEditFormValues) => {
+    try {
+      const result = await submitProfile(data);
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+
+      methods.reset();
+
+      toast.success("プロフィールを更新しました");
+    } catch {
+      toast.error("通信に失敗しました。もう一度お試しください。");
+    }
   };
 
   const handleCancel = () => {
