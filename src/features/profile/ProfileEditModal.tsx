@@ -61,13 +61,9 @@ const ProfileEditModal = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // 日本語変換中は送信しない
-    if (e.nativeEvent.isComposing) {
-      return;
-    }
-
     // Enterで送信（Shift + Enterは改行）
-    if (e.key === "Enter" && !e.shiftKey) {
+    // 日本語変換中は送信しない
+    if (e.key === "Enter" && !e.nativeEvent.isComposing && !e.shiftKey) {
       e.preventDefault();
       e.currentTarget.form?.requestSubmit();
     }
