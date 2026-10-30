@@ -16,7 +16,6 @@ import { profileEditFormSchema } from "./schema/schema";
 import { toast } from "sonner";
 import { submitProfile } from "./actions/submitProfile";
 
-
 const ProfileEditModal = ({
   isEditModalOpen,
   onEditModalClose,
@@ -29,7 +28,7 @@ const ProfileEditModal = ({
   const methods = useForm<ProfileEditFormValues>({
     resolver: zodResolver(profileEditFormSchema),
     defaultValues: {
-      displayName: profileUser.username ?? "",
+      username: profileUser.username ?? "",
       bio: profileUser.bio ?? "",
       websiteURL: profileUser.website_url ?? "",
       githubURL: profileUser.github_url ?? "",
@@ -45,8 +44,6 @@ const ProfileEditModal = ({
         toast.error(result.message);
         return;
       }
-
-      methods.reset();
 
       toast.success("プロフィールを更新しました");
     } catch {
@@ -84,21 +81,21 @@ const ProfileEditModal = ({
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 <label
-                  htmlFor="displayName"
+                  htmlFor="username"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   表示名 *
                 </label>
                 <input
-                  {...methods.register("displayName")}
+                  {...methods.register("username")}
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                  id="displayName"
+                  id="username"
                   required
                   placeholder="山田 太郎"
                 />
                 <ErrorMessage
                   errorMessage={
-                    methods.formState.errors.displayName?.message || ""
+                    methods.formState.errors.username?.message || ""
                   }
                 />
               </div>
