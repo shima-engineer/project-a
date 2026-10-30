@@ -15,6 +15,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { profileEditFormSchema } from "./schema/schema";
 import { toast } from "sonner";
 import { submitProfile } from "./actions/submitProfile";
+import ProfileSubmitLoading from "./ProfileSubmitLoading";
+import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 
 const ProfileEditModal = ({
   isEditModalOpen,
@@ -26,6 +29,7 @@ const ProfileEditModal = ({
   profileUser: ProfileUser;
 }) => {
   const methods = useForm<ProfileEditFormValues>({
+    mode: "onSubmit",
     resolver: zodResolver(profileEditFormSchema),
     defaultValues: {
       username: profileUser.username ?? "",
@@ -72,6 +76,7 @@ const ProfileEditModal = ({
         </div>
 
         <FormProvider {...methods}>
+          <ProfileSubmitLoading />
           <form className="" onSubmit={methods.handleSubmit(handleFormSubmit)}>
             <div>
               <div className="flex items-center gap-4 mb-4">
@@ -186,12 +191,16 @@ const ProfileEditModal = ({
               >
                 キャンセル
               </button>
-              <button
+              <Button
                 type="submit"
-                className="flex cursor-pointer bg-primary text-primary-foreground items-center rounded-md border border-border px-3 py-1.5 text-xs font-medium hover:opacity-80 transition-colors"
+                disabled={methods.formState.isSubmitting}
+                className={`${methods.formState.isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
               >
-                保存
-              </button>
+                {methods.formState.isSubmitting && (
+                  <Spinner className="size-4" />
+                )}
+                {methods.formState.isSubmitting ? "投稿中..." : "投稿する"}
+              </Button>
             </div>
           </form>
         </FormProvider>
