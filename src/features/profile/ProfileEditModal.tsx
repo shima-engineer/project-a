@@ -60,6 +60,19 @@ const ProfileEditModal = ({
     onEditModalClose();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // 日本語変換中は送信しない
+    if (e.nativeEvent.isComposing) {
+      return;
+    }
+
+    // Enterで送信（Shift + Enterは改行）
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      e.currentTarget.form?.requestSubmit();
+    }
+  };
+
   return (
     <Dialog
       open={isEditModalOpen}
@@ -117,6 +130,7 @@ const ProfileEditModal = ({
                   id="bio"
                   placeholder="自己紹介を入力してください"
                   rows={3}
+                  onKeyDown={handleKeyDown}
                 />
                 <ErrorMessage
                   errorMessage={methods.formState.errors.bio?.message || ""}

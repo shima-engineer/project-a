@@ -51,7 +51,7 @@ const ProductDetailCommentFormInput = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // 日本語変換中は送信しない
-    if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) {
+    if (e.nativeEvent.isComposing) {
       return;
     }
 
