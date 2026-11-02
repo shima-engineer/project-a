@@ -137,6 +137,7 @@ const ProfileHeader = ({
         <ProfileEditModal
           isEditModalOpen={isEditModalOpen}
           onEditModalClose={onEditModalClose}
+          profileUser={profileUser}
         />
       )}
     </div>

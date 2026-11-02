@@ -27,6 +27,7 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          E2E_PROFILE_USER_ID: ${{ secrets.E2E_PROFILE_USER_ID }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
