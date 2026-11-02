@@ -44,6 +44,11 @@ const ProfileEditModal = ({
     try {
       const result = await submitProfile(data);
 
+      if (result.success) {
+        methods.reset(data);
+        onEditModalClose();
+      }
+
       if (!result.success) {
         toast.error(result.message);
         return;
