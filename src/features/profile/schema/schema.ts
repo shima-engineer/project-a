@@ -19,7 +19,7 @@ export const profileEditFormSchema = z.object({
       error: "アバター画像はPNG、JPG形式でアップロードしてください。",
     })
     .optional(),
-  username: z
+  name: z
     .string()
     .trim()
     .min(1, { message: "表示名は必須です。" })

@@ -32,7 +32,7 @@ const ProfileEditModal = ({
     mode: "onSubmit",
     resolver: zodResolver(profileEditFormSchema),
     defaultValues: {
-      username: profileUser.username ?? "",
+      name: profileUser.name ?? "",
       bio: profileUser.bio ?? "",
       websiteURL: profileUser.website_url ?? "",
       githubURL: profileUser.github_url ?? "",
@@ -100,20 +100,20 @@ const ProfileEditModal = ({
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 <label
-                  htmlFor="username"
+                  htmlFor="name"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   表示名 *
                 </label>
                 <input
-                  {...methods.register("username")}
+                  {...methods.register("name")}
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                  id="username"
+                  id="name"
                   placeholder="山田 太郎"
                 />
                 <ErrorMessage
                   errorMessage={
-                    methods.formState.errors.username?.message || ""
+                    methods.formState.errors.name?.message || ""
                   }
                 />
               </div>
@@ -168,7 +168,7 @@ const ProfileEditModal = ({
                     {...methods.register("githubURL")}
                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     id="githubURL"
-                    placeholder="https://github.com/username"
+                    placeholder="https://github.com/name"
                     type="url"
                   />
                   <ErrorMessage
@@ -188,7 +188,7 @@ const ProfileEditModal = ({
                     {...methods.register("XURL")}
                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     id="XURL"
-                    placeholder="https://x.com/username"
+                    placeholder="https://x.com/name"
                     type="url"
                   />
                   <ErrorMessage

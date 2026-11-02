@@ -11,7 +11,7 @@ import {
 
 // 正常なフォームデータ
 const validData = {
-  username: "テストユーザー",
+  name: "テストユーザー",
   bio: "",
   websiteURL: "",
   githubURL: "",
@@ -49,7 +49,7 @@ describe("profileEditFormSchema", () => {
     it("すべての項目に正常な値を入力した場合は成功する", () => {
       const result = profileEditFormSchema.safeParse({
         avatar: createFile(1024),
-        username: "テストユーザー",
+        name: "テストユーザー",
         bio: "フロントエンドエンジニアです。",
         websiteURL: "https://example.com",
         githubURL: "https://github.com/example",
@@ -60,9 +60,9 @@ describe("profileEditFormSchema", () => {
     });
 
     it("必須項目が存在しない場合は失敗する", () => {
-      const { username: _username, ...data } = validData;
+      const { name: _name, ...data } = validData;
 
-      expectFieldError(data, "username");
+      expectFieldError(data, "name");
     });
   });
 
@@ -132,11 +132,11 @@ describe("profileEditFormSchema", () => {
     });
   });
 
-  describe("表示名（username）", () => {
+  describe("表示名（name）", () => {
     it("1文字の場合は成功する", () => {
       const result = profileEditFormSchema.safeParse({
         ...validData,
-        username: "あ",
+        name: "あ",
       });
 
       expect(result.success).toBe(true);
@@ -145,40 +145,40 @@ describe("profileEditFormSchema", () => {
     it("最大文字数ちょうどの場合は成功する", () => {
       const result = profileEditFormSchema.safeParse({
         ...validData,
-        username: "あ".repeat(DISPLAY_NAME_MAX_LENGTH),
+        name: "あ".repeat(DISPLAY_NAME_MAX_LENGTH),
       });
 
       expect(result.success).toBe(true);
     });
 
     it("空文字の場合は失敗する", () => {
-      expectFieldError({ ...validData, username: "" }, "username");
+      expectFieldError({ ...validData, name: "" }, "name");
     });
 
     it("空白のみの場合は失敗する", () => {
-      expectFieldError({ ...validData, username: "   " }, "username");
+      expectFieldError({ ...validData, name: "   " }, "name");
     });
 
     it("最大文字数を1文字超えた場合は失敗する", () => {
       expectFieldError(
         {
           ...validData,
-          username: "あ".repeat(DISPLAY_NAME_MAX_LENGTH + 1),
+          name: "あ".repeat(DISPLAY_NAME_MAX_LENGTH + 1),
         },
-        "username",
+        "name",
       );
     });
 
     it("前後の空白が除去される", () => {
       const result = profileEditFormSchema.safeParse({
         ...validData,
-        username: "  テスト  ",
+        name: "  テスト  ",
       });
 
       expect(result.success).toBe(true);
 
       if (result.success) {
-        expect(result.data.username).toBe("テスト");
+        expect(result.data.name).toBe("テスト");
       }
     });
   });

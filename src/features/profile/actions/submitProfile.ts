@@ -80,7 +80,7 @@ export const submitProfile = async (
       },
       data: {
         ...(avatarUrl !== undefined && { avatar_url: avatarUrl }),
-        username: parsed.data.username,
+        name: parsed.data.name,
         bio: parsed.data.bio,
         website_url: parsed.data.websiteURL,
         github_url: parsed.data.githubURL,
