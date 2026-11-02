@@ -15,7 +15,7 @@ const ProfileAvatarUpload = ({
     control,
     formState: { errors },
   } = useFormContext<ProfileEditFormValues>();
-  console.log(initialAvatarURL);
+  
   const imageRef = useRef<HTMLImageElement>(null);
 
   const avatar = useWatch({
