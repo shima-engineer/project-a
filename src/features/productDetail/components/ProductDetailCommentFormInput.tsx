@@ -54,7 +54,9 @@ const ProductDetailCommentFormInput = ({
     // 日本語変換中は送信しない
     if (e.key === "Enter" && !e.nativeEvent.isComposing && !e.shiftKey) {
       e.preventDefault();
-      e.currentTarget.form?.requestSubmit();
+      if (!isSubmitting) {
+        e.currentTarget.form?.requestSubmit();
+      }
     }
   };
 

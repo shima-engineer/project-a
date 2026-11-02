@@ -70,7 +70,9 @@ const ProfileEditModal = ({
     // 日本語変換中は送信しない
     if (e.key === "Enter" && !e.nativeEvent.isComposing && !e.shiftKey) {
       e.preventDefault();
-      e.currentTarget.form?.requestSubmit();
+      if (!methods.formState.isSubmitting) {
+        e.currentTarget.form?.requestSubmit();
+      }
     }
   };
 
@@ -112,9 +114,7 @@ const ProfileEditModal = ({
                   placeholder="山田 太郎"
                 />
                 <ErrorMessage
-                  errorMessage={
-                    methods.formState.errors.name?.message || ""
-                  }
+                  errorMessage={methods.formState.errors.name?.message || ""}
                 />
               </div>
               <div className="flex flex-col gap-2 mb-4">
