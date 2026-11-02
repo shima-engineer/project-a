@@ -109,7 +109,6 @@ const ProfileEditModal = ({
                   {...methods.register("username")}
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                   id="username"
-                  required
                   placeholder="山田 太郎"
                 />
                 <ErrorMessage
@@ -139,7 +138,7 @@ const ProfileEditModal = ({
               </div>
               <div className="flex flex-col gap-2 mb-4">
                 <label
-                  htmlFor="website"
+                  htmlFor="websiteURL"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   Webサイト
@@ -160,7 +159,7 @@ const ProfileEditModal = ({
               <div className="sm:flex sm:gap-2 mb-4">
                 <div className="flex flex-col gap-2 mb-4 sm:mb-0">
                   <label
-                    htmlFor="github"
+                    htmlFor="githubURL"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     GitHub
@@ -180,7 +179,7 @@ const ProfileEditModal = ({
                 </div>
                 <div className="flex flex-col gap-2 mb-4 sm:mb-0">
                   <label
-                    htmlFor="twitterURL"
+                    htmlFor="XURL"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     X (Twitter)
@@ -188,8 +187,8 @@ const ProfileEditModal = ({
                   <input
                     {...methods.register("XURL")}
                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    id="twitterURL"
-                    placeholder="https://twitter.com/username"
+                    id="XURL"
+                    placeholder="https://x.com/username"
                     type="url"
                   />
                   <ErrorMessage
@@ -214,7 +213,7 @@ const ProfileEditModal = ({
                 {methods.formState.isSubmitting && (
                   <Spinner className="size-4" />
                 )}
-                {methods.formState.isSubmitting ? "投稿中..." : "投稿する"}
+                {methods.formState.isSubmitting ? "投稿中..." : "保存"}
               </Button>
             </div>
           </form>
