@@ -5,8 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
-} from "../../../components/ui/dialog";
-import LoginDialog from "../auth/components/LoginDialog";
+} from "../../../../components/ui/dialog";
 
 interface SearchModalProps {
   isSearchModalOpen: boolean;
@@ -31,7 +30,6 @@ export default function SearchModal({
             投票、コメント、プロダクト投稿にはログインが必要です。
           </DialogDescription>
         </div>
-
       </DialogContent>
     </Dialog>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import SearchButton from "@/features/search/components/SearchButton";
-import SearchModal from "@/features/search/SearchModal";
+import SearchModal from "@/features/search/components/SearchModal";
 import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
@@ -83,10 +83,10 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
         isAuthModalOpen={isAuthModalOpen}
         onAuthModalClose={onAuthModalClose}
       />
-      <SearchModal 
+      <SearchModal
         isSearchModalOpen={isSearchModalOpen}
         onSearchModalClose={onSearchModalClose}
-      /> 
+      />
     </header>
   );
 };
