@@ -2,7 +2,9 @@ import SearchResultItem from "./SearchResultItem";
 
 const SearchResultList = () => {
   return (
-    <ul>
+    <ul className="flex flex-col gap-4">
+      <SearchResultItem />
+      <SearchResultItem />
       <SearchResultItem />
     </ul>
   );

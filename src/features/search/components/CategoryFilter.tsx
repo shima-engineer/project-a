@@ -8,13 +8,18 @@ const CategoryFilter = () => {
       </h2>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {CATEGORIES.map(({ label, icon: Icon }) => (
-          <button
-            key={label}
-            className="inline-flex items-center whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border shadow-sm py-2 h-11 justify-start gap-2 rounded-md border-border bg-background px-3 text-xs font-medium hover:border-primary/40 hover:bg-primary/5 hover:text-primary sm:text-sm"
-          >
-            <Icon className="size-4" aria-hidden="true" />
-            {label}
-          </button>
+          <label key={label} className="cursor-pointer">
+            <input
+              type="checkbox"
+              name="category"
+              value={label}
+              className="peer sr-only"
+            />
+            <span className="flex items-center gap-2 rounded-md border p-3 transition-colors peer-checked:border-primary peer-checked:bg-primary/10 peer-focus-visible:ring-2 peer-focus-visible:ring-ring">
+              <Icon className="size-4" aria-hidden="true" />
+              {label}
+            </span>
+          </label>
         ))}
       </div>
     </section>
