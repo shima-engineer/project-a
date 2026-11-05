@@ -4,8 +4,10 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogDescription,
+  DialogHeader,
 } from "../../../../components/ui/dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import SearchFilters from "./SearchFilters";
 
 interface SearchModalProps {
   isSearchModalOpen: boolean;
@@ -21,14 +23,16 @@ export default function SearchModal({
       open={isSearchModalOpen}
       onOpenChange={(open) => !open && onSearchModalClose()}
     >
-      <DialogContent className="sm:max-w-md p-8 rounded-xl bg-white text-slate-800 border-none gap-0">
+      <DialogContent className="sm:max-w-md p-0 pt-6 pb-6 rounded-xl bg-white text-slate-800 border-none gap-0">
         <div className="mb-6 text-left">
-          <DialogTitle className="text-xl font-bold text-slate-900">
-            ProductJPへようこそ
-          </DialogTitle>
-          <DialogDescription className="mt-2 text-sm text-slate-500 leading-relaxed">
-            投票、コメント、プロダクト投稿にはログインが必要です。
-          </DialogDescription>
+          <DialogHeader>
+            <VisuallyHidden.Root>
+              <DialogTitle>プロダクトを検索</DialogTitle>
+            </VisuallyHidden.Root>
+          </DialogHeader>
+          <div>
+            <SearchFilters />
+          </div>
         </div>
       </DialogContent>
     </Dialog>
