@@ -6,12 +6,16 @@ import SortFilter from "./SortFilter";
 const SearchFilters = () => {
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-7">
         <SearchInput />
       </div>
       <div className="pr-6 pl-6">
-        <CategoryFilter />
-        <PricingFilter />
+        <div className="mb-7">
+          <CategoryFilter />
+        </div>
+        <div className="mb-7">
+          <PricingFilter />
+        </div>
         <SortFilter />
       </div>
     </div>

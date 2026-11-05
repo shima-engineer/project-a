@@ -20,4 +20,13 @@ const CATEGORIES = [
   { label: "マーケティング", icon: CircleDollarSign },
 ];
 
+const PRICING_PLANS = [
+  { label: "Free" },
+  { label: "Freemium" },
+  { label: "Paid" },
+  { label: "Subscription" },
+  { label: "One-time" },
+];
+
 export default CATEGORIES;
+export { PRICING_PLANS };

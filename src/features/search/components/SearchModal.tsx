@@ -23,8 +23,8 @@ export default function SearchModal({
       open={isSearchModalOpen}
       onOpenChange={(open) => !open && onSearchModalClose()}
     >
-      <DialogContent className="sm:max-w-md p-0 pt-6 pb-6 rounded-xl bg-white text-slate-800 border-none gap-0">
-        <div className="mb-6 text-left">
+      <DialogContent className="sm:max-w-none w-[calc(100%-40px)] p-0 pt-6 pb-6 rounded-xl bg-white text-slate-800 border-none gap-0">
+        <div className="text-left">
           <DialogHeader>
             <VisuallyHidden.Root>
               <DialogTitle>プロダクトを検索</DialogTitle>
