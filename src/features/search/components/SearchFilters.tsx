@@ -6,7 +6,9 @@ import SortFilter from "./SortFilter";
 const SearchFilters = () => {
   return (
     <div>
-      <SearchInput />
+      <div className="mb-4">
+        <SearchInput />
+      </div>
       <div className="pr-6 pl-6">
         <CategoryFilter />
         <PricingFilter />
