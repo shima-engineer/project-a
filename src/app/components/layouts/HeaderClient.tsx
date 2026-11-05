@@ -1,5 +1,7 @@
 "use client";
 
+import SearchButton from "@/features/search/components/SearchButton";
+import SearchModal from "@/features/search/SearchModal";
 import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +17,7 @@ interface HeaderClientProps {
 
 const HeaderClient = ({ user }: HeaderClientProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const onAuthModalClose = () => {
     setIsAuthModalOpen(false);
@@ -22,6 +25,14 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
 
   const handleLoginClick = () => {
     setIsAuthModalOpen(true);
+  };
+
+  const onSearchModalClose = () => {
+    setIsSearchModalOpen(false);
+  };
+
+  const handleSearchClick = () => {
+    setIsSearchModalOpen(true);
   };
 
   const avatarUrl = user?.user_metadata?.avatar_url;
@@ -39,6 +50,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
           />
         </Link>
         <div className="flex items-center gap-3">
+          <SearchButton handleSearchClick={handleSearchClick} />
           {avatarUrl ? (
             <>
               <Button asChild size="xs">
@@ -71,6 +83,10 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
         isAuthModalOpen={isAuthModalOpen}
         onAuthModalClose={onAuthModalClose}
       />
+      <SearchModal 
+        isSearchModalOpen={isSearchModalOpen}
+        onSearchModalClose={onSearchModalClose}
+      /> 
     </header>
   );
 };
