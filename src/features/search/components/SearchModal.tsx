@@ -8,6 +8,8 @@ import {
 } from "../../../../components/ui/dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import SearchFilters from "./SearchFilters";
+import SearchResult from "./SearchResult";
+import Border from "@/app/components/elements/Border";
 
 interface SearchModalProps {
   isSearchModalOpen: boolean;
@@ -31,7 +33,13 @@ export default function SearchModal({
             </VisuallyHidden.Root>
           </DialogHeader>
           <div>
-            <SearchFilters />
+            <div className="mb-4">
+              <SearchFilters />
+            </div>
+            <div className="mb-4">
+              <Border />
+            </div>
+            <SearchResult />
           </div>
         </div>
       </DialogContent>
