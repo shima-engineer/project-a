@@ -25,7 +25,7 @@ export default function SearchModal({
       open={isSearchModalOpen}
       onOpenChange={(open) => !open && onSearchModalClose()}
     >
-      <DialogContent className="sm:max-w-none w-[calc(100%-40px)] p-0 pt-6 pb-6 rounded-xl bg-white text-slate-800 border-none gap-0">
+      <DialogContent className="sm:max-w-none w-[calc(100%-40px)] p-0 pt-6 pb-6 rounded-xl bg-white text-slate-800 border-none gap-0 max-h-[calc(100dvh-40px)] overflow-y-auto">
         <div className="text-left">
           <DialogHeader>
             <VisuallyHidden.Root>
