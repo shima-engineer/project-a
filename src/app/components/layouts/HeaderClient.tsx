@@ -84,7 +84,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
         onAuthModalClose={onAuthModalClose}
       />
       <SearchModal
-        isSearchModalOpen={true}
+        isSearchModalOpen={isSearchModalOpen}
         onSearchModalClose={onSearchModalClose}
       />
     </header>
