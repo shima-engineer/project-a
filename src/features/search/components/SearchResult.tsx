@@ -1,5 +1,6 @@
 import SearchResultList from "./SearchResultList";
 import { ArrowRight } from "lucide-react";
+// import { Search } from "lucide-react";
 
 const SearchResult = () => {
   return (
@@ -11,7 +12,12 @@ const SearchResult = () => {
         <span className="text-xs text-muted-foreground">8件</span>
       </div>
       <div className="mb-4">
+        {/* TODO:69検索結果によって条件を追加する */}
         <SearchResultList />
+        {/* <div className="px-4 py-14 text-center">
+          <Search className="mx-auto mb-4 size-8" />
+          <p>該当するプロダクトが見つかりませんでした</p>
+        </div> */}
       </div>
       <button className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5">
         すべての検索結果を見る
