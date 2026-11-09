@@ -5,7 +5,7 @@ import SearchModal from "@/features/search/components/SearchModal";
 import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User } from "@supabase/supabase-js";
 import UserAvatarMenu from "./UserAvatarMenu";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,21 @@ interface HeaderClientProps {
 const HeaderClient = ({ user }: HeaderClientProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setIsSearchModalOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const onAuthModalClose = () => {
     setIsAuthModalOpen(false);
