@@ -1,9 +1,11 @@
 "use client";
 
+import SearchButton from "@/features/search/components/SearchButton";
+import SearchModal from "@/features/search/components/SearchModal";
 import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User } from "@supabase/supabase-js";
 import UserAvatarMenu from "./UserAvatarMenu";
 import { Button } from "@/components/ui/button";
@@ -15,6 +17,22 @@ interface HeaderClientProps {
 
 const HeaderClient = ({ user }: HeaderClientProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setIsSearchModalOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const onAuthModalClose = () => {
     setIsAuthModalOpen(false);
@@ -22,6 +40,14 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
 
   const handleLoginClick = () => {
     setIsAuthModalOpen(true);
+  };
+
+  const onSearchModalClose = () => {
+    setIsSearchModalOpen(false);
+  };
+
+  const handleSearchClick = () => {
+    setIsSearchModalOpen(true);
   };
 
   const avatarUrl = user?.user_metadata?.avatar_url;
@@ -39,6 +65,7 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
           />
         </Link>
         <div className="flex items-center gap-3">
+          <SearchButton handleSearchClick={handleSearchClick} />
           {avatarUrl ? (
             <>
               <Button asChild size="xs">
@@ -70,6 +97,10 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
       <AuthModal
         isAuthModalOpen={isAuthModalOpen}
         onAuthModalClose={onAuthModalClose}
+      />
+      <SearchModal
+        isSearchModalOpen={isSearchModalOpen}
+        onSearchModalClose={onSearchModalClose}
       />
     </header>
   );

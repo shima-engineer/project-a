@@ -5,10 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --breakpoint-md:768px;
+  --breakpoint-md: 768px;
   --breakpoint-lg: 1280px;
 }
-
 
 @theme inline {
   --color-background: var(--background);
@@ -16,7 +15,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --color-primary: oklch(52% 0.2 275);
-  --color-accent: oklch(55% 0.22 310);
+  --color-accent: oklch(95% 0.02489 24.78);
   --color-upvote: oklch(63% 0.22 32);
   --shadow-upvote: 0 6px 20px oklch(63% 0.22 32 / 0.18);
   --color-hero-start: oklch(70% 0.18 278 / 16%);
