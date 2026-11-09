@@ -19,9 +19,12 @@ const SearchResult = () => {
           <p>該当するプロダクトが見つかりませんでした</p>
         </div> */}
       </div>
-      <button className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5">
+      <button
+        type="button"
+        className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
+      >
         すべての検索結果を見る
-        <ArrowRight />
+        <ArrowRight aria-hidden="true" />
       </button>
     </section>
   );

@@ -4,7 +4,7 @@ import UpvoteButton from "@/features/upvote/components/UpvoteButton";
 
 const SearchResultItem = () => {
   return (
-    <li className="flex items-center justify-between gap-3 sm:gap-4 group/list hover:bg-muted duration-200 transition-colors rounded-2xl">
+    <li className="flex items-center justify-between gap-3 sm:gap-4 group/list hover:bg-muted duration-200 transition-colors rounded-2xl px-3 py-4">
       <Link href="#" className="flex-1 min-w-0">
         <div className="flex items-center gap-3 sm:gap-4">
           <div className="size-12 sm:size-14 rounded-xl ring-1 ring-border shrink-0"></div>
