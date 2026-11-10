@@ -1,19 +1,28 @@
 import SearchResultList from "./SearchResultList";
 import { ArrowRight } from "lucide-react";
+import { SearchedProducts } from "../queries/searchProducts";
 // import { Search } from "lucide-react";
 
-const SearchResult = () => {
+const SearchResult = ({
+  searchedProducts,
+  searchProductsCount,
+}: {
+  searchedProducts: SearchedProducts;
+  searchProductsCount: number;
+}) => {
   return (
     <section className="pr-6 pl-6">
       <div className="flex justify-between mb-4">
         <h2 className="text-xs font-semibold text-muted-foreground">
           検索結果
         </h2>
-        <span className="text-xs text-muted-foreground">8件</span>
+        <span className="text-xs text-muted-foreground">
+          {searchProductsCount}件
+        </span>
       </div>
       <div className="mb-4">
         {/* TODO:69検索結果によって条件を追加する */}
-        <SearchResultList />
+        <SearchResultList searchedProducts={searchedProducts} />
         {/* <div className="px-4 py-14 text-center">
           <Search className="mx-auto mb-4 size-8" />
           <p>該当するプロダクトが見つかりませんでした</p>

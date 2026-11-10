@@ -1,11 +1,15 @@
 import SearchResultItem from "./SearchResultItem";
-
-const SearchResultList = () => {
+import { SearchedProducts } from "../queries/searchProducts";
+const SearchResultList = ({
+  searchedProducts,
+}: {
+  searchedProducts: SearchedProducts;
+}) => {
   return (
     <ul className="flex flex-col gap-4">
-      <SearchResultItem />
-      <SearchResultItem />
-      <SearchResultItem />
+      {searchedProducts.map((product) => (
+        <SearchResultItem key={product.id} product={product} />
+      ))}
     </ul>
   );
 };

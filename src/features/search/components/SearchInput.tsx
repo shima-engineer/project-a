@@ -1,15 +1,37 @@
+"use client";
+
 import { Search } from "lucide-react";
 import Border from "../../../app/components/elements/Border";
+import { searchProducts, SearchedProducts } from "../queries/searchProducts";
 
-const SearchInput = () => {
+const SearchInput = ({
+  handleSearchResultsChange,
+  handleCountSearchProducts,
+}: {
+  handleSearchResultsChange: (products: SearchedProducts) => void;
+  handleCountSearchProducts: (keyword: string) => void;
+}) => {
+  const handleKeywordChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const keyword = event.target.value;
+    const products = await searchProducts(keyword);
+    console.log(keyword);
+    console.log(products);
+    handleCountSearchProducts(keyword);
+    handleSearchResultsChange(products);
+  };
+
   return (
     <>
       <div className="flex items-center gap-2 mb-4 pr-6 pl-6">
         <Search className="text-primary size-6" />
         <input
-          type="text"
+          type="search"
           placeholder="プロダクト名、タグ、技術スタックを検索..."
           className="w-full focus:outline-none"
+          maxLength={100}
+          onChange={handleKeywordChange}
         />
       </div>
       <Border />

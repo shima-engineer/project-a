@@ -10,6 +10,11 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import SearchFilters from "./SearchFilters";
 import SearchResult from "./SearchResult";
 import Border from "@/app/components/elements/Border";
+import { useState } from "react";
+import {
+  SearchedProducts,
+  countSearchProducts,
+} from "../queries/searchProducts";
 
 interface SearchModalProps {
   isSearchModalOpen: boolean;
@@ -20,6 +25,20 @@ export default function SearchModal({
   isSearchModalOpen,
   onSearchModalClose,
 }: SearchModalProps) {
+  const [searchedProducts, setSearchedProducts] = useState<SearchedProducts>(
+    [],
+  );
+  const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
+
+  const handleSearchResultsChange = (products: SearchedProducts) => {
+    setSearchedProducts(products);
+  };
+
+  const handleCountSearchProducts = async (keyword: string) => {
+    const count = await countSearchProducts(keyword);
+    setSearchProductsCount(count);
+  };
+
   return (
     <Dialog
       open={isSearchModalOpen}
@@ -34,12 +53,18 @@ export default function SearchModal({
           </DialogHeader>
           <div>
             <div className="mb-4">
-              <SearchFilters />
+              <SearchFilters
+                handleSearchResultsChange={handleSearchResultsChange}
+                handleCountSearchProducts={handleCountSearchProducts}
+              />
             </div>
             <div className="mb-4">
               <Border />
             </div>
-            <SearchResult />
+            <SearchResult
+              searchedProducts={searchedProducts}
+              searchProductsCount={searchProductsCount}
+            />
           </div>
         </div>
       </DialogContent>
