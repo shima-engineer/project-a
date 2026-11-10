@@ -9,11 +9,13 @@ const SearchInput = ({
   handleCountSearchProducts,
   setIsLoading,
   setKeyword,
+  setIsError,
 }: {
   handleSearchResultsChange: (products: SearchedProducts) => void;
   handleCountSearchProducts: (keyword: string) => void;
   setIsLoading: (isLoading: boolean) => void;
   setKeyword: (keyword: string) => void;
+  setIsError: (isError: boolean) => void;
 }) => {
   const handleKeywordChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -21,11 +23,17 @@ const SearchInput = ({
     const keyword = event.target.value;
     setKeyword(keyword);
     setIsLoading(true);
-    const products = await searchProducts(keyword);
-    setIsLoading(false);
 
-    handleCountSearchProducts(keyword);
-    handleSearchResultsChange(products);
+    try {
+      const products = await searchProducts(keyword);
+      setIsLoading(false);
+      handleCountSearchProducts(keyword);
+      handleSearchResultsChange(products);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+      setIsError(true);
+    }
   };
 
   return (

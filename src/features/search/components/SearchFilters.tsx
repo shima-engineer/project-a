@@ -9,11 +9,13 @@ const SearchFilters = ({
   handleCountSearchProducts,
   setIsLoading,
   setKeyword,
+  setIsError,
 }: {
   handleSearchResultsChange: (products: SearchedProducts) => void;
   handleCountSearchProducts: (keyword: string) => void;
   setIsLoading: (isLoading: boolean) => void;
   setKeyword: (keyword: string) => void;
+  setIsError: (isError: boolean) => void;
 }) => {
   return (
     <div>
@@ -23,6 +25,7 @@ const SearchFilters = ({
           handleCountSearchProducts={handleCountSearchProducts}
           setIsLoading={setIsLoading}
           setKeyword={setKeyword}
+          setIsError={setIsError}
         />
       </div>
       <div className="pr-6 pl-6">

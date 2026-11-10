@@ -32,6 +32,7 @@ export default function SearchModal({
   const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [keyword, setKeyword] = useState("");
+  const [isError, setIsError] = useState<boolean>(false);
 
   const handleSearchResultsChange = (products: SearchedProducts) => {
     setSearchedProducts(products);
@@ -61,6 +62,7 @@ export default function SearchModal({
                 handleCountSearchProducts={handleCountSearchProducts}
                 setIsLoading={setIsLoading}
                 setKeyword={setKeyword}
+                setIsError={setIsError}
               />
             </div>
             {keyword && (
@@ -72,6 +74,10 @@ export default function SearchModal({
                   <div className="flex justify-center items-center">
                     <Spinner className="size-8" />
                   </div>
+                ) : isError ? (
+                  <p role="alert" className="text-center text-red-500">
+                    プロダクトの検索中にエラーが発生しました
+                  </p>
                 ) : (
                   <SearchResult
                     searchedProducts={searchedProducts}
