@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogHeader,
 } from "../../../../components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import SearchFilters from "./SearchFilters";
 import SearchResult from "./SearchResult";
@@ -29,6 +30,7 @@ export default function SearchModal({
     [],
   );
   const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSearchResultsChange = (products: SearchedProducts) => {
     setSearchedProducts(products);
@@ -56,15 +58,22 @@ export default function SearchModal({
               <SearchFilters
                 handleSearchResultsChange={handleSearchResultsChange}
                 handleCountSearchProducts={handleCountSearchProducts}
+                setIsLoading={setIsLoading}
               />
             </div>
             <div className="mb-4">
               <Border />
             </div>
-            <SearchResult
-              searchedProducts={searchedProducts}
-              searchProductsCount={searchProductsCount}
-            />
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+                <Spinner className="size-8" />
+              </div>
+            ) : (
+              <SearchResult
+                searchedProducts={searchedProducts}
+                searchProductsCount={searchProductsCount}
+              />
+            )}
           </div>
         </div>
       </DialogContent>

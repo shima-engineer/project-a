@@ -7,17 +7,20 @@ import { searchProducts, SearchedProducts } from "../queries/searchProducts";
 const SearchInput = ({
   handleSearchResultsChange,
   handleCountSearchProducts,
+  setIsLoading,
 }: {
   handleSearchResultsChange: (products: SearchedProducts) => void;
   handleCountSearchProducts: (keyword: string) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }) => {
   const handleKeywordChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const keyword = event.target.value;
+    setIsLoading(true);
     const products = await searchProducts(keyword);
-    console.log(keyword);
-    console.log(products);
+    setIsLoading(false);
+
     handleCountSearchProducts(keyword);
     handleSearchResultsChange(products);
   };

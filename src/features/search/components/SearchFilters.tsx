@@ -7,9 +7,11 @@ import { SearchedProducts } from "../queries/searchProducts";
 const SearchFilters = ({
   handleSearchResultsChange,
   handleCountSearchProducts,
+  setIsLoading,
 }: {
   handleSearchResultsChange: (products: SearchedProducts) => void;
   handleCountSearchProducts: (keyword: string) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }) => {
   return (
     <div>
@@ -17,6 +19,7 @@ const SearchFilters = ({
         <SearchInput
           handleSearchResultsChange={handleSearchResultsChange}
           handleCountSearchProducts={handleCountSearchProducts}
+          setIsLoading={setIsLoading}
         />
       </div>
       <div className="pr-6 pl-6">
