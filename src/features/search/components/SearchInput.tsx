@@ -3,6 +3,7 @@
 import { Search } from "lucide-react";
 import Border from "../../../app/components/elements/Border";
 import { searchProducts, SearchedProducts } from "../queries/searchProducts";
+import { useDebouncedCallback } from "use-debounce";
 
 const SearchInput = ({
   handleSearchResultsChange,
@@ -17,24 +18,28 @@ const SearchInput = ({
   setKeyword: (keyword: string) => void;
   setIsError: (isError: boolean) => void;
 }) => {
-  const handleKeywordChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value;
+
     setKeyword(keyword);
+    setIsError(false);
     setIsLoading(true);
 
+    debounced(keyword);
+  };
+
+  const debounced = useDebouncedCallback(async (keyword: string) => {
     try {
       const products = await searchProducts(keyword);
-      setIsLoading(false);
       handleCountSearchProducts(keyword);
       handleSearchResultsChange(products);
     } catch (error) {
       console.error(error);
-      setIsLoading(false);
       setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, 500);
 
   return (
     <>
