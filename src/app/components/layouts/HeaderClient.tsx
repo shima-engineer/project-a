@@ -6,16 +6,17 @@ import AuthModal from "@/features/modal/AuthModal";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { User } from "@supabase/supabase-js";
 import UserAvatarMenu from "./UserAvatarMenu";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { Users } from "@/features/auth/queries/getCurrentUser";
 
 interface HeaderClientProps {
-  user: User | null;
+  user: Users;
+  votedProductIds: Set<string>;
 }
 
-const HeaderClient = ({ user }: HeaderClientProps) => {
+const HeaderClient = ({ user, votedProductIds }: HeaderClientProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
@@ -101,6 +102,8 @@ const HeaderClient = ({ user }: HeaderClientProps) => {
       <SearchModal
         isSearchModalOpen={isSearchModalOpen}
         onSearchModalClose={onSearchModalClose}
+        user={user}
+        votedProductIds={votedProductIds}
       />
     </header>
   );

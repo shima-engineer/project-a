@@ -1,14 +1,21 @@
 import SearchResultList from "./SearchResultList";
 import { ArrowRight } from "lucide-react";
+import type { Users } from "@/features/auth/queries/getCurrentUser";
 import { SearchedProducts } from "../queries/searchProducts";
 import { Search } from "lucide-react";
 
 const SearchResult = ({
   searchedProducts,
   searchProductsCount,
+  votedProductIds,
+  user,
+  handleUpvoteSuccess,
 }: {
   searchedProducts: SearchedProducts;
   searchProductsCount: number;
+  votedProductIds: Set<string>;
+  user: Users;
+  handleUpvoteSuccess: (productId: string, voted: boolean) => void;
 }) => {
   return (
     <section className="pr-6 pl-6">
@@ -27,7 +34,12 @@ const SearchResult = ({
             <p>該当するプロダクトが見つかりませんでした</p>
           </div>
         )}
-        <SearchResultList searchedProducts={searchedProducts} />
+        <SearchResultList
+          searchedProducts={searchedProducts}
+          votedProductIds={votedProductIds}
+          user={user}
+          handleUpvoteSuccess={handleUpvoteSuccess}
+        />
       </div>
       {/* TODO76:検索結果が6件以上の場合のみ表示する */}
       <button

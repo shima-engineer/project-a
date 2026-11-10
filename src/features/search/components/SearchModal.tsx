@@ -16,15 +16,20 @@ import {
   SearchedProducts,
   countSearchProducts,
 } from "../queries/searchProducts";
+import type { Users } from "@/features/auth/queries/getCurrentUser";
 
 interface SearchModalProps {
   isSearchModalOpen: boolean;
   onSearchModalClose: () => void;
+  votedProductIds: Set<string>;
+  user: Users;
 }
 
 export default function SearchModal({
   isSearchModalOpen,
   onSearchModalClose,
+  votedProductIds,
+  user,
 }: SearchModalProps) {
   const [searchedProducts, setSearchedProducts] = useState<SearchedProducts>(
     [],
@@ -33,6 +38,9 @@ export default function SearchModal({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [keyword, setKeyword] = useState("");
   const [isError, setIsError] = useState<boolean>(false);
+  const [votedIds, setVotedIds] = useState<Set<string>>(
+    () => new Set(votedProductIds),
+  );
 
   const handleSearchResultsChange = (products: SearchedProducts) => {
     setSearchedProducts(products);
@@ -41,6 +49,33 @@ export default function SearchModal({
   const handleCountSearchProducts = async (keyword: string) => {
     const count = await countSearchProducts(keyword);
     setSearchProductsCount(count);
+  };
+
+  const handleUpvoteSuccess = (productId: string, voted: boolean) => {
+    // 投票数を更新する
+    setSearchedProducts((prev) =>
+      prev.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              upvotes_count: product.upvotes_count + (voted ? 1 : -1),
+            }
+          : product,
+      ),
+    );
+
+    // 投票済みIDを更新する
+    setVotedIds((prev) => {
+      const next = new Set(prev);
+
+      if (voted) {
+        next.add(productId);
+      } else {
+        next.delete(productId);
+      }
+
+      return next;
+    });
   };
 
   return (
@@ -82,6 +117,9 @@ export default function SearchModal({
                   <SearchResult
                     searchedProducts={searchedProducts}
                     searchProductsCount={searchProductsCount}
+                    user={user}
+                    votedProductIds={votedIds}
+                    handleUpvoteSuccess={handleUpvoteSuccess}
                   />
                 )}
               </>

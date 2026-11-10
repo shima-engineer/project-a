@@ -2,8 +2,23 @@ import Link from "next/link";
 import Image from "next/image";
 import UpvoteButton from "@/features/upvote/components/UpvoteButton";
 import { SearchedProducts } from "../queries/searchProducts";
+import type { Users } from "@/features/auth/queries/getCurrentUser";
 
-const SearchResultItem = ({product}:{product: SearchedProducts[number]}) => {
+const SearchResultItem = ({
+  product,
+   votedProductIds,
+  user,
+  handleUpvoteSuccess,
+}: {
+  product: SearchedProducts[number];
+   votedProductIds: Set<string>;
+  user: Users;
+  handleUpvoteSuccess: (productId: string, voted: boolean) => void;
+}) => {
+  // 現在のユーザーがこの製品の所有者かどうかを判定
+  // この情報をUpvoteButtonに渡すことで、所有者は投票できないようにする
+  const isOwner = user?.id === product.user_id;
+
   return (
     <li className="flex items-center justify-between gap-3 sm:gap-4 group/list hover:bg-muted duration-200 transition-colors rounded-2xl px-3 py-4">
       <Link href="#" className="flex-1 min-w-0">
@@ -30,9 +45,10 @@ const SearchResultItem = ({product}:{product: SearchedProducts[number]}) => {
       <UpvoteButton
         id={product.id}
         upvotes_count={product.upvotes_count}
-        votedProductIds={new Set()}
-        user={null}
-        isOwner={false}
+         votedProductIds={ votedProductIds}
+        user={user}
+        isOwner={isOwner}
+        handleUpvoteSuccess={handleUpvoteSuccess}
       />
     </li>
   );

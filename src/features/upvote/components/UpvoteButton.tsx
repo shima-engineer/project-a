@@ -14,6 +14,7 @@ interface UpvoteButtonProps {
   votedProductIds: Set<string>;
   user: User | null;
   isOwner: boolean;
+  handleUpvoteSuccess?: (productId: string, voted: boolean) => void;
 }
 
 const UpvoteButton = ({
@@ -27,6 +28,7 @@ const UpvoteButton = ({
   user,
   /** 現在のユーザーがこの製品の所有者かどうか */
   isOwner,
+  handleUpvoteSuccess,
 }: UpvoteButtonProps) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const voted = votedProductIds.has(id);
@@ -40,7 +42,7 @@ const UpvoteButton = ({
       voted,
     },
     (state, newVoted) => ({
-      count: newVoted ? state.count + 1 : state.count - 1,
+      count: state.count + (newVoted === state.voted ? 0 : newVoted ? 1 : -1),
       voted: newVoted,
     }),
   );
@@ -59,7 +61,9 @@ const UpvoteButton = ({
         // ③ エラー処理
         if (!result.success) {
           toast.error(result.message);
+          return;
         }
+        handleUpvoteSuccess?.(id, result.voted);
       } catch (error) {
         console.error(error);
         toast.error("投票処理に失敗しました");
