@@ -3,12 +3,16 @@
 import { prisma } from "@/lib/prisma";
 
 export async function searchProducts(keyword: string) {
+  const keywords = keyword.trim() ? keyword.trim().split(/\s+/) : [];
+
   return prisma.products.findMany({
     where: {
-      name: {
-        contains: keyword,
-        mode: "insensitive",
-      },
+      AND: keywords.map((word) => ({
+        name: {
+          contains: word,
+          mode: "insensitive",
+        },
+      })),
     },
     take: 5,
     orderBy: {

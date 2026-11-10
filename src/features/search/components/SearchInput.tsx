@@ -20,7 +20,6 @@ const SearchInput = ({
 }) => {
   const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value;
-
     setKeyword(keyword);
     setIsError(false);
     setIsLoading(true);
