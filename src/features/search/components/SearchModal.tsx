@@ -31,6 +31,7 @@ export default function SearchModal({
   );
   const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [keyword, setKeyword] = useState("");
 
   const handleSearchResultsChange = (products: SearchedProducts) => {
     setSearchedProducts(products);
@@ -59,20 +60,25 @@ export default function SearchModal({
                 handleSearchResultsChange={handleSearchResultsChange}
                 handleCountSearchProducts={handleCountSearchProducts}
                 setIsLoading={setIsLoading}
+                setKeyword={setKeyword}
               />
             </div>
-            <div className="mb-4">
-              <Border />
-            </div>
-            {isLoading ? (
-              <div className="flex justify-center items-center">
-                <Spinner className="size-8" />
-              </div>
-            ) : (
-              <SearchResult
-                searchedProducts={searchedProducts}
-                searchProductsCount={searchProductsCount}
-              />
+            {keyword && (
+              <>
+                <div className="mb-4">
+                  <Border />
+                </div>
+                {isLoading ? (
+                  <div className="flex justify-center items-center">
+                    <Spinner className="size-8" />
+                  </div>
+                ) : (
+                  <SearchResult
+                    searchedProducts={searchedProducts}
+                    searchProductsCount={searchProductsCount}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

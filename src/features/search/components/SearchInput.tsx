@@ -8,15 +8,18 @@ const SearchInput = ({
   handleSearchResultsChange,
   handleCountSearchProducts,
   setIsLoading,
+  setKeyword,
 }: {
   handleSearchResultsChange: (products: SearchedProducts) => void;
   handleCountSearchProducts: (keyword: string) => void;
   setIsLoading: (isLoading: boolean) => void;
+  setKeyword: (keyword: string) => void;
 }) => {
   const handleKeywordChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const keyword = event.target.value;
+    setKeyword(keyword);
     setIsLoading(true);
     const products = await searchProducts(keyword);
     setIsLoading(false);
