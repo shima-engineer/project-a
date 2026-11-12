@@ -2,6 +2,19 @@
 
 import { prisma } from "@/lib/prisma";
 
+function createSearchWhere(keyword: string) {
+  const keywords = keyword.trim().split(/\s+/);
+
+  return {
+    AND: keywords.map((word) => ({
+      name: {
+        contains: word,
+        mode: "insensitive" as const,
+      },
+    })),
+  };
+}
+
 export async function searchProducts(keyword: string) {
   if (typeof keyword !== "string") {
     return [];
@@ -13,17 +26,8 @@ export async function searchProducts(keyword: string) {
     return [];
   }
 
-  const keywords = trimmedKeyword.split(/\s+/);
-
   return prisma.products.findMany({
-    where: {
-      AND: keywords.map((word) => ({
-        name: {
-          contains: word,
-          mode: "insensitive",
-        },
-      })),
-    },
+    where: createSearchWhere(trimmedKeyword),
     take: 5,
     orderBy: {
       upvotes_count: "desc",
@@ -36,12 +40,7 @@ export async function searchProducts(keyword: string) {
 
 export async function countSearchProducts(keyword: string) {
   return prisma.products.count({
-    where: {
-      name: {
-        contains: keyword,
-        mode: "insensitive",
-      },
-    },
+    where: createSearchWhere(keyword),
   });
 }
 
