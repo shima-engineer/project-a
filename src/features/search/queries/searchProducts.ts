@@ -3,7 +3,17 @@
 import { prisma } from "@/lib/prisma";
 
 export async function searchProducts(keyword: string) {
-  const keywords = keyword.trim() ? keyword.trim().split(/\s+/) : [];
+  if (typeof keyword !== "string" || keyword.trim().length === 0) {
+    return [];
+  }
+
+  const trimmedKeyword = keyword.trim();
+
+  if (trimmedKeyword.length === 0 || trimmedKeyword.length > 100) {
+    return [];
+  }
+
+  const keywords = trimmedKeyword.split(/\s+/);
 
   return prisma.products.findMany({
     where: {
