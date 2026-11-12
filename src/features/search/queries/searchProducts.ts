@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 
 export async function searchProducts(keyword: string) {
-  if (typeof keyword !== "string" || keyword.trim().length === 0) {
+  if (typeof keyword !== "string") {
     return [];
   }
 
