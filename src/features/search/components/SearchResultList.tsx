@@ -6,16 +6,18 @@ const SearchResultList = ({
    votedProductIds,
   user,
   handleUpvoteSuccess,
+  onSearchModalClose,
 }: {
   searchedProducts: SearchedProducts;
    votedProductIds: Set<string>;
   user: Users;
   handleUpvoteSuccess: (productId: string, voted: boolean) => void;
+  onSearchModalClose: () => void;
 }) => {
   return (
     <ul className="flex flex-col gap-4">
       {searchedProducts.map((product) => (
-        <SearchResultItem key={product.id} product={product}  votedProductIds={ votedProductIds} user={user} handleUpvoteSuccess={handleUpvoteSuccess} />
+        <SearchResultItem key={product.id} product={product}  votedProductIds={ votedProductIds} user={user} handleUpvoteSuccess={handleUpvoteSuccess} onSearchModalClose={onSearchModalClose} />
       ))}
     </ul>
   );

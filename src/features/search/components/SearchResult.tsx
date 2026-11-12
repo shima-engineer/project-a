@@ -10,12 +10,14 @@ const SearchResult = ({
   votedProductIds,
   user,
   handleUpvoteSuccess,
+  onSearchModalClose,
 }: {
   searchedProducts: SearchedProducts;
   searchProductsCount: number;
   votedProductIds: Set<string>;
   user: Users;
   handleUpvoteSuccess: (productId: string, voted: boolean) => void;
+  onSearchModalClose: () => void;
 }) => {
   return (
     <section className="pr-6 pl-6">
@@ -39,6 +41,7 @@ const SearchResult = ({
           votedProductIds={votedProductIds}
           user={user}
           handleUpvoteSuccess={handleUpvoteSuccess}
+          onSearchModalClose={onSearchModalClose}
         />
       </div>
       {/* TODO76:検索結果が6件以上の場合のみ表示する */}

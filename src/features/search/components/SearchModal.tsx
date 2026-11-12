@@ -120,6 +120,7 @@ export default function SearchModal({
                     user={user}
                     votedProductIds={votedIds}
                     handleUpvoteSuccess={handleUpvoteSuccess}
+                    onSearchModalClose={onSearchModalClose}
                   />
                 )}
               </>
