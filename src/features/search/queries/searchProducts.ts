@@ -2,8 +2,22 @@
 
 import { prisma } from "@/lib/prisma";
 
+function validateKeyword(keyword: string): string | null {
+  if (typeof keyword !== "string") {
+    return null;
+  }
+
+  const trimmedKeyword = keyword.trim();
+
+  if (trimmedKeyword.length === 0 || trimmedKeyword.length > 100) {
+    return null;
+  }
+
+  return trimmedKeyword;
+}
+
 function createSearchWhere(keyword: string) {
-  const keywords = keyword.trim().split(/\s+/);
+  const keywords = keyword.split(/\s+/);
 
   return {
     AND: keywords.map((word) => ({
@@ -16,18 +30,14 @@ function createSearchWhere(keyword: string) {
 }
 
 export async function searchProducts(keyword: string) {
-  if (typeof keyword !== "string") {
-    return [];
-  }
+  const validatedKeyword = validateKeyword(keyword);
 
-  const trimmedKeyword = keyword.trim();
-
-  if (trimmedKeyword.length === 0 || trimmedKeyword.length > 100) {
+  if (validatedKeyword === null) {
     return [];
   }
 
   return prisma.products.findMany({
-    where: createSearchWhere(trimmedKeyword),
+    where: createSearchWhere(validatedKeyword),
     take: 5,
     orderBy: {
       upvotes_count: "desc",
@@ -39,8 +49,14 @@ export async function searchProducts(keyword: string) {
 }
 
 export async function countSearchProducts(keyword: string) {
+  const validatedKeyword = validateKeyword(keyword);
+
+  if (validatedKeyword === null) {
+    return 0;
+  }
+
   return prisma.products.count({
-    where: createSearchWhere(keyword),
+    where: createSearchWhere(validatedKeyword),
   });
 }
 
