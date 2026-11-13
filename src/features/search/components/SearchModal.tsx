@@ -168,7 +168,7 @@ export default function SearchModal({
                 onCategoryChange={handleCategoryChange}
               />
             </div>
-            {keyword && (
+            {(keyword.trim() !== "" || categories.length > 0) && (
               <>
                 <div className="mb-4">
                   <Border />
