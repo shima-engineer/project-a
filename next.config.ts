@@ -20,6 +20,22 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "i.pravatar.cc",
       },
+      {
+        protocol: "https",
+        hostname: "habitboard.app",
+      },
+      {
+        protocol: "https",
+        hostname: "writemate.dev",
+      },
+      {
+        protocol: "https",
+        hostname: "apimonitor.dev",
+      },
+      {
+        protocol: "https",
+        hostname: "apimonitor.dev",
+      },
     ],
   },
   experimental: {

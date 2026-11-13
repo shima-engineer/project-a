@@ -4,7 +4,21 @@ import { requireUser } from "@/features/auth/actions/requireUser";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function updateUpvoteCount({ id }: { id: string }) {
+type UpdateUpvoteResult =
+  | {
+      success: true;
+      voted: boolean;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+export async function updateUpvoteCount({
+  id,
+}: {
+  id: string;
+}): Promise<UpdateUpvoteResult> {
   const user = await requireUser();
 
   // ① 商品の存在確認・投稿主チェック

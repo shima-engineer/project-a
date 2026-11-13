@@ -6,20 +6,79 @@ import {
   DialogTitle,
   DialogHeader,
 } from "../../../../components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import SearchFilters from "./SearchFilters";
 import SearchResult from "./SearchResult";
 import Border from "@/app/components/elements/Border";
+import { useState } from "react";
+import {
+  SearchedProducts,
+  countSearchProducts,
+} from "../queries/searchProducts";
+import type { Users } from "@/features/auth/queries/getCurrentUser";
 
 interface SearchModalProps {
   isSearchModalOpen: boolean;
   onSearchModalClose: () => void;
+  votedProductIds: Set<string>;
+  user: Users;
 }
 
 export default function SearchModal({
   isSearchModalOpen,
   onSearchModalClose,
+  votedProductIds,
+  user,
 }: SearchModalProps) {
+  const [searchedProducts, setSearchedProducts] = useState<SearchedProducts>(
+    [],
+  );
+  const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [keyword, setKeyword] = useState("");
+  const [isError, setIsError] = useState<boolean>(false);
+  // 検索モーダル内で投票状態を更新するため、
+  // 親から受け取った投票済みIDを初期値として保持する
+  const [votedIds, setVotedIds] = useState<Set<string>>(
+    () => new Set(votedProductIds),
+  );
+
+  /**
+   * 投票成功後、検索結果の投票数と投票済みIDを更新する。
+   *
+   * 検索結果を再取得せずに、投票後の状態を画面へ反映するために使用する。
+   *
+   * @param productId - 投票対象のプロダクトID
+   * @param voted - 更新後の投票状態
+   */
+  const handleUpvoteSuccess = (productId: string, voted: boolean) => {
+    // 投票数を更新する
+    setSearchedProducts((prev) =>
+      prev.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              upvotes_count: product.upvotes_count + (voted ? 1 : -1),
+            }
+          : product,
+      ),
+    );
+
+    // 投票済みIDを更新する
+    setVotedIds((prev) => {
+      const next = new Set(prev);
+
+      if (voted) {
+        next.add(productId);
+      } else {
+        next.delete(productId);
+      }
+
+      return next;
+    });
+  };
+
   return (
     <Dialog
       open={isSearchModalOpen}
@@ -34,12 +93,39 @@ export default function SearchModal({
           </DialogHeader>
           <div>
             <div className="mb-4">
-              <SearchFilters />
+              <SearchFilters
+                setSearchedProducts={setSearchedProducts}
+                setSearchProductsCount={setSearchProductsCount}
+                setIsLoading={setIsLoading}
+                setKeyword={setKeyword}
+                setIsError={setIsError}
+              />
             </div>
-            <div className="mb-4">
-              <Border />
-            </div>
-            <SearchResult />
+            {keyword && (
+              <>
+                <div className="mb-4">
+                  <Border />
+                </div>
+                {isLoading ? (
+                  <div className="flex justify-center items-center">
+                    <Spinner className="size-8" />
+                  </div>
+                ) : isError ? (
+                  <p role="alert" className="text-center text-red-500">
+                    プロダクトの検索中にエラーが発生しました
+                  </p>
+                ) : (
+                  <SearchResult
+                    searchedProducts={searchedProducts}
+                    searchProductsCount={searchProductsCount}
+                    user={user}
+                    votedProductIds={votedIds}
+                    handleUpvoteSuccess={handleUpvoteSuccess}
+                    onSearchModalClose={onSearchModalClose}
+                  />
+                )}
+              </>
+            )}
           </div>
         </div>
       </DialogContent>
