@@ -7,14 +7,14 @@ import { useDebouncedCallback } from "use-debounce";
 import { useRef } from "react";
 
 const SearchInput = ({
-  handleSearchResultsChange,
-  handleCountSearchProducts,
+  setSearchedProducts,
+  setSearchProductsCount,
   setIsLoading,
   setKeyword,
   setIsError,
 }: {
-  handleSearchResultsChange: (products: SearchedProducts) => void;
-  handleCountSearchProducts: (keyword: string) => void;
+  setSearchedProducts: (products: SearchedProducts) => void;
+  setSearchProductsCount: (count: number) => void;
   setIsLoading: (isLoading: boolean) => void;
   setKeyword: (keyword: string) => void;
   setIsError: (isError: boolean) => void;
@@ -43,8 +43,8 @@ const SearchInput = ({
         // 古い検索なら結果を反映しない
         if (requestId !== requestIdRef.current) return;
 
-        handleCountSearchProducts(keyword);
-        handleSearchResultsChange(products);
+        setSearchedProducts(products);
+        setSearchProductsCount(products.length);
       } catch (error) {
         if (requestId !== requestIdRef.current) return;
 

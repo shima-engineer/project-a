@@ -42,15 +42,6 @@ export default function SearchModal({
     () => new Set(votedProductIds),
   );
 
-  const handleSearchResultsChange = (products: SearchedProducts) => {
-    setSearchedProducts(products);
-  };
-
-  const handleCountSearchProducts = async (keyword: string) => {
-    const count = await countSearchProducts(keyword);
-    setSearchProductsCount(count);
-  };
-
   const handleUpvoteSuccess = (productId: string, voted: boolean) => {
     // 投票数を更新する
     setSearchedProducts((prev) =>
@@ -93,8 +84,8 @@ export default function SearchModal({
           <div>
             <div className="mb-4">
               <SearchFilters
-                handleSearchResultsChange={handleSearchResultsChange}
-                handleCountSearchProducts={handleCountSearchProducts}
+                setSearchedProducts={setSearchedProducts}
+                setSearchProductsCount={setSearchProductsCount}
                 setIsLoading={setIsLoading}
                 setKeyword={setKeyword}
                 setIsError={setIsError}
