@@ -4,6 +4,15 @@ import type { Users } from "@/features/auth/queries/getCurrentUser";
 import { SearchedProducts } from "../queries/searchProducts";
 import { Search } from "lucide-react";
 
+interface SearchResultProps {
+  searchedProducts: SearchedProducts;
+  searchProductsCount: number;
+  votedProductIds: Set<string>;
+  user: Users;
+  handleUpvoteSuccess: (productId: string, voted: boolean) => void;
+  onSearchModalClose: () => void;
+}
+
 const SearchResult = ({
   searchedProducts,
   searchProductsCount,
@@ -11,14 +20,7 @@ const SearchResult = ({
   user,
   handleUpvoteSuccess,
   onSearchModalClose,
-}: {
-  searchedProducts: SearchedProducts;
-  searchProductsCount: number;
-  votedProductIds: Set<string>;
-  user: Users;
-  handleUpvoteSuccess: (productId: string, voted: boolean) => void;
-  onSearchModalClose: () => void;
-}) => {
+}: SearchResultProps) => {
   return (
     <section className="pr-6 pl-6">
       <div className="flex justify-between mb-4">

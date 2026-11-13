@@ -38,10 +38,20 @@ export default function SearchModal({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [keyword, setKeyword] = useState("");
   const [isError, setIsError] = useState<boolean>(false);
+  // 検索モーダル内で投票状態を更新するため、
+  // 親から受け取った投票済みIDを初期値として保持する
   const [votedIds, setVotedIds] = useState<Set<string>>(
     () => new Set(votedProductIds),
   );
 
+  /**
+   * 投票成功後、検索結果の投票数と投票済みIDを更新する。
+   *
+   * 検索結果を再取得せずに、投票後の状態を画面へ反映するために使用する。
+   *
+   * @param productId - 投票対象のプロダクトID
+   * @param voted - 更新後の投票状態
+   */
   const handleUpvoteSuccess = (productId: string, voted: boolean) => {
     // 投票数を更新する
     setSearchedProducts((prev) =>

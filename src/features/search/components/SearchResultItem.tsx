@@ -4,19 +4,21 @@ import UpvoteButton from "@/features/upvote/components/UpvoteButton";
 import { SearchedProducts } from "../queries/searchProducts";
 import type { Users } from "@/features/auth/queries/getCurrentUser";
 
+interface SearchResultItemProps {
+  product: SearchedProducts[number];
+  votedProductIds: Set<string>;
+  user: Users;
+  handleUpvoteSuccess: (productId: string, voted: boolean) => void;
+  onSearchModalClose: () => void;
+}
+
 const SearchResultItem = ({
   product,
   votedProductIds,
   user,
   handleUpvoteSuccess,
   onSearchModalClose,
-}: {
-  product: SearchedProducts[number];
-  votedProductIds: Set<string>;
-  user: Users;
-  handleUpvoteSuccess: (productId: string, voted: boolean) => void;
-  onSearchModalClose: () => void;
-}) => {
+}: SearchResultItemProps) => {
   // 現在のユーザーがこの製品の所有者かどうかを判定
   // この情報をUpvoteButtonに渡すことで、所有者は投票できないようにする
   const isOwner = user?.id === product.user_id;

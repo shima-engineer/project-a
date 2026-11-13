@@ -2,9 +2,21 @@
 
 import { Search } from "lucide-react";
 import Border from "../../../app/components/elements/Border";
-import { searchProducts, SearchedProducts } from "../queries/searchProducts";
+import {
+  searchProducts,
+  countSearchProducts,
+  SearchedProducts,
+} from "../queries/searchProducts";
 import { useDebouncedCallback } from "use-debounce";
 import { useRef } from "react";
+
+interface SearchInputProps {
+  setSearchedProducts: (products: SearchedProducts) => void;
+  setSearchProductsCount: (count: number) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  setKeyword: (keyword: string) => void;
+  setIsError: (isError: boolean) => void;
+}
 
 const SearchInput = ({
   setSearchedProducts,
@@ -12,16 +24,16 @@ const SearchInput = ({
   setIsLoading,
   setKeyword,
   setIsError,
-}: {
-  setSearchedProducts: (products: SearchedProducts) => void;
-  setSearchProductsCount: (count: number) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setKeyword: (keyword: string) => void;
-  setIsError: (isError: boolean) => void;
-}) => {
+}: SearchInputProps) => {
   // 古い検索を上書きしないようにするためのリクエストID管理
   const requestIdRef = useRef(0);
 
+  /**
+   * キーワード変更時に検索状態を初期化し、
+   * 500msのデバウンス後に検索処理を実行する。
+   *
+   * @param event 入力イベント
+   */
   const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value;
 
@@ -38,13 +50,16 @@ const SearchInput = ({
   const debounced = useDebouncedCallback(
     async (keyword: string, requestId: number) => {
       try {
-        const products = await searchProducts(keyword);
+        const [products, count] = await Promise.all([
+          searchProducts(keyword),
+          countSearchProducts(keyword),
+        ]);
 
         // 古い検索なら結果を反映しない
         if (requestId !== requestIdRef.current) return;
 
         setSearchedProducts(products);
-        setSearchProductsCount(products.length);
+        setSearchProductsCount(count);
       } catch (error) {
         if (requestId !== requestIdRef.current) return;
 
