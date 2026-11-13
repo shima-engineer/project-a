@@ -2,37 +2,29 @@ import SearchInput from "./SearchInput";
 import CategoryFilter from "./CategoryFilter";
 import PricingFilter from "./PricingFilter";
 import SortFilter from "./SortFilter";
-import { SearchedProducts } from "../queries/searchProducts";
 
 interface SearchFiltersProps {
-  setSearchedProducts: (products: SearchedProducts) => void;
-  setSearchProductsCount: (count: number) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setKeyword: (keyword: string) => void;
-  setIsError: (isError: boolean) => void;
+  categories: string[];
+  onKeywordChange: (nextKeyword: string) => void;
+  onCategoryChange: (nextCategories: string[]) => void;
 }
 
 const SearchFilters = ({
-  setSearchedProducts,
-  setSearchProductsCount,
-  setIsLoading,
-  setKeyword,
-  setIsError,
+  categories,
+  onKeywordChange,
+  onCategoryChange,
 }: SearchFiltersProps) => {
   return (
     <div>
       <div className="mb-7">
-        <SearchInput
-          setSearchedProducts={setSearchedProducts}
-          setSearchProductsCount={setSearchProductsCount}
-          setIsLoading={setIsLoading}
-          setKeyword={setKeyword}
-          setIsError={setIsError}
-        />
+        <SearchInput onKeywordChange={onKeywordChange} />
       </div>
       <div className="pr-6 pl-6">
         <div className="mb-7">
-          <CategoryFilter />
+          <CategoryFilter
+            categories={categories}
+            onCategoryChange={onCategoryChange}
+          />
         </div>
         <div className="mb-7">
           <PricingFilter />
