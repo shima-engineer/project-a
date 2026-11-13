@@ -19,7 +19,7 @@ function validateKeyword(keyword: string): string | null {
 
 function createSearchWhere(params: SearchParams) {
   const { keyword: validatedKeyword, categories } = params;
-  const keywords = validatedKeyword.split(/\s+/);
+  const keywords = validatedKeyword ? validatedKeyword.split(/\s+/) : [];
 
   return {
     AND: [
