@@ -30,7 +30,7 @@ const SearchResultItem = ({
         onClick={onSearchModalClose}
         className="flex-1 min-w-0"
       >
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 sm:gap-4">
           {product.thumbnail_url ? (
             <Image
               src={product.thumbnail_url}
@@ -50,12 +50,12 @@ const SearchResultItem = ({
               {product.description}
             </p>
             <div className="flex items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
+              <div className="flex shrink-0 items-center gap-1">
                 <Image src="/comment-icon.png" alt="" width={12} height={12} />
-                <span className="">{product.comments_count}</span>
+                <span>{product.comments_count}</span>
               </div>
-              <p className="shrink-0">{product.categories.name}</p>
-              <p className="shrink-0">{product.pricing_type}</p>
+              <p className="truncate">{product.categories.name}</p>
+              <p className="truncate">{product.pricing_type}</p>
             </div>
           </div>
         </div>
