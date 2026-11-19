@@ -49,6 +49,11 @@ function createSearchWhere(params: SearchParams) {
  */
 export async function searchProducts(params: SearchParams) {
   const { keyword, categories } = params;
+
+  if (!keyword.trim() && categories.length === 0) {
+    return [];
+  }
+
   const validatedKeyword = validateKeyword(keyword);
 
   if (
@@ -81,6 +86,12 @@ export async function searchProducts(params: SearchParams) {
  */
 export async function countSearchProducts(params: SearchParams) {
   const { keyword, categories } = params;
+
+  // キーワードとカテゴリが両方未指定なら0件
+  if (!keyword.trim() && categories.length === 0) {
+    return 0;
+  }
+
   const validatedKeyword = validateKeyword(keyword);
 
   if (validatedKeyword === null) {

@@ -71,6 +71,7 @@ describe("countSearchProducts テスト", () => {
     // Arrange
     const categories: string[] = [];
     const params = { keyword, categories };
+    
 
     // Act
     const count = await countSearchProducts(params);
