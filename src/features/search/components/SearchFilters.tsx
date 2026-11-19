@@ -5,14 +5,18 @@ import SortFilter from "./SortFilter";
 
 interface SearchFiltersProps {
   categories: string[];
+  pricing_type: string[];
   onKeywordChange: (nextKeyword: string) => void;
   onCategoryChange: (nextCategories: string[]) => void;
+  onPricingChange: (nextPricings: string[]) => void;
 }
 
 const SearchFilters = ({
   categories,
+  pricing_type,
   onKeywordChange,
   onCategoryChange,
+  onPricingChange,
 }: SearchFiltersProps) => {
   return (
     <div>
@@ -27,7 +31,10 @@ const SearchFilters = ({
           />
         </div>
         <div className="mb-7">
-          <PricingFilter />
+          <PricingFilter
+            pricing_type={pricing_type}
+            onPricingChange={onPricingChange}
+          />
         </div>
         <SortFilter />
       </div>

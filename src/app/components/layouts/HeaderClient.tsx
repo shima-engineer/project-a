@@ -99,12 +99,14 @@ const HeaderClient = ({ user, votedProductIds }: HeaderClientProps) => {
         isAuthModalOpen={isAuthModalOpen}
         onAuthModalClose={onAuthModalClose}
       />
-      <SearchModal
-        isSearchModalOpen={isSearchModalOpen}
-        onSearchModalClose={onSearchModalClose}
-        user={user}
-        votedProductIds={votedProductIds}
-      />
+      {isSearchModalOpen && (
+        <SearchModal
+          isSearchModalOpen={isSearchModalOpen}
+          onSearchModalClose={onSearchModalClose}
+          user={user}
+          votedProductIds={votedProductIds}
+        />
+      )}
     </header>
   );
 };

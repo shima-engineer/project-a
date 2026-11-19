@@ -39,6 +39,7 @@ export default function SearchModal({
   );
   const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
   const [categories, setCategories] = useState<string[]>([]);
+  const [pricing_type, setPricingType] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [keyword, setKeyword] = useState("");
   const [isError, setIsError] = useState<boolean>(false);
@@ -89,7 +90,11 @@ export default function SearchModal({
     setIsError(false);
 
     // キーワード・カテゴリがどちらも空の場合
-    if (!params.keyword.trim() && params.categories.length === 0) {
+    if (
+      !params.keyword.trim() &&
+      params.categories.length === 0 &&
+      params.pricing_type.length === 0
+    ) {
       debouncedSearch.cancel();
       setSearchedProducts([]);
       setSearchProductsCount(0);
@@ -107,6 +112,7 @@ export default function SearchModal({
     handleSearch({
       keyword: nextKeyword,
       categories,
+      pricing_type,
     });
   };
 
@@ -116,6 +122,17 @@ export default function SearchModal({
     handleSearch({
       keyword,
       categories: nextCategories,
+      pricing_type,
+    });
+  };
+
+  const handlePricingChange = (nextPricings: string[]) => {
+    setPricingType(nextPricings);
+
+    handleSearch({
+      keyword,
+      categories,
+      pricing_type: nextPricings,
     });
   };
 
@@ -170,11 +187,15 @@ export default function SearchModal({
             <div className="mb-4">
               <SearchFilters
                 categories={categories}
+                pricing_type={pricing_type}
                 onKeywordChange={handleKeywordChange}
                 onCategoryChange={handleCategoryChange}
+                onPricingChange={handlePricingChange}
               />
             </div>
-            {(keyword.trim() !== "" || categories.length > 0) && (
+            {(keyword.trim() !== "" ||
+              categories.length > 0 ||
+              pricing_type.length > 0) && (
               <>
                 <div className="mb-4">
                   <Border />
