@@ -42,13 +42,20 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      - name: Create auth schema
+      - name: Prepare test auth schema
         run: |
           PGPASSWORD=postgres psql \
             -h localhost \
             -U postgres \
             -d productjp_test \
-            -c 'CREATE SCHEMA IF NOT EXISTS auth;'
+            -v ON_ERROR_STOP=1 \
+            -c '
+              CREATE SCHEMA IF NOT EXISTS auth;
+
+              CREATE TABLE IF NOT EXISTS auth.users (
+                id UUID PRIMARY KEY
+              );
+            '
 
       - name: Apply database migrations
         run: npx prisma migrate deploy
