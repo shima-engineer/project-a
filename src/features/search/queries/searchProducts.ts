@@ -77,7 +77,6 @@ export async function searchProducts(params: SearchParams) {
  * 取得件数の上限は設けない。
  *
  * @param params - 検索パラメータ
- * @param params.keyword - 検索キーワード（最大100文字）
  * @returns 検索結果の総件数。不正なキーワードの場合は0
  */
 export async function countSearchProducts(params: SearchParams) {

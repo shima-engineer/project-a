@@ -50,6 +50,12 @@ export default function SearchModal({
 
   const requestIdRef = useRef(0);
 
+  /**
+   * デバウンスされた検索処理
+   *
+   * @param params - 検索パラメータ
+   * @param requestId - リクエストID
+   */
   const debouncedSearch = useDebouncedCallback(
     async (params: SearchParams, requestId: number) => {
       try {

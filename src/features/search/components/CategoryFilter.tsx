@@ -13,8 +13,7 @@ const CategoryFilter = ({
   onCategoryChange,
 }: CategoryFilterProps) => {
   /**
-   * カテゴリ変更時に検索状態を初期化し、
-   * 500msのデバウンス後に検索処理を実行する。
+   * カテゴリ変更時にカテゴリの配列を更新し、親コンポーネントに通知する
    *
    * @param event 入力イベント
    */
