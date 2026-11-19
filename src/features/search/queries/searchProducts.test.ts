@@ -16,9 +16,10 @@ describe("検索キーワードの最大文字数", () => {
   test("101文字の場合は検索せずに空配列を返す", async () => {
     // Arrange
     const keyword = "a".repeat(101);
+    const params = { keyword, categories: [] };
 
     // Act
-    const products = await searchProducts(keyword);
+    const products = await searchProducts(params);
 
     // Assert
     expect(products).toEqual([]);
@@ -30,7 +31,7 @@ describe("検索キーワードの最大文字数", () => {
     const keyword = "a".repeat(101);
 
     // Act
-    const count = await countSearchProducts(keyword);
+    const count = await countSearchProducts({ keyword, categories: [] });
 
     // Assert
     expect(count).toBe(0);

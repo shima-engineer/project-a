@@ -1,0 +1,67 @@
+name: Vitest Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  vitest:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: productjp_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/productjp_test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Prepare test auth schema
+        run: |
+          PGPASSWORD=postgres psql \
+            -h localhost \
+            -U postgres \
+            -d productjp_test \
+            -v ON_ERROR_STOP=1 \
+            -c '
+              CREATE SCHEMA IF NOT EXISTS auth;
+
+              CREATE TABLE IF NOT EXISTS auth.users (
+                id UUID PRIMARY KEY
+              );
+            '
+
+      - name: Apply database migrations
+        run: npx prisma migrate deploy
+
+      - name: Seed test data
+        run: npm run seed:test
+
+      - name: Run Vitest
+        run: npx vitest run

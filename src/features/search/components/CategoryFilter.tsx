@@ -1,6 +1,30 @@
-import CATEGORIES from "../constants";
+"use client";
 
-const CategoryFilter = () => {
+import CATEGORIES from "../constants";
+import { Dispatch, SetStateAction } from "react";
+
+interface CategoryFilterProps {
+  categories: string[];
+  onCategoryChange: (nextCategories: string[]) => void;
+}
+
+const CategoryFilter = ({
+  categories,
+  onCategoryChange,
+}: CategoryFilterProps) => {
+  /**
+   * カテゴリ変更時にカテゴリの配列を更新し、親コンポーネントに通知する
+   *
+   * @param event 入力イベント
+   */
+  const handleCategoryChange = (label: string) => {
+    const nextCategories = categories.includes(label)
+      ? categories.filter((item) => item !== label)
+      : [...categories, label];
+
+    onCategoryChange(nextCategories);
+  };
+
   return (
     <fieldset>
       <legend className="mb-3 text-xs font-semibold text-muted-foreground">
@@ -14,6 +38,7 @@ const CategoryFilter = () => {
               name="category"
               value={label}
               className="peer sr-only"
+              onClick={() => handleCategoryChange(label)}
             />
             <span className="flex items-center gap-2 rounded-md border p-3 transition-colors peer-checked:border-primary peer-checked:bg-primary/10 peer-focus-visible:ring-2 peer-focus-visible:ring-ring hover:bg-muted hover:border hover:border-primary">
               <Icon className="size-4" aria-hidden="true" />
