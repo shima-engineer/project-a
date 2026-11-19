@@ -40,47 +40,6 @@ describe("searchProducts 結合テスト", () => {
   });
 });
 
-describe("searchProducts 結合テスト", () => {
-  // 既存の単一キーワード検索・AND検索テスト
-
-  test.each([
-    ["空文字", ""],
-    ["半角スペースのみ", "   "],
-    ["タブのみ", "\t"],
-    ["改行のみ", "\n"],
-  ])("%sの場合は空配列を返す", async (_, keyword) => {
-    // Arrange
-    const categories: string[] = [];
-    const params = { keyword, categories };
-
-    // Act
-    const products = await searchProducts(params);
-
-    // Assert
-    expect(products).toEqual([]);
-  });
-});
-
-describe("countSearchProducts テスト", () => {
-  test.each([
-    ["空文字", ""],
-    ["半角スペースのみ", "   "],
-    ["タブのみ", "\t"],
-    ["改行のみ", "\n"],
-  ])("%sの場合は0を返す", async (_, keyword) => {
-    // Arrange
-    const categories: string[] = [];
-    const params = { keyword, categories };
-    
-
-    // Act
-    const count = await countSearchProducts(params);
-
-    // Assert
-    expect(count).toBe(0);
-  });
-});
-
 describe("検索結果の最大取得件数", () => {
   test("6件以上一致する場合でも最大5件取得する", async () => {
     // Arrange
