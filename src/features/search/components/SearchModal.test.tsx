@@ -35,7 +35,7 @@ function createMockProduct(
     description: "Test description",
     features: null,
     thumbnail_url: "",
-    pricing_type: "Free",
+    pricing_type: "Freemium",
     status: "published",
     upvotes_count: 0,
     comments_count: 0,
@@ -106,11 +106,13 @@ describe("SearchModal", () => {
     expect(searchProducts).toHaveBeenNthCalledWith(1, {
       keyword: "a",
       categories: [],
+      pricing_type: [],
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
       keyword: "api",
       categories: [],
+      pricing_type: [],
     });
 
     // Act ③ 新しい検索を先に完了させる
@@ -196,11 +198,13 @@ describe("SearchModal", () => {
     expect(searchProducts).toHaveBeenNthCalledWith(1, {
       keyword: "a",
       categories: [],
+      pricing_type: [],
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
       keyword: "a",
       categories: ["AIツール"],
+      pricing_type: [],
     });
 
     // Act ③ 新しいカテゴリ検索を先に完了させる
@@ -243,6 +247,104 @@ describe("SearchModal", () => {
     expect(screen.queryByText("Another Product")).not.toBeInTheDocument();
   });
 
+  test("キーワード検索中に料金プランを変更しても古い検索結果が上書きしない", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    const oldRequest = createDeferred<SearchedProducts>();
+    const newRequest = createDeferred<SearchedProducts>();
+
+    vi.mocked(searchProducts)
+      .mockReturnValueOnce(oldRequest.promise)
+      .mockReturnValueOnce(newRequest.promise);
+
+    vi.mocked(countSearchProducts).mockResolvedValue(1);
+
+    const onSearchModalClose = vi.fn();
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const input = screen.getByRole("searchbox");
+    const checkbox = screen.getByRole("checkbox", {
+      name: "Freemium",
+    });
+
+    // Act ① 古いキーワード検索を開始する
+    fireEvent.change(input, {
+      target: { value: "b" },
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    // Act ② 新しい料金プラン検索を開始する
+    fireEvent.click(checkbox);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    expect(searchProducts).toHaveBeenCalledTimes(2);
+    expect(searchProducts).toHaveBeenNthCalledWith(1, {
+      keyword: "b",
+      categories: [],
+      pricing_type: [],
+    });
+
+    expect(searchProducts).toHaveBeenNthCalledWith(2, {
+      keyword: "b",
+      categories: [],
+      pricing_type: ["Freemium"],
+    });
+
+    // Act ③ 新しいカテゴリ検索を先に完了させる
+    const newProducts: SearchedProducts = [
+      createMockProduct({
+        id: "new",
+        name: "PromptBox",
+        slug: "prompt-box",
+      }),
+    ];
+
+    await act(async () => {
+      newRequest.resolve(newProducts);
+      await newRequest.promise;
+    });
+
+    expect(screen.getByText("PromptBox")).toBeInTheDocument();
+
+    // Act ④ 古いキーワード検索を後から完了させる
+    const oldProducts: SearchedProducts = [
+      createMockProduct({
+        id: "old",
+        name: "HabitBoard",
+        slug: "habit-board",
+        categories: {
+          id: "category-1",
+          name: "SaaS",
+          slug: "saas",
+          created_at: new Date(),
+        },
+      }),
+    ];
+
+    await act(async () => {
+      oldRequest.resolve(oldProducts);
+      await oldRequest.promise;
+    });
+
+    expect(screen.getByText("PromptBox")).toBeInTheDocument();
+    expect(screen.queryByText("HabitBoard")).not.toBeInTheDocument();
+  });
+
   test("キーワード未入力でも一つのカテゴリのみで検索できる", async () => {
     // Arrange
     vi.useFakeTimers();
@@ -281,6 +383,7 @@ describe("SearchModal", () => {
     expect(searchProducts).toHaveBeenCalledWith({
       keyword: "",
       categories: ["AIツール"],
+      pricing_type: [],
     });
 
     expect(screen.getByText("WriteMate")).toBeInTheDocument();
@@ -292,8 +395,8 @@ describe("SearchModal", () => {
 
     const products: SearchedProducts = [
       createMockProduct({
-        id: "ai-1",
-        name: "AI Product",
+        id: "prompt-box",
+        name: "PromptBox",
       }),
       createMockProduct({
         id: "saas-1",
@@ -338,8 +441,9 @@ describe("SearchModal", () => {
     expect(searchProducts).toHaveBeenCalledWith({
       keyword: "",
       categories: ["AIツール", "SaaS"],
+      pricing_type: [],
     });
-    expect(screen.getByText("AI Product")).toBeInTheDocument();
+    expect(screen.getByText("PromptBox")).toBeInTheDocument();
     expect(screen.getByText("SaaS Product")).toBeInTheDocument();
   });
 
@@ -368,7 +472,7 @@ describe("SearchModal", () => {
 
     const products: SearchedProducts = [
       createMockProduct({
-        name: "AI Product",
+        name: "PromptBox",
       }),
     ];
 
@@ -401,9 +505,10 @@ describe("SearchModal", () => {
     expect(searchProducts).toHaveBeenCalledWith({
       keyword: "",
       categories: ["AIツール"],
+      pricing_type: [],
     });
 
-    expect(screen.getByText("AI Product")).toBeInTheDocument();
+    expect(screen.getByText("PromptBox")).toBeInTheDocument();
 
     // Act
     fireEvent.click(checkbox);
@@ -412,7 +517,7 @@ describe("SearchModal", () => {
       await vi.advanceTimersByTimeAsync(500);
     });
 
-    expect(screen.queryByText("AI Product")).not.toBeInTheDocument();
+    expect(screen.queryByText("PromptBox")).not.toBeInTheDocument();
     expect(searchProducts).toHaveBeenCalledTimes(1);
     expect(countSearchProducts).toHaveBeenCalledTimes(1);
   });

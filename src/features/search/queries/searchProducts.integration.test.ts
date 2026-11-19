@@ -6,7 +6,8 @@ describe("searchProducts 結合テスト", () => {
     // Arrange
     const keyword = "api";
     const categories: string[] = [];
-    const params = { keyword, categories };
+    const pricing_type: string[] = [];
+    const params = { keyword, categories, pricing_type };
 
     // Act
     const products = await searchProducts(params);
@@ -24,7 +25,8 @@ describe("searchProducts 結合テスト", () => {
     const keyword = "a p";
     const keywords = keyword.split(/\s+/);
     const categories: string[] = [];
-    const params = { keyword, categories };
+    const pricing_type: string[] = [];
+    const params = { keyword, categories, pricing_type };
 
     // Act
     const products = await searchProducts(params);
@@ -45,7 +47,8 @@ describe("検索結果の最大取得件数", () => {
     // Arrange
     const keyword = "プ";
     const categories: string[] = [];
-    const params = { keyword, categories };
+    const pricing_type: string[] = [];
+    const params = { keyword, categories, pricing_type };
 
     // Act
     const totalCount = await countSearchProducts(params);
