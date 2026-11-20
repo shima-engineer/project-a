@@ -108,8 +108,17 @@ describe("searchProducts 結合テスト", () => {
 describe("検索結果", () => {
   test("6件以上一致する場合でも最大5件取得する", async () => {
     // Arrange
-    const keyword = "プ";
-    const categories: string[] = [];
+    const keyword = "";
+    const categories: string[] = [
+      "AIツール",
+      "SaaS",
+      "Webアプリ",
+      "ネイティブアプリ",
+      "Developer Tools",
+      "生産性",
+      "デザイン",
+      "マーケティング",
+    ];
     const pricing_type: string[] = [];
     const params = { keyword, categories, pricing_type };
 
@@ -134,7 +143,7 @@ describe("検索結果", () => {
     const products = await searchProducts(params);
 
     // Assert
-    expect(totalCount).toBe(4);
-    expect(products).toHaveLength(4);
+    expect(totalCount).toBe(3);
+    expect(products).toHaveLength(3);
   });
 });

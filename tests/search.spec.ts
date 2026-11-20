@@ -24,14 +24,15 @@ test("カテゴリでプロダクトを検索できる", async ({ page }) => {
   await page.getByText("プロダクトを検索…").click();
 
   // カテゴリのAIツールをクリック
-  await page.getByText("AIツール", { exact: true }).click();
-
-  // 検索結果が表示されることを確認する
   const dialog = page.getByRole("dialog");
 
-  await expect(dialog.getByText("PromptBox")).toBeVisible();
+  await expect(dialog).toBeVisible();
 
-  await expect(dialog.getByText("API Monitor")).not.toBeVisible();
+  await dialog.getByText("AIツール", { exact: true }).click();
+  
+  // 検索結果が表示されることを確認する
+  await expect(dialog.getByText("WriteMate")).not.toBeVisible();
+  await expect(dialog.getByText("PromptBox")).toBeVisible();
 });
 
 test("キーワードとカテゴリでプロダクトを検索できる", async ({ page }) => {
@@ -41,11 +42,13 @@ test("キーワードとカテゴリでプロダクトを検索できる", async
   await page.getByText("プロダクトを検索…").click();
 
   // カテゴリのAIツールをクリック
-  await page.getByText("AIツール", { exact: true }).click();
-
-  // キーワードを入力する
   const dialog = page.getByRole("dialog");
 
+  await expect(dialog).toBeVisible();
+
+  await dialog.getByText("AIツール", { exact: true }).click();
+
+  // キーワードを入力する
   await page
     .getByPlaceholder("プロダクト名、タグ、技術スタックを検索...")
     .fill("a");
