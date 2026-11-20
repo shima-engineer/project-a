@@ -84,7 +84,7 @@ async function main() {
         url: "https://apimonitor.dev",
         tagline: "API監視サービス",
         description: "APIの稼働状況を監視するサービス",
-        pricing_type: "Free",
+        pricing_type: "Paid",
         status: "published",
         thumbnail_url: "https://example.com/api-monitor.png",
         upvotes_count: 30,
