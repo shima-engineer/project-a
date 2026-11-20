@@ -1,4 +1,4 @@
-const SortFilter = () => {
+const SortFilter = ({ onOrderChange }: { onOrderChange: (nextOrder: string) => void }) => {
   return (
     <div className="flex justify-between">
       <label
@@ -13,6 +13,7 @@ const SortFilter = () => {
           name="sort"
           defaultValue="popular"
           className="border border-input shadow-sm h-8 px-3 text-xs rounded-md bg-background"
+          onChange={(e) => onOrderChange(e.target.value)}
         >
           <option value="popular">人気順</option>
           <option value="newest">新着順</option>

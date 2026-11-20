@@ -38,10 +38,11 @@ export default function SearchModal({
     [],
   );
   const [searchProductsCount, setSearchProductsCount] = useState<number>(0);
+  const [keyword, setKeyword] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [pricing_type, setPricingType] = useState<string[]>([]);
+  const [order, setOrder] = useState<string>("popular");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [keyword, setKeyword] = useState("");
   const [isError, setIsError] = useState<boolean>(false);
   // 検索モーダル内で投票状態を更新するため、
   // 親から受け取った投票済みIDを初期値として保持する
@@ -89,7 +90,7 @@ export default function SearchModal({
 
     setIsError(false);
 
-    // キーワード・カテゴリがどちらも空の場合
+    // キーワード・カテゴリ・料金プランすべてが空の場合
     if (
       !params.keyword.trim() &&
       params.categories.length === 0 &&
@@ -113,6 +114,7 @@ export default function SearchModal({
       keyword: nextKeyword,
       categories,
       pricing_type,
+      order,
     });
   };
 
@@ -123,6 +125,7 @@ export default function SearchModal({
       keyword,
       categories: nextCategories,
       pricing_type,
+      order,
     });
   };
 
@@ -133,6 +136,18 @@ export default function SearchModal({
       keyword,
       categories,
       pricing_type: nextPricings,
+      order,
+    });
+  };
+
+  const handleOrderChange = (nextOrder: string) => {
+    setOrder(nextOrder);
+
+    handleSearch({
+      keyword,
+      categories,
+      pricing_type,
+      order: nextOrder,
     });
   };
 
@@ -191,6 +206,7 @@ export default function SearchModal({
                 onKeywordChange={handleKeywordChange}
                 onCategoryChange={handleCategoryChange}
                 onPricingChange={handlePricingChange}
+                onOrderChange={handleOrderChange}
               />
             </div>
             {(keyword.trim() !== "" ||

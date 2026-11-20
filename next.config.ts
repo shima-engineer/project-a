@@ -34,10 +34,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "apimonitor.dev",
-      },
-      {
-        protocol: "https",
         hostname: "example.com",
       },
     ],

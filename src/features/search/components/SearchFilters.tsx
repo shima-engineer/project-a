@@ -9,6 +9,7 @@ interface SearchFiltersProps {
   onKeywordChange: (nextKeyword: string) => void;
   onCategoryChange: (nextCategories: string[]) => void;
   onPricingChange: (nextPricings: string[]) => void;
+  onOrderChange: (nextOrder: string) => void;
 }
 
 const SearchFilters = ({
@@ -17,6 +18,7 @@ const SearchFilters = ({
   onKeywordChange,
   onCategoryChange,
   onPricingChange,
+  onOrderChange,
 }: SearchFiltersProps) => {
   return (
     <div>
@@ -36,7 +38,7 @@ const SearchFilters = ({
             onPricingChange={onPricingChange}
           />
         </div>
-        <SortFilter />
+        <SortFilter onOrderChange={onOrderChange} />
       </div>
     </div>
   );
