@@ -98,8 +98,6 @@ async function main() {
         tagline: "AIプロンプト管理",
         description: "AIプロンプトを効率的に管理できるツール",
         pricing_type: "Free",
-
-        
         status: "published",
         thumbnail_url: "https://example.com/promptbox.png",
         upvotes_count: 18,
