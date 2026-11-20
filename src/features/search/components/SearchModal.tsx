@@ -202,7 +202,7 @@ export default function SearchModal({
                 </div>
                 {isLoading ? (
                   <div className="flex justify-center items-center">
-                    <Spinner className="size-8" />
+                    <Spinner data-testid="search-spinner" className="size-8" />
                   </div>
                 ) : isError ? (
                   <p role="alert" className="text-center text-red-500">

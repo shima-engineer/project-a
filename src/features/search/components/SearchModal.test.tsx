@@ -447,6 +447,118 @@ describe("SearchModal", () => {
     expect(screen.getByText("SaaS Product")).toBeInTheDocument();
   });
 
+  test("キーワード未入力でも一つの料金プランのみで検索できる", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    const onSearchModalClose = vi.fn();
+
+    const products: SearchedProducts = [
+      createMockProduct({
+        name: "API Monitor",
+        slug: "api-monitor",
+      }),
+    ];
+
+    vi.mocked(searchProducts).mockResolvedValue(products);
+    vi.mocked(countSearchProducts).mockResolvedValue(1);
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const checkbox = screen.getByRole("checkbox", {
+      name: "Paid",
+    });
+
+    fireEvent.click(checkbox);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    expect(searchProducts).toHaveBeenCalledWith({
+      keyword: "",
+      categories: [],
+      pricing_type: ["Paid"],
+    });
+
+    expect(screen.getByText("API Monitor")).toBeInTheDocument();
+  });
+
+  test("キーワード未入力でも複数の料金プランの検索で検索できる", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    const products: SearchedProducts = [
+      createMockProduct({
+        id: "focus-flow",
+        name: "FocusFlow",
+      }),
+      createMockProduct({
+        id: "habit-board",
+        name: "HabitBoard",
+      }),
+      createMockProduct({
+        id: "write-mate",
+        name: "WriteMate",
+      }),
+      createMockProduct({
+        id: "write-mate-2",
+        name: "WriteMate",
+      }),
+      createMockProduct({
+        id: "api-monitor",
+        name: "API Monitor",
+      }),
+    ];
+
+    vi.mocked(searchProducts).mockResolvedValue(products);
+    vi.mocked(countSearchProducts).mockResolvedValue(5);
+
+    const onSearchModalClose = vi.fn();
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const checkboxAI = screen.getByRole("checkbox", {
+      name: "Free",
+    });
+    const checkboxSaaS = screen.getByRole("checkbox", {
+      name: "Paid",
+    });
+
+    fireEvent.click(checkboxAI);
+    fireEvent.click(checkboxSaaS);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    expect(searchProducts).toHaveBeenCalledWith({
+      keyword: "",
+      categories: [],
+      pricing_type: ["Free", "Paid"],
+    });
+
+    expect(screen.getByText("FocusFlow")).toBeInTheDocument();
+    expect(screen.getByText("HabitBoard")).toBeInTheDocument();
+    expect(screen.getAllByText("WriteMate")).toHaveLength(2);
+    expect(screen.getByText("API Monitor")).toBeInTheDocument();
+    expect(screen.getByText("5件")).toBeInTheDocument();
+  });
+
   test("未選択時に検索結果が表示されない", async () => {
     // Arrange
     vi.useFakeTimers();
@@ -520,5 +632,95 @@ describe("SearchModal", () => {
     expect(screen.queryByText("PromptBox")).not.toBeInTheDocument();
     expect(searchProducts).toHaveBeenCalledTimes(1);
     expect(countSearchProducts).toHaveBeenCalledTimes(1);
+  });
+
+  test("キーワード＋複数カテゴリ＋料金プランの検索ができて結果が表示される", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    const products: SearchedProducts = [
+      createMockProduct({
+        id: "api-monitor",
+        name: "API Monitor",
+      }),
+    ];
+
+    vi.mocked(searchProducts).mockResolvedValue(products);
+    vi.mocked(countSearchProducts).mockResolvedValue(1);
+
+    const onSearchModalClose = vi.fn();
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const input = screen.getByRole("searchbox");
+    const checkboxCategory = screen.getByRole("checkbox", {
+      name: "Developer Tools",
+    });
+    const checkboxPricing = screen.getByRole("checkbox", {
+      name: "Paid",
+    });
+
+    fireEvent.change(input, {
+      target: { value: "a" },
+    });
+    fireEvent.click(checkboxCategory);
+    fireEvent.click(checkboxPricing);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    expect(searchProducts).toHaveBeenCalledWith({
+      keyword: "a",
+      categories: ["Developer Tools"],
+      pricing_type: ["Paid"],
+    });
+
+    expect(screen.getByText("API Monitor")).toBeInTheDocument();
+    expect(screen.getByText("1件")).toBeInTheDocument();
+  });
+
+  test("検索失敗時のエラー・ローディング終了テスト", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    vi.mocked(searchProducts).mockRejectedValue(
+      new Error("プロダクトの検索中にエラーが発生しました"),
+    );
+
+    const onSearchModalClose = vi.fn();
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const input = screen.getByRole("searchbox");
+
+    fireEvent.change(input, {
+      target: { value: "a" },
+    });
+
+    expect(screen.getByTestId("search-spinner")).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    expect(
+      screen.getByText("プロダクトの検索中にエラーが発生しました"),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("search-spinner")).not.toBeInTheDocument();
   });
 });

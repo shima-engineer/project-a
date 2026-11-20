@@ -57,3 +57,43 @@ test("キーワードとカテゴリでプロダクトを検索できる", async
 
   await expect(dialog.getByText("PromptBox")).not.toBeVisible();
 });
+
+test("検索後にモーダルを閉じて、再度モーダルを開くと検索結果がリセットされている", async ({
+  page,
+}) => {
+  // Arrange
+  await page.goto("/");
+
+  // 検索ボタンをクリックして検索モーダルを開く
+  await page.getByText("プロダクトを検索…").click();
+
+  // Act
+  // キーワードを入力
+  const dialog = page.getByRole("dialog");
+
+  await page
+    .getByPlaceholder("プロダクト名、タグ、技術スタックを検索...")
+    .fill("a");
+
+  // 検索結果が表示されることを確認する
+  await expect(
+    dialog.getByText("WriteMate", { exact: true }).first(),
+  ).toBeVisible();
+
+  // モーダルを閉じる
+  await page.getByRole("button", { name: "Close" }).click();
+
+  // 再度モーダルを開く
+  await page.getByText("プロダクトを検索…").click();
+
+  const newDialog = page.getByRole("dialog");
+
+  // Assert
+  // 検索キーワードがリセットされている
+  await expect(newDialog.getByRole("searchbox")).toHaveValue("");
+
+  // 検索結果がリセットされている
+  await expect(newDialog.getByText("WriteMate", { exact: true })).toHaveCount(
+    0,
+  );
+});
