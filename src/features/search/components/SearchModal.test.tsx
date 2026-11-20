@@ -736,7 +736,7 @@ describe("SearchModal", () => {
     expect(screen.queryByTestId("search-spinner")).not.toBeInTheDocument();
   });
 
-  test("検索ワードを入力してから並び順を新着順にすると、新着順に並び変わり、さらに", async () => {
+  test("検索ワードを入力してから並び順を新着順に変更すると、検索結果が新着順になる", async () => {
     // Arrange
     vi.useFakeTimers();
 
