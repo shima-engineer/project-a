@@ -92,7 +92,7 @@ async function main() {
     {
       name: "API Monitor",
       category: "developer-tools",
-      pricing_type: "Free",
+      pricing_type: "Paid",
       upvotes: 30,
     },
     {
