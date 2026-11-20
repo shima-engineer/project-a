@@ -18,7 +18,7 @@ function validateKeyword(keyword: string): string | null {
 }
 
 function createSearchWhere(params: SearchParams) {
-  const { keyword, categories } = params;
+  const { keyword, categories, pricing_type } = params;
 
   const keywords = keyword ? keyword.split(/\s+/) : [];
 
@@ -32,6 +32,9 @@ function createSearchWhere(params: SearchParams) {
       })),
       ...(categories.length > 0
         ? [{ categories: { name: { in: categories } } }]
+        : []),
+      ...(pricing_type.length > 0
+        ? [{ pricing_type: { in: pricing_type } }]
         : []),
     ],
   };
@@ -48,18 +51,24 @@ function createSearchWhere(params: SearchParams) {
  * @returns 検索結果。不正なキーワードの場合は空配列
  */
 export async function searchProducts(params: SearchParams) {
-  const { keyword, categories } = params;
+  const { keyword, categories, pricing_type } = params;
   const validatedKeyword = validateKeyword(keyword);
 
   if (
     validatedKeyword === null ||
-    (validatedKeyword === "" && categories.length === 0)
+    (validatedKeyword === "" &&
+      categories.length === 0 &&
+      pricing_type.length === 0)
   ) {
     return [];
   }
 
   return prisma.products.findMany({
-    where: createSearchWhere({ keyword: validatedKeyword, categories }),
+    where: createSearchWhere({
+      keyword: validatedKeyword,
+      categories,
+      pricing_type,
+    }),
     take: 5,
     orderBy: {
       upvotes_count: "desc",
@@ -80,7 +89,7 @@ export async function searchProducts(params: SearchParams) {
  * @returns 検索結果の総件数。不正なキーワードの場合は0
  */
 export async function countSearchProducts(params: SearchParams) {
-  const { keyword, categories } = params;
+  const { keyword, categories, pricing_type } = params;
   const validatedKeyword = validateKeyword(keyword);
 
   if (validatedKeyword === null) {
@@ -88,7 +97,11 @@ export async function countSearchProducts(params: SearchParams) {
   }
 
   return prisma.products.count({
-    where: createSearchWhere({ keyword: validatedKeyword, categories }),
+    where: createSearchWhere({
+      keyword: validatedKeyword,
+      categories,
+      pricing_type,
+    }),
   });
 }
 

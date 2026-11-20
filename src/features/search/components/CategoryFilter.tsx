@@ -1,7 +1,6 @@
 "use client";
 
 import CATEGORIES from "../constants";
-import { Dispatch, SetStateAction } from "react";
 
 interface CategoryFilterProps {
   categories: string[];
