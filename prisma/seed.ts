@@ -1,108 +1,42 @@
 import "dotenv/config";
 import { prisma } from "../src/lib/prisma";
 
-const AUTH_USER_IDS = {
-  yamada: "33e2e8cb-19c7-4690-a656-993f542ca122",
-  hanako: "6b962cff-a04f-46e0-98c6-c5aef6900039",
-  kenta: "647f8ec6-0980-4619-9af3-f380cdbeb442",
-};
+const AUTH_USER_ID = "33e2e8cb-19c7-4690-a656-993f542ca122";
 
 async function main() {
-  // await prisma.upvotes.deleteMany();
-  // await prisma.comments.deleteMany();
-  // await prisma.products.deleteMany();
-  // await prisma.categories.deleteMany();
-  // await prisma.public_users.deleteMany();
+  // テスト専用DBを初期化
+  await prisma.upvotes.deleteMany();
+  await prisma.comments.deleteMany();
+  await prisma.products.deleteMany();
+  await prisma.categories.deleteMany();
+  await prisma.public_users.deleteMany();
 
+  // カテゴリ
   await prisma.categories.createMany({
     data: [
-      {
-        name: "AIツール",
-        slug: "ai",
-      },
-      {
-        name: "SaaS",
-        slug: "saas",
-      },
-      {
-        name: "Webアプリ",
-        slug: "web-app",
-      },
-      {
-        name: "ネイティブアプリ",
-        slug: "native-app",
-      },
-      {
-        name: "Developer Tools",
-        slug: "developer-tools",
-      },
-      {
-        name: "生産性",
-        slug: "productivity",
-      },
-      {
-        name: "デザイン",
-        slug: "design",
-      },
-      {
-        name: "マーケティング",
-        slug: "marketing",
-      },
+      { name: "AIツール", slug: "ai" },
+      { name: "SaaS", slug: "saas" },
+      { name: "Webアプリ", slug: "web-app" },
+      { name: "ネイティブアプリ", slug: "native-app" },
+      { name: "Developer Tools", slug: "developer-tools" },
+      { name: "生産性", slug: "productivity" },
+      { name: "デザイン", slug: "design" },
+      { name: "マーケティング", slug: "marketing" },
     ],
-    skipDuplicates: true,
   });
 
-  await prisma.public_users.createMany({
-    data: [
-      {
-        id: AUTH_USER_IDS.yamada,
-        name: "山田 太郎",
-        username: "yamada",
-        avatar_url: "https://i.pravatar.cc/150?img=1",
-        bio: "Next.jsとAIが好きな個人開発者",
-        github_url: "https://github.com/yamada",
-        x_url: "https://x.com/yamada",
-        website_url: "https://yamada.dev",
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: AUTH_USER_IDS.hanako,
-        name: "佐藤 花子",
-        username: "hanako",
-        avatar_url: "https://i.pravatar.cc/150?img=5",
-        bio: "UI/UXデザイナー",
-        github_url: "https://github.com/hanako",
-        x_url: "https://x.com/hanako",
-        website_url: "https://hanako.design",
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: AUTH_USER_IDS.kenta,
-        name: "鈴木 健太",
-        username: "kenta",
-        avatar_url: "https://i.pravatar.cc/150?img=8",
-        bio: "SaaSを作るバックエンドエンジニア",
-        github_url: "https://github.com/kenta",
-        x_url: "https://x.com/kenta",
-        website_url: "https://kenta.dev",
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ],
-    skipDuplicates: true,
+  // ユーザー
+  await prisma.public_users.create({
+    data: {
+      id: AUTH_USER_ID,
+      name: "山田 太郎",
+      username: "yamada",
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
   });
 
-  const users = await prisma.public_users.findMany();
   const categories = await prisma.categories.findMany();
-
-  const yamada = users.find((u) => u.username === "yamada");
-  const hanako = users.find((u) => u.username === "hanako");
-  const kenta = users.find((u) => u.username === "kenta");
-  if (!yamada || !hanako || !kenta) {
-    throw new Error("Seed users not found");
-  }
 
   const aiCategory = categories.find((c) => c.slug === "ai");
   const devCategory = categories.find((c) => c.slug === "developer-tools");
@@ -111,166 +45,101 @@ async function main() {
   );
 
   if (!aiCategory || !devCategory || !productivityCategory) {
-    throw new Error("Seed categories not found");
+    throw new Error("Test categories not found");
   }
 
   await prisma.products.createMany({
     data: [
       {
-        user_id: yamada.id,
+        user_id: AUTH_USER_ID,
         category_id: aiCategory.id,
         name: "WriteMate",
-        slug: "f40c6d1b-e307-45d1-bfd5-c318af1485a3",
+        slug: "test-writemate",
         url: "https://writemate.dev",
-        tagline: "日本語特化のAIライティングアシスタント",
-        description:
-          "ブログ記事やSNS投稿を高速に作成できるAIライティングツール。",
-        features: "記事生成、SEO補助、SNS投稿作成",
+        tagline: "AIライティングツール",
+        description: "ブログ記事やSNS投稿を作成できるAIツール",
         pricing_type: "Free",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
         status: "published",
+        thumbnail_url: "https://example.com/writemate.png",
         upvotes_count: 23,
-        comments_count: 2,
-        view_count: 320,
       },
-
       {
-        user_id: hanako.id,
+        user_id: AUTH_USER_ID,
         category_id: productivityCategory.id,
         name: "FocusFlow",
-        slug: "focusflow",
+        slug: "test-focusflow",
         url: "https://focusflow.app",
-        tagline: "ポモドーロ集中タイマー",
-        description: "集中時間を可視化し習慣化を支援する生産性向上アプリ。",
-        features: "ポモドーロ、統計、目標管理",
+        tagline: "集中タイマー",
+        description: "ポモドーロテクニックを活用した集中タイマーアプリ",
         pricing_type: "Free",
-        thumbnail_url:
-          "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
         status: "published",
+        thumbnail_url: "https://example.com/focusflow.png",
         upvotes_count: 41,
-        comments_count: 2,
-        view_count: 570,
-      },
-
-    ],
-    skipDuplicates: true,
-  });
-
-  const products = await prisma.products.findMany();
-
-  const writeMate = products.find((p) => p.slug === "f40c6d1b-e307-45d1-bfd5-c318af1485a3");
-  const focusFlow = products.find((p) => p.slug === "focusflow");
-  const apiMonitor = products.find((p) => p.slug === "api-monitor");
-  const promptBox = products.find((p) => p.slug === "promptbox");
-  const habitBoard = products.find((p) => p.slug === "habitboard");
-
-  if (!writeMate || !focusFlow || !apiMonitor || !promptBox || !habitBoard) {
-    throw new Error("Seed products not found");
-  }
-
-  await prisma.comments.createMany({
-    data: [
-      {
-        user_id: AUTH_USER_IDS.kenta,
-        product_id: writeMate.id,
-        content: "日本語の文章生成がかなり自然でした。",
       },
       {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: writeMate.id,
-        content: "SEO記事の下書き作成に便利です。",
+        user_id: AUTH_USER_ID,
+        category_id: devCategory.id,
+        name: "API Monitor",
+        slug: "test-api-monitor",
+        url: "https://apimonitor.dev",
+        tagline: "API監視サービス",
+        description: "APIの稼働状況を監視するサービス",
+        pricing_type: "Free",
+        status: "published",
+        thumbnail_url: "https://example.com/api-monitor.png",
+        upvotes_count: 30,
       },
       {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: focusFlow.id,
-        content: "ポモドーロタイマーが使いやすいです。",
+        user_id: AUTH_USER_ID,
+        category_id: aiCategory.id,
+        name: "PromptBox",
+        slug: "test-promptbox",
+        url: "https://promptbox.dev",
+        tagline: "AIプロンプト管理",
+        description: "AIプロンプトを効率的に管理できるツール",
+        pricing_type: "Free",
+        status: "published",
+        thumbnail_url: "https://example.com/promptbox.png",
+        upvotes_count: 18,
       },
       {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: focusFlow.id,
-        content: "集中時間の分析機能が面白い。",
+        user_id: AUTH_USER_ID,
+        category_id: productivityCategory.id,
+        name: "HabitBoard",
+        slug: "test-habitboard",
+        url: "https://habitboard.app",
+        tagline: "習慣管理アプリ",
+        description: "日々の習慣を記録・管理できるアプリ",
+        pricing_type: "Paid",
+        status: "published",
+        thumbnail_url: "https://example.com/habitboard.png",
+        upvotes_count: 15,
       },
       {
-        user_id: AUTH_USER_IDS.hanako,
-        product_id: promptBox.id,
-        content: "プロンプト管理がかなり楽になりました。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: promptBox.id,
-        content: "カテゴリ分け機能が欲しいです。",
-      },
-      {
-        user_id: AUTH_USER_IDS.hanako,
-        product_id: apiMonitor.id,
-        content: "API監視の通知が分かりやすいです。",
-      },
-      {
-        user_id: AUTH_USER_IDS.yamada,
-        product_id: habitBoard.id,
-        content: "習慣化のモチベーション維持に役立っています。",
-      },
-      {
-        user_id: "f3564ed0-9c9d-438f-a8d0-b5b7cd2c876d",
-        product_id: "7f6752e3-a4ce-44e4-9854-18db32ea1eaf",
-        content: "習慣化のモチベーション維持に役立っています!!!",
+        user_id: AUTH_USER_ID,
+        category_id: devCategory.id,
+        name: "DevTools Pro",
+        slug: "test-devtools-pro",
+        url: "https://devtoolspro.dev",
+        tagline: "開発者向けツール",
+        description: "開発者向けの便利なツールを提供するサービス",
+        pricing_type: "Paid",
+        status: "published",
+        thumbnail_url: "https://example.com/devtools-pro.png",
+        upvotes_count: 12,
       },
     ],
   });
 
-  // await Promise.all([
-  //   prisma.products.update({
-  //     where: {
-  //       id: "41497708-4ae7-47ce-a66e-2773b83cd90a",
-  //     },
-  //     data: {
-  //       comments_count: 2,
-  //     },
-  //   }),
-
-  //   prisma.products.update({
-  //     where: {
-  //       id: "542d9c16-b8ef-4d29-a2f7-b22a78e37378",
-  //     },
-  //     data: {
-  //       comments_count: 2,
-  //     },
-  //   }),
-
-  //   prisma.products.update({
-  //     where: {
-  //       id: "ab44390f-463a-4d53-83fc-ee97917db3cd",
-  //     },
-  //     data: {
-  //       comments_count: 2,
-  //     },
-  //   }),
-  //   prisma.products.update({
-  //     where: {
-  //       id: "b173a81f-0cd6-4c17-b825-38a05a41a853",
-  //     },
-  //     data: {
-  //       comments_count: 1,
-  //     },
-  //   }),
-  //   prisma.products.update({
-  //     where: {
-  //       id: "bf017948-65d1-40c7-b39e-8353b7a499e5",
-  //     },
-  //     data: {
-  //       comments_count: 1,
-  //     },
-  //   }),
-  // ]);
+  console.log("Test seed completed");
 }
 
 main()
   .then(async () => {
     await prisma.$disconnect();
   })
-  .catch(async (e) => {
-    console.error(e);
+  .catch(async (error) => {
+    console.error(error);
     await prisma.$disconnect();
     process.exit(1);
   });
