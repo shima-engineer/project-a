@@ -44,6 +44,7 @@ export default function SearchModal({
   const [order, setOrder] = useState<string>("popular");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+
   // 検索モーダル内で投票状態を更新するため、
   // 親から受け取った投票済みIDを初期値として保持する
   const [votedIds, setVotedIds] = useState<Set<string>>(
