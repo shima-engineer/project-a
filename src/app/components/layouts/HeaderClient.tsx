@@ -99,6 +99,7 @@ const HeaderClient = ({ user, votedProductIds }: HeaderClientProps) => {
         isAuthModalOpen={isAuthModalOpen}
         onAuthModalClose={onAuthModalClose}
       />
+      {/* 検索モーダルを閉じたときにアンマウントされるように条件付きレンダリング */}
       {isSearchModalOpen && (
         <SearchModal
           isSearchModalOpen={isSearchModalOpen}
