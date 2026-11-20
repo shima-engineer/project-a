@@ -107,12 +107,14 @@ describe("SearchModal", () => {
       keyword: "a",
       categories: [],
       pricing_type: [],
+      order: "popular",
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
       keyword: "api",
       categories: [],
       pricing_type: [],
+      order: "popular",
     });
 
     // Act ③ 新しい検索を先に完了させる
@@ -199,12 +201,14 @@ describe("SearchModal", () => {
       keyword: "a",
       categories: [],
       pricing_type: [],
+      order: "popular",
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
       keyword: "a",
       categories: ["AIツール"],
       pricing_type: [],
+      order: "popular",
     });
 
     // Act ③ 新しいカテゴリ検索を先に完了させる
@@ -297,12 +301,14 @@ describe("SearchModal", () => {
       keyword: "b",
       categories: [],
       pricing_type: [],
+      order: "popular",
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
       keyword: "b",
       categories: [],
       pricing_type: ["Freemium"],
+      order: "popular",
     });
 
     // Act ③ 新しいカテゴリ検索を先に完了させる
@@ -384,6 +390,7 @@ describe("SearchModal", () => {
       keyword: "",
       categories: ["AIツール"],
       pricing_type: [],
+      order: "popular",
     });
 
     expect(screen.getByText("WriteMate")).toBeInTheDocument();
@@ -442,6 +449,7 @@ describe("SearchModal", () => {
       keyword: "",
       categories: ["AIツール", "SaaS"],
       pricing_type: [],
+      order: "popular",
     });
     expect(screen.getByText("PromptBox")).toBeInTheDocument();
     expect(screen.getByText("SaaS Product")).toBeInTheDocument();
@@ -486,6 +494,7 @@ describe("SearchModal", () => {
       keyword: "",
       categories: [],
       pricing_type: ["Paid"],
+      order: "popular",
     });
 
     expect(screen.getByText("API Monitor")).toBeInTheDocument();
@@ -550,6 +559,7 @@ describe("SearchModal", () => {
       keyword: "",
       categories: [],
       pricing_type: ["Free", "Paid"],
+      order: "popular",
     });
 
     expect(screen.getByText("FocusFlow")).toBeInTheDocument();
@@ -618,6 +628,7 @@ describe("SearchModal", () => {
       keyword: "",
       categories: ["AIツール"],
       pricing_type: [],
+      order: "popular",
     });
 
     expect(screen.getByText("PromptBox")).toBeInTheDocument();
@@ -681,6 +692,7 @@ describe("SearchModal", () => {
       keyword: "a",
       categories: ["Developer Tools"],
       pricing_type: ["Paid"],
+      order: "popular",
     });
 
     expect(screen.getByText("API Monitor")).toBeInTheDocument();
@@ -722,5 +734,125 @@ describe("SearchModal", () => {
       screen.getByText("プロダクトの検索中にエラーが発生しました"),
     ).toBeInTheDocument();
     expect(screen.queryByTestId("search-spinner")).not.toBeInTheDocument();
+  });
+
+  test("検索ワードを入力してから並び順を新着順に変更すると、検索結果が新着順になる", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    const onSearchModalClose = vi.fn();
+
+    const products: SearchedProducts = [
+      createMockProduct({
+        name: "Product A",
+        upvotes_count: 100,
+        created_at: new Date("2026-01-01"),
+      }),
+      createMockProduct({
+        name: "Product B",
+        upvotes_count: 10,
+        created_at: new Date("2030-01-01"),
+      }),
+    ];
+
+    vi.mocked(searchProducts).mockImplementation(async (params) => {
+      if (params.order === "newest") {
+        return [products[1], products[0]];
+      }
+
+      return [products[0], products[1]];
+    });
+
+    vi.mocked(countSearchProducts).mockResolvedValue(2);
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const input = screen.getByRole("searchbox");
+    const sortSelect = screen.getByRole("combobox", {
+      name: "並び順",
+    });
+
+    fireEvent.change(input, {
+      target: { value: "p" },
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    const productNames = screen.getAllByRole("heading", { level: 3 });
+
+    expect(productNames.map((el) => el.textContent)).toEqual([
+      "Product A",
+      "Product B",
+    ]);
+
+    expect(searchProducts).toHaveBeenLastCalledWith({
+      keyword: "p",
+      categories: [],
+      pricing_type: [],
+      order: "popular",
+    });
+
+    fireEvent.change(sortSelect, {
+      target: { value: "newest" },
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    const updatedProductNames = screen.getAllByRole("heading", {
+      level: 3,
+    });
+
+    expect(updatedProductNames.map((el) => el.textContent)).toEqual([
+      "Product B",
+      "Product A",
+    ]);
+
+    expect(searchProducts).toHaveBeenLastCalledWith({
+      keyword: "p",
+      categories: [],
+      pricing_type: [],
+      order: "newest",
+    });
+  });
+
+  test("未選択時に新着順に変えても検索されない", async () => {
+    // Arrange
+    vi.useFakeTimers();
+
+    const onSearchModalClose = vi.fn();
+
+    render(
+      <SearchModal
+        isSearchModalOpen={true}
+        onSearchModalClose={onSearchModalClose}
+        votedProductIds={new Set<string>()}
+        user={null}
+      />,
+    );
+
+    const sortSelect = screen.getByRole("combobox", {
+      name: "並び順",
+    });
+
+    fireEvent.change(sortSelect, {
+      target: { value: "newest" },
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+
+    expect(searchProducts).not.toHaveBeenCalled();
   });
 });

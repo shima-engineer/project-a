@@ -51,7 +51,7 @@ function createSearchWhere(params: SearchParams) {
  * @returns 検索結果。不正なキーワードの場合は空配列
  */
 export async function searchProducts(params: SearchParams) {
-  const { keyword, categories, pricing_type } = params;
+  const { keyword, categories, pricing_type, order } = params;
   const validatedKeyword = validateKeyword(keyword);
 
   if (
@@ -68,11 +68,17 @@ export async function searchProducts(params: SearchParams) {
       keyword: validatedKeyword,
       categories,
       pricing_type,
+      order,
     }),
     take: 5,
-    orderBy: {
-      upvotes_count: "desc",
-    },
+    orderBy:
+      order === "newest"
+        ? [{ created_at: "desc" as const }, { id: "asc" as const }]
+        : [
+            { upvotes_count: "desc" as const },
+            { created_at: "asc" as const },
+            { id: "asc" as const },
+          ],
     include: {
       categories: true,
     },
@@ -89,10 +95,15 @@ export async function searchProducts(params: SearchParams) {
  * @returns 検索結果の総件数。不正なキーワードの場合は0
  */
 export async function countSearchProducts(params: SearchParams) {
-  const { keyword, categories, pricing_type } = params;
+  const { keyword, categories, pricing_type, order } = params;
   const validatedKeyword = validateKeyword(keyword);
 
-  if (validatedKeyword === null) {
+  if (
+    validatedKeyword === null ||
+    (validatedKeyword === "" &&
+      categories.length === 0 &&
+      pricing_type.length === 0)
+  ) {
     return 0;
   }
 
@@ -101,6 +112,7 @@ export async function countSearchProducts(params: SearchParams) {
       keyword: validatedKeyword,
       categories,
       pricing_type,
+      order,
     }),
   });
 }
