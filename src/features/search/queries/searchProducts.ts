@@ -17,7 +17,7 @@ function validateKeyword(keyword: string): string | null {
   return trimmedKeyword;
 }
 
-function createSearchWhere(params: SearchParams) {
+function createSearchWhere(params: Omit<SearchParams, "takeAll">) {
   const { keyword, categories, pricing_type } = params;
 
   const keywords = keyword ? keyword.split(/\s+/) : [];
@@ -70,7 +70,7 @@ export async function searchProducts(params: SearchParams) {
       pricing_type,
       order,
     }),
-    take: 5,
+    take: params.takeAll ? undefined : 5,
     orderBy:
       order === "newest"
         ? [{ created_at: "desc" as const }, { id: "asc" as const }]

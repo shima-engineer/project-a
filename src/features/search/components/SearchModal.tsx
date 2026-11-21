@@ -118,6 +118,7 @@ export default function SearchModal({
       categories,
       pricing_type,
       order,
+      takeAll: false,
     });
   };
 
@@ -129,6 +130,7 @@ export default function SearchModal({
       categories: nextCategories,
       pricing_type,
       order,
+      takeAll: false,
     });
   };
 
@@ -140,6 +142,7 @@ export default function SearchModal({
       categories,
       pricing_type: nextPricings,
       order,
+      takeAll: false,
     });
   };
 
@@ -151,6 +154,7 @@ export default function SearchModal({
       categories,
       pricing_type,
       order: nextOrder,
+      takeAll: false,
     });
   };
 
@@ -235,7 +239,12 @@ export default function SearchModal({
                     votedProductIds={votedIds}
                     handleUpvoteSuccess={handleUpvoteSuccess}
                     onSearchModalClose={onSearchModalClose}
+                    keyword={keyword}
+                    categories={categories}
+                    pricing_type={pricing_type}
+                    order={order}
                     productCount={productCount}
+                    handleSearch={handleSearch}
                   />
                 )}
               </>

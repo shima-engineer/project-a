@@ -3,4 +3,5 @@ export type SearchParams = {
   categories: string[];
   pricing_type: string[];
   order: string;
+  takeAll: boolean;
 };

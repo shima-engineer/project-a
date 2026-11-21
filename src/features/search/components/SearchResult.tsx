@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import type { Users } from "@/features/auth/queries/getCurrentUser";
 import { SearchedProducts } from "../queries/searchProducts";
 import { Search } from "lucide-react";
+import { searchProducts } from "../queries/searchProducts";
 
 interface SearchResultProps {
   searchedProducts: SearchedProducts;
@@ -11,7 +12,18 @@ interface SearchResultProps {
   user: Users;
   handleUpvoteSuccess: (productId: string, voted: boolean) => void;
   onSearchModalClose: () => void;
+  keyword: string;
+  categories: string[];
+  pricing_type: string[];
+  order: string;
   productCount: number;
+  handleSearch: (params: {
+    keyword: string;
+    categories: string[];
+    pricing_type: string[];
+    order: string;
+    takeAll: boolean;
+  }) => void;
 }
 
 const SearchResult = ({
@@ -21,7 +33,12 @@ const SearchResult = ({
   user,
   handleUpvoteSuccess,
   onSearchModalClose,
+  keyword,
+  categories,
+  pricing_type,
+  order,
   productCount,
+  handleSearch,
 }: SearchResultProps) => {
   return (
     <section className="pr-6 pl-6">
@@ -52,6 +69,15 @@ const SearchResult = ({
         <button
           type="button"
           className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
+          onClick={() =>
+            handleSearch({
+              keyword,
+              categories,
+              pricing_type,
+              order,
+              takeAll: true,
+            })
+          }
         >
           すべての検索結果を見る
           <ArrowRight aria-hidden="true" />
