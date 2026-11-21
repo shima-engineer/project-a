@@ -44,6 +44,7 @@ export default function SearchModal({
   const [order, setOrder] = useState<string>("popular");
   const [productCount, setProductCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isViewAllLoading, setIsViewAllLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
   // 検索モーダル内で投票状態を更新するため、
@@ -82,6 +83,7 @@ export default function SearchModal({
       } finally {
         if (requestId === requestIdRef.current) {
           setIsLoading(false);
+          setIsViewAllLoading(false);
         }
       }
     },
@@ -106,7 +108,11 @@ export default function SearchModal({
       return;
     }
 
-    setIsLoading(true);
+    if (params.takeAll) {
+      setIsViewAllLoading(true);
+    } else {
+      setIsLoading(true);
+    }
     debouncedSearch(params, requestId);
   };
 
@@ -245,6 +251,8 @@ export default function SearchModal({
                     order={order}
                     productCount={productCount}
                     handleSearch={handleSearch}
+                    setIsViewAllLoading={setIsViewAllLoading}
+                    isViewAllLoading={isViewAllLoading}
                   />
                 )}
               </>

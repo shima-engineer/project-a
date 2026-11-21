@@ -1,9 +1,10 @@
 import SearchResultList from "./SearchResultList";
 import { ArrowRight } from "lucide-react";
 import type { Users } from "@/features/auth/queries/getCurrentUser";
-import { SearchedProducts } from "../queries/searchProducts";
+import type { SearchedProducts } from "../queries/searchProducts";
+import type { SearchParams } from "../types";
 import { Search } from "lucide-react";
-import { searchProducts } from "../queries/searchProducts";
+import { Spinner } from "@/components/ui/spinner";
 
 interface SearchResultProps {
   searchedProducts: SearchedProducts;
@@ -17,13 +18,9 @@ interface SearchResultProps {
   pricing_type: string[];
   order: string;
   productCount: number;
-  handleSearch: (params: {
-    keyword: string;
-    categories: string[];
-    pricing_type: string[];
-    order: string;
-    takeAll: boolean;
-  }) => void;
+  handleSearch: (params: SearchParams) => void;
+  setIsViewAllLoading: (isLoading: boolean) => void;
+  isViewAllLoading: boolean;
 }
 
 const SearchResult = ({
@@ -39,6 +36,7 @@ const SearchResult = ({
   order,
   productCount,
   handleSearch,
+  isViewAllLoading,
 }: SearchResultProps) => {
   return (
     <section className="pr-6 pl-6">
@@ -65,7 +63,14 @@ const SearchResult = ({
           onSearchModalClose={onSearchModalClose}
         />
       </div>
-      {productCount >= 6 && (
+      {isViewAllLoading ? (
+        <div className="flex justify-center items-center gap-2">
+          <Spinner data-testid="search-spinner" className="size-8" />
+          <p className="text-xs text-muted-foreground">
+            すべての検索結果を読み込み中...
+          </p>
+        </div>
+      ) : productCount >= 6 ? (
         <button
           type="button"
           className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
@@ -82,7 +87,7 @@ const SearchResult = ({
           すべての検索結果を見る
           <ArrowRight aria-hidden="true" />
         </button>
-      )}
+      ) : null}
     </section>
   );
 };
