@@ -42,6 +42,7 @@ export default function SearchModal({
   const [categories, setCategories] = useState<string[]>([]);
   const [pricing_type, setPricingType] = useState<string[]>([]);
   const [order, setOrder] = useState<string>("popular");
+  const [productCount, setProductCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -72,6 +73,7 @@ export default function SearchModal({
 
         setSearchedProducts(products);
         setSearchProductsCount(count);
+        setProductCount(count);
       } catch (error) {
         if (requestId !== requestIdRef.current) return;
 
@@ -233,6 +235,7 @@ export default function SearchModal({
                     votedProductIds={votedIds}
                     handleUpvoteSuccess={handleUpvoteSuccess}
                     onSearchModalClose={onSearchModalClose}
+                    productCount={productCount}
                   />
                 )}
               </>

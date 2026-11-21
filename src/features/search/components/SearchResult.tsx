@@ -11,6 +11,7 @@ interface SearchResultProps {
   user: Users;
   handleUpvoteSuccess: (productId: string, voted: boolean) => void;
   onSearchModalClose: () => void;
+  productCount: number;
 }
 
 const SearchResult = ({
@@ -20,6 +21,7 @@ const SearchResult = ({
   user,
   handleUpvoteSuccess,
   onSearchModalClose,
+  productCount,
 }: SearchResultProps) => {
   return (
     <section className="pr-6 pl-6">
@@ -46,14 +48,15 @@ const SearchResult = ({
           onSearchModalClose={onSearchModalClose}
         />
       </div>
-      {/* TODO76:検索結果が6件以上の場合のみ表示する */}
-      <button
-        type="button"
-        className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
-      >
-        すべての検索結果を見る
-        <ArrowRight aria-hidden="true" />
-      </button>
+      {productCount >= 6 && (
+        <button
+          type="button"
+          className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
+        >
+          すべての検索結果を見る
+          <ArrowRight aria-hidden="true" />
+        </button>
+      )}
     </section>
   );
 };
