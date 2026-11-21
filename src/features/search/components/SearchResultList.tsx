@@ -3,7 +3,7 @@ import { SearchedProducts } from "../queries/searchProducts";
 import type { Users } from "@/features/auth/queries/getCurrentUser";
 
 interface SearchResultListProps {
-  searchedProducts: SearchedProducts;
+  displayedProducts: SearchedProducts;
   votedProductIds: Set<string>;
   user: Users;
   handleUpvoteSuccess: (productId: string, voted: boolean) => void;
@@ -11,7 +11,7 @@ interface SearchResultListProps {
 }
 
 const SearchResultList = ({
-  searchedProducts,
+  displayedProducts,
   votedProductIds,
   user,
   handleUpvoteSuccess,
@@ -19,7 +19,7 @@ const SearchResultList = ({
 }: SearchResultListProps) => {
   return (
     <ul className="flex flex-col gap-4">
-      {searchedProducts.map((product) => (
+      {displayedProducts.map((product) => (
         <SearchResultItem
           key={product.id}
           product={product}

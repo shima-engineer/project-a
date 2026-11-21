@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 
 interface SearchResultProps {
-  searchedProducts: SearchedProducts;
+  displayedProducts: SearchedProducts;
   searchProductsCount: number;
   votedProductIds: Set<string>;
   user: Users;
@@ -19,12 +19,13 @@ interface SearchResultProps {
   order: string;
   productCount: number;
   handleSearch: (params: SearchParams) => void;
-  setIsViewAllLoading: (isLoading: boolean) => void;
   isViewAllLoading: boolean;
+  isTakeAll: boolean;
+  setIsTakeAll: (isTakeAll: boolean) => void;
 }
 
 const SearchResult = ({
-  searchedProducts,
+  displayedProducts,
   searchProductsCount,
   votedProductIds,
   user,
@@ -37,6 +38,8 @@ const SearchResult = ({
   productCount,
   handleSearch,
   isViewAllLoading,
+  isTakeAll,
+  setIsTakeAll,
 }: SearchResultProps) => {
   return (
     <section className="pr-6 pl-6">
@@ -49,14 +52,14 @@ const SearchResult = ({
         </span>
       </div>
       <div className="mb-4">
-        {searchedProducts.length === 0 && (
+        {displayedProducts.length === 0 && (
           <div className="px-4 py-14 text-center">
             <Search className="mx-auto mb-4 size-8" />
             <p>該当するプロダクトが見つかりませんでした</p>
           </div>
         )}
         <SearchResultList
-          searchedProducts={searchedProducts}
+          displayedProducts={displayedProducts}
           votedProductIds={votedProductIds}
           user={user}
           handleUpvoteSuccess={handleUpvoteSuccess}
@@ -70,7 +73,7 @@ const SearchResult = ({
             すべての検索結果を読み込み中...
           </p>
         </div>
-      ) : productCount >= 6 ? (
+      ) : productCount >= 6 && !isTakeAll ? (
         <button
           type="button"
           className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
@@ -85,6 +88,15 @@ const SearchResult = ({
           }
         >
           すべての検索結果を見る
+          <ArrowRight aria-hidden="true" />
+        </button>
+      ) : isTakeAll ? (
+        <button
+          type="button"
+          className="inline-flex items-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-9 w-full justify-between rounded-md text-sm text-primary hover:bg-primary/5"
+          onClick={() => setIsTakeAll(false)}
+        >
+          5件のみ表示
           <ArrowRight aria-hidden="true" />
         </button>
       ) : null}

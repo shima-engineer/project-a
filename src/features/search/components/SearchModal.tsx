@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogHeader,
 } from "../../../../components/ui/dialog";
+import { DEFAULT_DISPLAY_COUNT } from "../constants";
 import type { SearchParams } from "../types";
 import { Spinner } from "@/components/ui/spinner";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
@@ -45,6 +46,7 @@ export default function SearchModal({
   const [productCount, setProductCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isViewAllLoading, setIsViewAllLoading] = useState<boolean>(false);
+  const [isTakeAll, setIsTakeAll] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
   // 検索モーダル内で投票状態を更新するため、
@@ -54,6 +56,10 @@ export default function SearchModal({
   );
 
   const requestIdRef = useRef(0);
+
+  const displayedProducts = isTakeAll
+    ? searchedProducts
+    : searchedProducts.slice(0, DEFAULT_DISPLAY_COUNT);
 
   /**
    * デバウンスされた検索処理
@@ -109,8 +115,10 @@ export default function SearchModal({
     }
 
     if (params.takeAll) {
+      setIsTakeAll(true);
       setIsViewAllLoading(true);
     } else {
+      setIsTakeAll(false);
       setIsLoading(true);
     }
     debouncedSearch(params, requestId);
@@ -239,7 +247,7 @@ export default function SearchModal({
                   </p>
                 ) : (
                   <SearchResult
-                    searchedProducts={searchedProducts}
+                    displayedProducts={displayedProducts}
                     searchProductsCount={searchProductsCount}
                     user={user}
                     votedProductIds={votedIds}
@@ -251,8 +259,9 @@ export default function SearchModal({
                     order={order}
                     productCount={productCount}
                     handleSearch={handleSearch}
-                    setIsViewAllLoading={setIsViewAllLoading}
                     isViewAllLoading={isViewAllLoading}
+                    isTakeAll={isTakeAll}
+                    setIsTakeAll={setIsTakeAll}
                   />
                 )}
               </>
