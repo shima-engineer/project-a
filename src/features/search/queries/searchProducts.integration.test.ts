@@ -227,7 +227,7 @@ describe("検索結果", () => {
     expect(products).toBeGreaterThan(5);
   });
 
-  test("takeAllがfalseの場合、6件目以降も取得できる", async () => {
+  test("takeAllがfalseの場合、6件目以降は取得できない", async () => {
     // Arrange
     const keyword = "";
     const categories: string[] = ["AIツール", "SaaS", "Webアプリ"];
