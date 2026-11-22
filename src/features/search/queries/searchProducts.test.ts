@@ -21,6 +21,7 @@ describe("検索キーワードの最大文字数", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     };
 
     // Act
@@ -41,6 +42,7 @@ describe("検索キーワードの最大文字数", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     // Assert
