@@ -5,6 +5,7 @@ import type { SearchedProducts } from "../queries/searchProducts";
 import type { SearchParams } from "../types";
 import { Search } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import { RefreshCw } from "lucide-react";
 
 interface SearchResultProps {
   displayedProducts: SearchedProducts;
@@ -22,6 +23,7 @@ interface SearchResultProps {
   isViewAllLoading: boolean;
   isTakeAll: boolean;
   setIsTakeAll: (isTakeAll: boolean) => void;
+  isViewAllError: boolean;
 }
 
 const SearchResult = ({
@@ -40,6 +42,7 @@ const SearchResult = ({
   isViewAllLoading,
   isTakeAll,
   setIsTakeAll,
+  isViewAllError,
 }: SearchResultProps) => {
   return (
     <section className="pr-6 pl-6">
@@ -72,6 +75,25 @@ const SearchResult = ({
           <p className="text-xs text-muted-foreground">
             すべての検索結果を読み込み中...
           </p>
+        </div>
+      ) : isViewAllError ? (
+        <div className="text-center text-destructive">
+          <p className="mb-2">すべての検索結果の読み込みに失敗しました</p>
+          <button
+            onClick={() =>
+              handleSearch({
+                keyword,
+                categories,
+                pricing_type,
+                order,
+                takeAll: true,
+              })
+            }
+            className="border rounded-md px-2 py-1 flex gap-4 mx-auto items-center"
+          >
+            <RefreshCw size={16} />
+            再実行する
+          </button>
         </div>
       ) : productCount >= 6 && !isTakeAll ? (
         <button

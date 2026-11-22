@@ -46,6 +46,7 @@ export default function SearchModal({
   const [productCount, setProductCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isViewAllLoading, setIsViewAllLoading] = useState<boolean>(false);
+  const [isViewAllError, setIsViewAllError] = useState<boolean>(false);
   const [isTakeAll, setIsTakeAll] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -81,11 +82,20 @@ export default function SearchModal({
         setSearchedProducts(products);
         setSearchProductsCount(count);
         setProductCount(count);
+
+        if (params.takeAll) {
+          setIsTakeAll(true);
+        }
       } catch (error) {
         if (requestId !== requestIdRef.current) return;
 
         console.error(error);
-        setIsError(true);
+
+        if (params.takeAll) {
+          setIsViewAllError(true);
+        } else {
+          setIsError(true);
+        }
       } finally {
         if (requestId === requestIdRef.current) {
           setIsLoading(false);
@@ -98,8 +108,6 @@ export default function SearchModal({
 
   const handleSearch = (params: SearchParams) => {
     const requestId = ++requestIdRef.current;
-
-    setIsError(false);
 
     // キーワード・カテゴリ・料金プランすべてが空の場合
     if (
@@ -115,12 +123,15 @@ export default function SearchModal({
     }
 
     if (params.takeAll) {
-      setIsTakeAll(true);
       setIsViewAllLoading(true);
+      setIsViewAllError(false);
     } else {
+      setIsError(false);
+      setIsViewAllError(false);
       setIsTakeAll(false);
       setIsLoading(true);
     }
+
     debouncedSearch(params, requestId);
   };
 
@@ -262,6 +273,7 @@ export default function SearchModal({
                     isViewAllLoading={isViewAllLoading}
                     isTakeAll={isTakeAll}
                     setIsTakeAll={setIsTakeAll}
+                    isViewAllError={isViewAllError}
                   />
                 )}
               </>
