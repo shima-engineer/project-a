@@ -108,6 +108,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
@@ -115,6 +116,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     // Act ③ 新しい検索を先に完了させる
@@ -202,6 +204,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
@@ -209,6 +212,7 @@ describe("SearchModal", () => {
       categories: ["AIツール"],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     // Act ③ 新しいカテゴリ検索を先に完了させる
@@ -302,6 +306,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     expect(searchProducts).toHaveBeenNthCalledWith(2, {
@@ -309,6 +314,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: ["Freemium"],
       order: "popular",
+      takeAll: false,
     });
 
     // Act ③ 新しいカテゴリ検索を先に完了させる
@@ -391,6 +397,7 @@ describe("SearchModal", () => {
       categories: ["AIツール"],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     expect(screen.getByText("WriteMate")).toBeInTheDocument();
@@ -450,6 +457,7 @@ describe("SearchModal", () => {
       categories: ["AIツール", "SaaS"],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
     expect(screen.getByText("PromptBox")).toBeInTheDocument();
     expect(screen.getByText("SaaS Product")).toBeInTheDocument();
@@ -495,6 +503,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: ["Paid"],
       order: "popular",
+      takeAll: false,
     });
 
     expect(screen.getByText("API Monitor")).toBeInTheDocument();
@@ -560,6 +569,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: ["Free", "Paid"],
       order: "popular",
+      takeAll: false,
     });
 
     expect(screen.getByText("FocusFlow")).toBeInTheDocument();
@@ -629,6 +639,7 @@ describe("SearchModal", () => {
       categories: ["AIツール"],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     expect(screen.getByText("PromptBox")).toBeInTheDocument();
@@ -693,6 +704,7 @@ describe("SearchModal", () => {
       categories: ["Developer Tools"],
       pricing_type: ["Paid"],
       order: "popular",
+      takeAll: false,
     });
 
     expect(screen.getByText("API Monitor")).toBeInTheDocument();
@@ -799,6 +811,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: [],
       order: "popular",
+      takeAll: false,
     });
 
     fireEvent.change(sortSelect, {
@@ -823,6 +836,7 @@ describe("SearchModal", () => {
       categories: [],
       pricing_type: [],
       order: "newest",
+      takeAll: false,
     });
   });
 
