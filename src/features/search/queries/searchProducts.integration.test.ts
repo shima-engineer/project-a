@@ -226,4 +226,20 @@ describe("検索結果", () => {
     // Assert
     expect(products).toBeGreaterThan(5);
   });
+
+  test("takeAllがfalseの場合、6件目以降も取得できる", async () => {
+    // Arrange
+    const keyword = "";
+    const categories: string[] = ["AIツール", "SaaS", "Webアプリ"];
+    const pricing_type: string[] = [];
+    const order = "newest";
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
+
+    // Act
+    const products = await searchProducts(params);
+
+    // Assert
+    expect(products).toHaveLength(5);
+  });
 });
