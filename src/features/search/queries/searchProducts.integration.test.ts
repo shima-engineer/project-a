@@ -221,10 +221,10 @@ describe("検索結果", () => {
     const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
-    const products = await countSearchProducts(params);
+    const products = await searchProducts(params);
 
     // Assert
-    expect(products).toBeGreaterThan(5);
+    expect(products.length).toBeGreaterThan(6);
   });
 
   test("takeAllがfalseの場合、6件目以降は取得できない", async () => {
