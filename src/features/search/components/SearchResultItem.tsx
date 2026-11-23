@@ -24,7 +24,10 @@ const SearchResultItem = ({
   const isOwner = user?.id === product.user_id;
   console.log(product.thumbnail_url);
   return (
-    <li className="flex items-center justify-between gap-3 sm:gap-4 group/list hover:bg-muted duration-200 transition-colors rounded-2xl px-3 py-4">
+    <li
+      data-testid="search-result-item"
+      className="flex items-center justify-between gap-3 sm:gap-4 group/list hover:bg-muted duration-200 transition-colors rounded-2xl px-3 py-4"
+    >
       <Link
         href={`/products/${product.slug}`}
         onClick={onSearchModalClose}

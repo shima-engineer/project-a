@@ -8,7 +8,8 @@ describe("searchProducts 結合テスト", () => {
     const categories: string[] = [];
     const pricing_type: string[] = [];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
@@ -28,7 +29,8 @@ describe("searchProducts 結合テスト", () => {
     const categories: string[] = [];
     const pricing_type: string[] = [];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
@@ -49,7 +51,8 @@ describe("searchProducts 結合テスト", () => {
     const categories: string[] = [];
     const pricing_type: string[] = ["Paid"];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
@@ -68,7 +71,8 @@ describe("searchProducts 結合テスト", () => {
     const categories: string[] = [];
     const pricing_type: string[] = ["Free", "Paid"];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
@@ -94,7 +98,8 @@ describe("searchProducts 結合テスト", () => {
     const categories: string[] = ["Developer Tools"];
     const pricing_type: string[] = ["Paid"];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
@@ -126,7 +131,8 @@ describe("検索結果", () => {
     ];
     const pricing_type: string[] = [];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const totalCount = await countSearchProducts(params);
@@ -143,7 +149,8 @@ describe("検索結果", () => {
     const categories: string[] = [];
     const pricing_type: string[] = ["Free"];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const totalCount = await countSearchProducts(params);
@@ -160,7 +167,8 @@ describe("検索結果", () => {
     const categories: string[] = [];
     const pricing_type: string[] = [];
     const order = "popular";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
@@ -193,12 +201,45 @@ describe("検索結果", () => {
     const categories: string[] = [];
     const pricing_type: string[] = [];
     const order = "newest";
-    const params = { keyword, categories, pricing_type, order };
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
 
     // Act
     const products = await searchProducts(params);
 
     // Assert
     expect(products).toEqual([]);
+  });
+
+  test("takeAllがtrueの場合、6件目以降も取得できる", async () => {
+    // Arrange
+    const keyword = "";
+    const categories: string[] = ["AIツール", "SaaS", "Webアプリ"];
+    const pricing_type: string[] = [];
+    const order = "newest";
+    const takeAll = true;
+    const params = { keyword, categories, pricing_type, order, takeAll };
+
+    // Act
+    const products = await searchProducts(params);
+
+    // Assert
+    expect(products.length).toBeGreaterThan(6);
+  });
+
+  test("takeAllがfalseの場合、6件目以降は取得できない", async () => {
+    // Arrange
+    const keyword = "";
+    const categories: string[] = ["AIツール", "SaaS", "Webアプリ"];
+    const pricing_type: string[] = [];
+    const order = "newest";
+    const takeAll = false;
+    const params = { keyword, categories, pricing_type, order, takeAll };
+
+    // Act
+    const products = await searchProducts(params);
+
+    // Assert
+    expect(products).toHaveLength(5);
   });
 });

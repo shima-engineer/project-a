@@ -30,3 +30,5 @@ const PRICING_PLANS = [
 
 export default CATEGORIES;
 export { PRICING_PLANS };
+
+export const DEFAULT_DISPLAY_COUNT = 5;

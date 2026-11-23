@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogHeader,
 } from "../../../../components/ui/dialog";
+import { DEFAULT_DISPLAY_COUNT } from "../constants";
 import type { SearchParams } from "../types";
 import { Spinner } from "@/components/ui/spinner";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
@@ -42,7 +43,12 @@ export default function SearchModal({
   const [categories, setCategories] = useState<string[]>([]);
   const [pricing_type, setPricingType] = useState<string[]>([]);
   const [order, setOrder] = useState<string>("popular");
+  const [productCount, setProductCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // 「すべて表示」ボタンの読み込み状態を管理する
+  const [isViewAllLoading, setIsViewAllLoading] = useState<boolean>(false);
+  const [isViewAllError, setIsViewAllError] = useState<boolean>(false);
+  const [isTakeAll, setIsTakeAll] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
   // 検索モーダル内で投票状態を更新するため、
@@ -52,6 +58,12 @@ export default function SearchModal({
   );
 
   const requestIdRef = useRef(0);
+
+  // 表示するプロダクトのリストを取得
+  // takeAllがtrueの場合は全件、それ以外はデフォルト表示件数まで
+  const displayedProducts = isTakeAll
+    ? searchedProducts
+    : searchedProducts.slice(0, DEFAULT_DISPLAY_COUNT);
 
   /**
    * デバウンスされた検索処理
@@ -72,14 +84,25 @@ export default function SearchModal({
 
         setSearchedProducts(products);
         setSearchProductsCount(count);
+        setProductCount(count);
+
+        if (params.takeAll) {
+          setIsTakeAll(true);
+        }
       } catch (error) {
         if (requestId !== requestIdRef.current) return;
 
         console.error(error);
-        setIsError(true);
+
+        if (params.takeAll) {
+          setIsViewAllError(true);
+        } else {
+          setIsError(true);
+        }
       } finally {
         if (requestId === requestIdRef.current) {
           setIsLoading(false);
+          setIsViewAllLoading(false);
         }
       }
     },
@@ -89,9 +112,6 @@ export default function SearchModal({
   const handleSearch = (params: SearchParams) => {
     const requestId = ++requestIdRef.current;
 
-    setIsError(false);
-
-    // キーワード・カテゴリ・料金プランすべてが空の場合
     if (
       !params.keyword.trim() &&
       params.categories.length === 0 &&
@@ -104,7 +124,16 @@ export default function SearchModal({
       return;
     }
 
-    setIsLoading(true);
+    setIsViewAllError(false);
+
+    if (params.takeAll) {
+      setIsViewAllLoading(true);
+    } else {
+      setIsError(false);
+      setIsTakeAll(false);
+      setIsLoading(true);
+    }
+
     debouncedSearch(params, requestId);
   };
 
@@ -116,6 +145,7 @@ export default function SearchModal({
       categories,
       pricing_type,
       order,
+      takeAll: false,
     });
   };
 
@@ -127,6 +157,7 @@ export default function SearchModal({
       categories: nextCategories,
       pricing_type,
       order,
+      takeAll: false,
     });
   };
 
@@ -138,6 +169,7 @@ export default function SearchModal({
       categories,
       pricing_type: nextPricings,
       order,
+      takeAll: false,
     });
   };
 
@@ -149,6 +181,7 @@ export default function SearchModal({
       categories,
       pricing_type,
       order: nextOrder,
+      takeAll: false,
     });
   };
 
@@ -227,12 +260,22 @@ export default function SearchModal({
                   </p>
                 ) : (
                   <SearchResult
-                    searchedProducts={searchedProducts}
+                    displayedProducts={displayedProducts}
                     searchProductsCount={searchProductsCount}
                     user={user}
                     votedProductIds={votedIds}
                     handleUpvoteSuccess={handleUpvoteSuccess}
                     onSearchModalClose={onSearchModalClose}
+                    keyword={keyword}
+                    categories={categories}
+                    pricing_type={pricing_type}
+                    order={order}
+                    productCount={productCount}
+                    handleSearch={handleSearch}
+                    isViewAllLoading={isViewAllLoading}
+                    isTakeAll={isTakeAll}
+                    setIsTakeAll={setIsTakeAll}
+                    isViewAllError={isViewAllError}
                   />
                 )}
               </>
