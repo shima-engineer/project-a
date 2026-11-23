@@ -45,6 +45,7 @@ export default function SearchModal({
   const [order, setOrder] = useState<string>("popular");
   const [productCount, setProductCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // 「すべて表示」ボタンの読み込み状態を管理する
   const [isViewAllLoading, setIsViewAllLoading] = useState<boolean>(false);
   const [isViewAllError, setIsViewAllError] = useState<boolean>(false);
   const [isTakeAll, setIsTakeAll] = useState<boolean>(false);
@@ -58,6 +59,8 @@ export default function SearchModal({
 
   const requestIdRef = useRef(0);
 
+  // 表示するプロダクトのリストを取得
+  // takeAllがtrueの場合は全件、それ以外はデフォルト表示件数まで
   const displayedProducts = isTakeAll
     ? searchedProducts
     : searchedProducts.slice(0, DEFAULT_DISPLAY_COUNT);
@@ -109,7 +112,6 @@ export default function SearchModal({
   const handleSearch = (params: SearchParams) => {
     const requestId = ++requestIdRef.current;
 
-    // キーワード・カテゴリ・料金プランすべてが空の場合
     if (
       !params.keyword.trim() &&
       params.categories.length === 0 &&
@@ -122,12 +124,12 @@ export default function SearchModal({
       return;
     }
 
+    setIsViewAllError(false);
+
     if (params.takeAll) {
       setIsViewAllLoading(true);
-      setIsViewAllError(false);
     } else {
       setIsError(false);
-      setIsViewAllError(false);
       setIsTakeAll(false);
       setIsLoading(true);
     }
